@@ -17,13 +17,14 @@ model User {
   surname String
   password String
   email String @unique
-  telegramUsername String @unique @default("") @map("telegram-username")
-  phoneNumber String @unique @default("") @map("phone-number")
+  telegramUsername String @default("") @map("telegram-username")
+  phoneNumber String @default("") @map("phone-number")
 
   companyId Int? @map("company-id")
-  employmentStatus String @map("employment-status")
-  vacationsId Int[] @unique @map("vacations-id")
+  employmentStatus String @default("employee") @map("employment-status")
+  vacationsId Int[]  @map("vacations-id") @default([])
   accumulatedVacationDays Int? @default(0) @map("accumulated-vacation-days")
   compensationDays Int? @default(0) @map("compensation-days")
   vacationBalance Int? @default(0) @map("vacation-balance")
 }
+
