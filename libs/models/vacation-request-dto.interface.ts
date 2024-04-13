@@ -1,10 +1,8 @@
-import { StatusRequestEnum } from './enums/status-request.enum';
-
 export interface VacationRequestDto {
   requestId: number;
   userId: number;
   startDate: Date;
   endDate: Date;
-  status: StatusRequestEnum;
+  status: 'pending' | 'accepted' |'rejected';
   message: string;
 }

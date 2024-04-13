@@ -1,5 +1,3 @@
-import { StatusVacationEnum } from './enums/status-vacation.enum';
-
 export interface UserDto {
   id: number;
 
@@ -9,7 +7,7 @@ export interface UserDto {
   telegramUsername: string;
   phoneNumber: string;
   companyId: number;
-  employmentStatus: StatusVacationEnum;
+  employmentStatus: 'ceo' | 'employee'
   vacationsId: number[];
 
   accumulatedVacationDays: number;
