@@ -1,5 +1,4 @@
 import { StatusVacationEnum } from './enums/status-vacation.enum';
-import { VacationDto } from './vacation-dto.interface';
 
 export interface UserDto {
   id: number;
@@ -11,7 +10,7 @@ export interface UserDto {
   phoneNumber: string;
   companyId: number;
   employmentStatus: StatusVacationEnum;
-  vacations: VacationDto[];
+  vacationsId: number[];
 
   accumulatedVacationDays: number;
   compensationDays: number;
