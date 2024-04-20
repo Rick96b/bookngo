@@ -1,0 +1,21 @@
+.welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+
+    h2 {
+        font-family: "Mouse Memoirs";
+        font-size: 62px;
+    }
+}
+
+.welcome__buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    margin-top: 50px;
+}

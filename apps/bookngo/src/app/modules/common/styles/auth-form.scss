@@ -1,0 +1,39 @@
+.form-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+}
+
+.form-section__title {
+    margin-top: 60px;
+
+    font-family: var(--main-font);
+    font-size: 34px;
+    font-weight: 400;
+}
+
+.auth-form {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 350px;
+}
+
+.auth-form__role-input {
+    background-color: #EBEBEB;
+}
+
+.auth-form__inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 17px
+}
+
+.auth-form__submit-button {
+    margin-top: 30px;
+}

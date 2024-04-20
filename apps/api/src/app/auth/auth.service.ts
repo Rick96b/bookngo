@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as argon2 from 'argon2';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { UserDto } from '../../../../../libs/models/user-dto.interface';
+import { UserDto, UserBaseInfoDto } from '@common';
 import { PrismaService } from '../../prisma.service';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   private async validateUser(dto: UserDto) {
-    const user: User = await this._prismaService.user.findUnique({
+    const user = await this._prismaService.user.findUnique({
       where: {
         email: dto.email
       }
@@ -33,7 +33,7 @@ export class AuthService {
       message: 'Incorrect email or password'
     });
   }
-  async register(dto: UserDto): Promise<{ token: string }> {
+  async register(dto: UserBaseInfoDto): Promise<{ token: string }> {
     const oldUser: User | null = await this._prismaService.user.findUnique({
       where: {
         email: dto.email

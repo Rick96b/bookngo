@@ -1,13 +1,10 @@
-export interface UserDto {
+import { UserBaseInfoDto } from "./user-base-info.interface";
+
+export interface UserDto extends UserBaseInfoDto {
   id: number;
 
-  name: string;
-  surname: string;
-  email: string;
   telegramUsername: string;
   phoneNumber: string;
-  companyId: number;
-  employmentStatus: 'ceo' | 'employee'
   vacationsId: number[];
 
   accumulatedVacationDays: number;
