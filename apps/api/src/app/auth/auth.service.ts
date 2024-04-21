@@ -1,10 +1,9 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as argon2 from 'argon2';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { UserDto, UserBaseInfoDto } from '@common';
 import { PrismaService } from '../../prisma.service';
-import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 
 
 @Injectable()
