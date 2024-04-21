@@ -19,7 +19,7 @@ import { BnInputComponent } from '@bookngo/ui-components'
         TuiInputModule,
         TuiInputPasswordModule,
         TuiButtonModule,
-        BnInputComponent
+        BnInputComponent,
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
@@ -57,7 +57,15 @@ export class RegisterComponent implements OnInit{
     }
 
     submit() {
-        this.registerService.registerUser(this.registerForm.value)
+        const user = this.registerForm.value
+        this.registerService.registerUser({
+            employmentStatus: user.employmentStatus,
+            companyName: user.companyName,
+            companyDepartment: user.companyDepartment,
+            fullName: user.fullName,
+            email: user.email,
+            password: user.password
+        })
     }
 
 

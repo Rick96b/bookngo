@@ -1,25 +1,34 @@
-<section>
-    <h2>Вход</h2>
-    <form>
-        <tui-input 
-            formControlName="companyName"
-            [tuiTextfieldLabelOutside]="true"
+<section class="form-section">
+    <h2 class="form-section__title">Вход</h2>
+    <form class="auth-form" [formGroup]="authForm" (ngSubmit)="submit">
+        <div class="auth-form__inputs-container">
+            <tui-input 
+                formControlName="companyName"
+                [tuiTextfieldLabelOutside]="true"
+            >
+                Email
+                <input
+                    tuiTextfield
+                    type="text"
+                />
+            </tui-input>
+            <tui-input 
+                formControlName="companyName"
+                [tuiTextfieldLabelOutside]="true"
+            >
+                Пароль
+                <input
+                    tuiTextfield
+                    type="text"
+                />
+            </tui-input>
+        </div>
+        <button 
+            tuiButton
+            (click)="submit()"
+            class="auth-form__submit-button"
         >
-            Компания
-            <input
-                tuiTextfield
-                type="text"
-            />
-        </tui-input>
-        <tui-input 
-            formControlName="companyName"
-            [tuiTextfieldLabelOutside]="true"
-        >
-            Компания
-            <input
-                tuiTextfield
-                type="text"
-            />
-        </tui-input>
+            Отправить
+        </button>
     </form>
 </section>

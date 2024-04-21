@@ -13,13 +13,14 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  name String
+  fullName String
   password String
   email String @unique
   telegramUsername String @default("") @map("telegram-username")
   phoneNumber String @default("") @map("phone-number")
 
-  companyId Int? @map("company-id")
+  companyName String @map("company-name")
+  companyDepartment String? @map("company-department")
   employmentStatus String @default("employee") @map("employment-status")
   vacationsId Int[] @default([]) @map("vacations-id") 
   accumulatedVacationDays Int? @default(0) @map("accumulated-vacation-days")
