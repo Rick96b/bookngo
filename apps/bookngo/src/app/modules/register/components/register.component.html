@@ -16,12 +16,12 @@
                     [items]="items"
                 ></tui-data-list-wrapper>
             </tui-select>
-            <bn-input 
+            <tui-input 
                 formControlName="companyName"
                 [tuiTextfieldLabelOutside]="true"
             >
                 Компания
-            </bn-input >
+            </tui-input >
             @if(registerForm.controls["employmentStatus"].value == 'Сотрудник'){
                 <tui-input 
                     formControlName="companyDepartment"

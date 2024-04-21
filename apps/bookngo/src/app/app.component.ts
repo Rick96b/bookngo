@@ -2,11 +2,11 @@ import { NgDompurifySanitizer } from "@tinkoff/ng-dompurify";
 import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER } from "@taiga-ui/core";
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Register } from "./modules/register";
+import { RegisterComponent } from "./modules/register";
 
 @Component({
   standalone: true,
-  imports: [RouterModule, TuiRootModule, TuiDialogModule, TuiAlertModule, Register],
+  imports: [RouterModule, TuiRootModule, TuiDialogModule, TuiAlertModule, RegisterComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
