@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputModule } from '@taiga-ui/kit';
 
 @Component({
@@ -9,7 +9,9 @@ import { TuiInputModule } from '@taiga-ui/kit';
     templateUrl: './auth.component.html',
     imports: [
         TuiInputModule,
-        TuiTextfieldControllerModule
+        TuiTextfieldControllerModule,
+        TuiButtonModule,
+        ReactiveFormsModule
     ],
     styleUrl: './auth.component.scss'
 })
@@ -24,5 +26,9 @@ export class AuthComponent implements OnInit {
             login: '',
             password: ''
         })
+    }
+
+    submit() {
+        console.log(this.authForm.value)
     }
 }

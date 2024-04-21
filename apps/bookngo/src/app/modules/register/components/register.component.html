@@ -1,7 +1,7 @@
 <section class="form-section">
     <h2 class="form-section__title">Регистрация</h2>
     <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="submit">
-        <div class="auth-form__container">
+        <div class="auth-form__inputs-container">
             <tui-select
                 tuiTextfieldSize="l"
                 class="auth-form__role-input"
@@ -36,7 +36,7 @@
             }
         </div>
 
-        <div class="auth-form__container bottom-container">
+        <div class="auth-form__inputs-container bottom-container">
             <tui-input 
                 formControlName="fullName"
                 [tuiTextfieldLabelOutside]="true"
