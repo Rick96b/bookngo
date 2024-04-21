@@ -8,7 +8,7 @@ import { BnInputComponent } from '@bookngo/ui-components'
 
 @Component({
     standalone: true,
-    selector: 'register',
+    selector: 'app-register',
     imports: [
         ReactiveFormsModule,
         TuiSelectModule,
@@ -22,9 +22,12 @@ import { BnInputComponent } from '@bookngo/ui-components'
         BnInputComponent
     ],
     templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss']
+    styleUrls: ['./register.component.scss'],
+    providers: [
+      RegisterService
+    ]
 })
-export class Register implements OnInit{
+export class RegisterComponent implements OnInit{
     items = [
         'Сотрудник',
         'CEO'
@@ -57,5 +60,5 @@ export class Register implements OnInit{
         this.registerService.registerUser(this.registerForm.value)
     }
 
-    
+
 }
