@@ -3,25 +3,25 @@
     <form class="auth-form" [formGroup]="authForm" (ngSubmit)="submit">
         <div class="auth-form__inputs-container">
             <tui-input 
-                formControlName="companyName"
+                formControlName="email"
                 [tuiTextfieldLabelOutside]="true"
             >
                 Email
                 <input
                     tuiTextfield
-                    type="text"
+                    type="email"
                 />
             </tui-input>
-            <tui-input 
-                formControlName="companyName"
+            <tui-input-password 
+                formControlName="password"
                 [tuiTextfieldLabelOutside]="true"
             >
                 Пароль
                 <input
                     tuiTextfield
-                    type="text"
+                    type="password"
                 />
-            </tui-input>
+            </tui-input-password>
         </div>
         <button 
             tuiButton

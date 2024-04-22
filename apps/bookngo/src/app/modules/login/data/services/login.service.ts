@@ -5,7 +5,7 @@ import { UserLoginDto } from '@common';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService {
+export class LoginService {
       
     constructor(private http: HttpClient){ }
       
