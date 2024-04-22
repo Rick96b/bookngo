@@ -11,7 +11,7 @@ import * as process from 'process';
     PrismaService
   ],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService, JwtModule],
   imports: [
     JwtModule.register({
       secret: process.env.JWT_TOKEN || 'Secret',
