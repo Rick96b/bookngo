@@ -19,7 +19,7 @@ import { UserLoginDto } from '@common';
     styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-    authForm: FormGroup
+    protected authForm: FormGroup;
     constructor(
         private fb: FormBuilder,
         private authService: AuthService
