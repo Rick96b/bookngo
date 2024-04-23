@@ -1,0 +1,21 @@
+<section class="calendar">
+    <header class="calendar__header calendar-header">
+        <app-date-picker (changeMonth)="changeMonth($event)" [month]="month | tuiMonth"/>
+    </header>
+    <main class="calendar__main calendar-table">
+        <div class="calendar-table__week-days">
+            <p>Mon</p>
+            <p>Tue</p>
+            <p>Wed</p>
+            <p>Thu</p>
+            <p>Fri</p>
+            <p>Sat</p>
+            <p>Sun</p>
+        </div>
+        <ul class="calendar-table__dates-list">
+        @for (day of days; track day.day) {
+            <li class="calendar-table__dates-item">{{day.day}}</li>
+        }
+        </ul>
+    </main>
+</section>

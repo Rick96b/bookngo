@@ -1,0 +1,27 @@
+.calendar-table {
+    font-family: var(--main-font);
+    font-weight: 500;
+}
+
+.calendar-table__week-days {    
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    justify-items: center;
+
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    font-size: 13px;
+    color: #8F9BB3;
+}
+
+.calendar-table__dates-list {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 20px;
+    justify-items: center;
+}
+
+.calendar-table__dates-item {
+    font-size: 15px;
+}
