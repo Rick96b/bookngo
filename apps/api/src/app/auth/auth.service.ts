@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as argon2 from 'argon2';
-import { UserDto, UserBaseInfoDto, UserLoginDto } from '@common';
+import { UserBaseInfoDto, UserLoginDto } from '@common';
 import { PrismaService } from '../../prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
@@ -33,6 +33,7 @@ export class AuthService {
     });
   }
   async register(dto: UserBaseInfoDto): Promise<{ token: string }> {
+    console.log(dto);
     const oldUser: User | null = await this._prismaService.user.findUnique({
       where: {
         email: dto.email

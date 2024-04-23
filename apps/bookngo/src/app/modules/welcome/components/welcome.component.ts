@@ -4,7 +4,7 @@ import { TuiButtonModule } from '@taiga-ui/core';
 
 @Component({
     standalone: true,
-    selector: 'welcome',
+    selector: 'app-welcome',
     imports: [
         TuiButtonModule,
         RouterLink
@@ -13,5 +13,4 @@ import { TuiButtonModule } from '@taiga-ui/core';
     styleUrl: './welcome.component.scss'
 })
 export class WelcomeComponent {
-    constructor() { }
 }
