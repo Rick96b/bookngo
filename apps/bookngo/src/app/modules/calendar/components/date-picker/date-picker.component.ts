@@ -16,8 +16,8 @@ import * as dayjs from 'dayjs';
     styleUrl: './date-picker.component.scss'
 })
 export class DatePickerComponent {
-    monthName: string
-    open = false
+    protected monthName: string
+    protected open = false
     @Input() month: TuiMonth
     @Output() changeMonth = new EventEmitter<{year: number, month: number}>()
 
@@ -34,7 +34,7 @@ export class DatePickerComponent {
 
     onSwitcherClick(direction: 'inc' | 'dec') {
         const newMonth = {year: this.month.year, month: this.month.month}
-        if(direction = 'inc') {
+        if(direction === 'inc') {
             if(newMonth.month == 11) {
                 newMonth.month = 0
                 newMonth.year += 1

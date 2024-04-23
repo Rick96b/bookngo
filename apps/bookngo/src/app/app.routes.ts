@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { RegisterComponent } from './modules/register';
 import { WelcomeComponent } from './modules/welcome';
 import { LoginComponent } from './modules/login';
-import { TabBarComponent } from './modules/tab-bar';
 
 // определение маршрутов
 export const appRoutes: Routes = [

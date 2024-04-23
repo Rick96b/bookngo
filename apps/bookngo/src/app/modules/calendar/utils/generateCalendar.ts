@@ -14,9 +14,10 @@ export function generateCalendar(year: number, month: number) {
         })
     }
 
+
     if(calendar[0].weekDay != 1) {
         monthObj = dayjs(new Date(year, month-1))
-        monthObj.date(monthObj.daysInMonth())
+        monthObj = monthObj.date(monthObj.daysInMonth())
         while(calendar[0].weekDay != 1) {
             calendar.unshift({
                 day: monthObj.date(),
