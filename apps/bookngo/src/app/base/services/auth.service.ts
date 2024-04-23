@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { UserLoginDto } from '@common';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -19,8 +19,8 @@ export class AuthService implements OnInit {
         this._authState.next(state);
     }
 
-    public getAuthState(): BehaviorSubject<boolean> {
-        return this._authState;
+    public getAuthState(): Observable<boolean> {
+        return this._authState.asObservable();
     }
 
     constructor(private http: HttpClient) {
