@@ -14,7 +14,9 @@
         </div>
         <ul class="calendar-table__dates-list">
         @for (day of days; track day) {
-            <li class="calendar-table__dates-item">{{day.day}}</li>
+            <li class="calendar-table__dates-item">
+                <app-calendar-day [day]="day"/>
+            </li>
         }
         </ul>
     </main>

@@ -1,13 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { UserLoginDto } from '@common';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnInit {
     private _authState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+    ngOnInit(): void {
+        if(localStorage.getItem('token')) {
+            this.setAuthState(true)
+        }
+    }
 
     public setAuthState(state: boolean): void {
         this._authState.next(state);

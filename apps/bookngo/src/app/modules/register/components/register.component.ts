@@ -5,6 +5,7 @@ import {TuiButtonModule, TuiDataListModule, TuiTextfieldControllerModule} from '
 import { CustomValidationService } from '../services/ValidationService.service';
 import { RegisterService } from '../data/services/register.service';
 import { BnInputComponent } from '@bookngo/ui-components'
+import { Router } from '@angular/router';
 
 @Component({
     standalone: true,
@@ -37,7 +38,8 @@ export class RegisterComponent implements OnInit{
     constructor(
         private fb: FormBuilder,
         private customValidator: CustomValidationService,
-        private registerService: RegisterService
+        private registerService: RegisterService,
+        private router: Router
     ){}
 
     ngOnInit(): void {
@@ -66,6 +68,7 @@ export class RegisterComponent implements OnInit{
             email: user.email,
             password: user.password
         })
+        this.router.navigate(['/home'])
     }
 
 

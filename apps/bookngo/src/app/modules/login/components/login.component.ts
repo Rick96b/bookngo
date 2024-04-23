@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
-import { AuthService } from '../../common/services/auth.service';
+import { AuthService } from '../../../base/services/auth.service';
 import { UserLoginDto } from '@common';
+import { Router } from '@angular/router';
 
 @Component({
     standalone: true,
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     protected authForm: FormGroup;
     constructor(
         private fb: FormBuilder,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ){}
 
     ngOnInit(): void {
@@ -34,10 +36,10 @@ export class LoginComponent implements OnInit {
 
     submit() {
         const user = this.authForm.value
-        console.log(user)
         this.authService.login({
             email: user.email,
             password: user.password
         })
+        this.router.navigate(['/home'])
     }
 }

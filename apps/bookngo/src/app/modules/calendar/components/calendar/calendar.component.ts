@@ -4,11 +4,13 @@ import { CalendarService } from '../../sevices/calendar.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { Day } from '../../model/day.interface';
 import { TuiMonthPipe } from '../../pipes/TuiMonth.pipe';
+import { CalendarDayComponent } from '../calendar-day/calendar-day.component';
 
 @Component({
     standalone: true,
     imports: [
         DatePickerComponent,
+        CalendarDayComponent,
         TuiMonthPipe
     ],
     selector: 'app-calendar',
