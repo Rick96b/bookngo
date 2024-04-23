@@ -1,0 +1,30 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  fullName String
+  password String
+  email String @unique
+  telegramUsername String @default("") @map("telegram-username")
+  phoneNumber String @default("") @map("phone-number")
+
+  companyName String @map("company-name")
+  companyDepartment String? @map("company-department")
+  employmentStatus String @default("employee") @map("employment-status")
+  vacationsId Int[] @default([]) @map("vacations-id") 
+  accumulatedVacationDays Int? @default(0) @map("accumulated-vacation-days")
+  compensationDays Int? @default(0) @map("compensation-days")
+  vacationBalance Int? @default(0) @map("vacation-balance")
+}
+

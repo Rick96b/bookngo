@@ -1,0 +1,34 @@
+<section class="form-section">
+    <h2 class="form-section__title">Вход</h2>
+    <form class="auth-form" [formGroup]="authForm" (ngSubmit)="submit">
+        <div class="auth-form__inputs-container">
+            <tui-input 
+                formControlName="email"
+                [tuiTextfieldLabelOutside]="true"
+            >
+                Email
+                <input
+                    tuiTextfield
+                    type="email"
+                />
+            </tui-input>
+            <tui-input-password 
+                formControlName="password"
+                [tuiTextfieldLabelOutside]="true"
+            >
+                Пароль
+                <input
+                    tuiTextfield
+                    type="password"
+                />
+            </tui-input-password>
+        </div>
+        <button 
+            tuiButton
+            (click)="submit()"
+            class="auth-form__submit-button"
+        >
+            Отправить
+        </button>
+    </form>
+</section>

@@ -1,0 +1,21 @@
+@import '../theme.scss';
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+[tuiButton][data-appearance='bn-theme'] {
+    background: $activities-color;
+    color: $activities-text-color;
+    --tui-padding: 30px;
+    font: $button-font;
+ 
+    .wrapper-hover {
+        background: #a381ff;
+    };
+ 
+    .wrapper-active{
+        background: #8f75d1;
+    };
+ 
+    .wrapper-disabled {
+        background: #eaecee;
+    };
+}

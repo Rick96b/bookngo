@@ -1,1 +1,6 @@
-<app-nx-welcome></app-nx-welcome> <router-outlet></router-outlet>
+<tui-root>
+    <router-outlet></router-outlet>
+    @if(isLoggedIn) {
+        <app-tab-bar></app-tab-bar>
+    }
+</tui-root>
