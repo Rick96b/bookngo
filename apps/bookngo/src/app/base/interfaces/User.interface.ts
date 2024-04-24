@@ -15,4 +15,5 @@ export interface User {
     accumulatedVacationDays: number;
     compensationDays: number;
     vacationBalance: number;
+    color?: string;
 }

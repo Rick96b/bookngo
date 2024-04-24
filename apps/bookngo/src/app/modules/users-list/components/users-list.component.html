@@ -1,3 +1,23 @@
-@for(user of users; track user.id) {
-    <p>{{user.fullName}}</p>
-}
+<section class="users">
+    <header class="users__department departments">
+        <p>Выбранные отделы: </p>
+        <tui-select class="departments__input"/>
+    </header>
+    <ul class="users__list users-list">
+        @for(user of users; track user.id) {
+            <li class="users-list__user">
+                <tui-avatar
+                    [text]="user.fullName"
+                    class="users-list__user"
+                    [ngStyle]="{'--tui-avatar-background': user.color}"
+                    [rounded]="true"
+                    [size]="'l'"
+                />
+                <p class="users-list__user-info">
+                    <span [ngStyle]="{'background-color': user.color}" class="users-list__user-color"></span>
+                    <span>{{user.fullName.split(' ')[1]}}</span>
+                </p>
+            </li>
+        }
+    </ul>
+</section>

@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User, requestOptions } from '@bookngo/base'
 import { HttpClient } from '@angular/common/http';
+import { generateColorForUser } from '../utils/generateColorForUser';
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +33,7 @@ export class DepartmentService {
         this.http.get<User[]>('http://localhost:3000/api/users/getAll', requestOptions)
         .subscribe({
             next: (res: User[]): void => {
+                res.map(user => user.color = generateColorForUser(user.id))
                 this._users$.next(res);
             },
             error: (err) => console.error(err)
