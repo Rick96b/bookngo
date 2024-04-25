@@ -26,6 +26,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     constructor(private calendarService: CalendarService) {
     }
+    
     ngOnInit(): void {
         this.calendarService.getDate$().pipe(
             tap((date) => {

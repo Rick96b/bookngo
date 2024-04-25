@@ -6,14 +6,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService implements OnInit {
+export class AuthService {
     private _authState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    ngOnInit(): void {
-        if(localStorage.getItem('token')) {
-            this.setAuthState(true)
-        }
-    }
 
     public setAuthState(state: boolean): void {
         this._authState.next(state);
