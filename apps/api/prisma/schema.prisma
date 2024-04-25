@@ -28,3 +28,22 @@ model User {
   vacationBalance Int? @default(0) @map("vacation-balance")
 }
 
+model Company {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name String @unique @map("company-name")
+  ceo Int @map("ceo-id")
+  departments String[] @default([]) @map("departments")
+  employees Int[] @default([]) @map("employees-id")
+}
+
+model Vacation {
+  id Int @id @default(autoincrement())
+
+  employeeId Int @map("employee-id")
+  startDate DateTime @map("start")
+  endDate DateTime @map("end")
+  duration Int @map("vacation-duration")
+}

@@ -39,4 +39,9 @@ export class AuthService {
         localStorage.removeItem('token');
         this.setAuthState(false);
     }
+
+    public loginByToken(token: string) {
+        localStorage.setItem('token', token);
+        this.setAuthState(true);
+    }
 }

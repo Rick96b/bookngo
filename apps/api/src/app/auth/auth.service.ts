@@ -33,7 +33,6 @@ export class AuthService {
     });
   }
   async register(dto: UserBaseInfoDto): Promise<{ token: string }> {
-    console.log(dto);
     const oldUser: User | null = await this._prismaService.user.findUnique({
       where: {
         email: dto.email

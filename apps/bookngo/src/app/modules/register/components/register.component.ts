@@ -6,6 +6,7 @@ import { CustomValidationService } from '../services/ValidationService.service';
 import { RegisterService } from '../data/services/register.service';
 import { BnInputComponent } from '@bookngo/ui-components'
 import { Router } from '@angular/router';
+import { AuthService } from "@bookngo/base";
 
 @Component({
     standalone: true,
@@ -39,7 +40,8 @@ export class RegisterComponent implements OnInit{
         private fb: FormBuilder,
         private customValidator: CustomValidationService,
         private registerService: RegisterService,
-        private router: Router
+        private router: Router,
+        private authService: AuthService
     ){}
 
     ngOnInit(): void {
@@ -60,7 +62,7 @@ export class RegisterComponent implements OnInit{
 
     submit() {
         const user = this.registerForm.value
-        this.registerService.registerUser({
+        const token = this.registerService.registerUser({
             employmentStatus: user.employmentStatus,
             companyName: user.companyName,
             companyDepartment: user.companyDepartment,
@@ -68,6 +70,7 @@ export class RegisterComponent implements OnInit{
             email: user.email,
             password: user.password
         })
+        this.authService.loginByToken(token)
         this.router.navigate(['/home'])
     }
 
