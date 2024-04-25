@@ -17,11 +17,10 @@ export class WelcomePageComponent {
     constructor(
         private authService: AuthService,
         private router: Router
-    ){
-        if(this.authService.getAuthState()) {
-            this.router.navigate(['/home'])
+    ) {
+
+        if (this.authService.getAuthStateSnapshot()) {
+            this.router.navigate(['/home']);
         }
     }
-
-
 }
