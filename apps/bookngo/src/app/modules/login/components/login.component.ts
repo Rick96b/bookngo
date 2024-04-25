@@ -21,25 +21,30 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
     protected authForm: FormGroup;
+
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
         private router: Router
-    ){}
+    ) {
+    }
 
     ngOnInit(): void {
         this.authForm = this.fb.group<UserLoginDto>({
             email: '',
             password: ''
-        })
+        });
     }
 
-    submit() {
-        const user = this.authForm.value
+    public submit(): void {
+        const user = this.authForm.value;
+
         this.authService.login({
             email: user.email,
             password: user.password
-        })
-        this.router.navigate(['/home'])
+        }).subscribe({
+            next: () => this.router.navigate(['/home'])
+        });
+
     }
 }
