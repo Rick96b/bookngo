@@ -1,4 +1,4 @@
-<div class="profile" *ngIf="_user && !error">
+<div class="profile" *ngIf="!hasError; else thenBlock">
     <header class="profile__header">
         здесь будут элементы упарвления
     </header>
@@ -29,27 +29,28 @@
         <div class="vacations">
             <h3>Отпуски и отгулы:</h3>
             <!-- Логика позже будет -->
-            <p>{{_user.accumulatedVacationDays}} дней накопено</p>
-            <p>{{_user.vacationBalance}} начислено</p>
+            <p>{{ _user.accumulatedVacationDays }} дней накопено</p>
+            <p>{{ _user.vacationBalance }} начислено</p>
             <p>{{ _user.compensationDays }} отгулов в этом году</p>
         </div>
 
         <div class="vacation-history">
             <h3>История отпусков:</h3>
             <ng-container *ngFor="let item of _user.vacationsId">
-                <p>{{item}}</p>
+                <p>{{ item }}</p>
             </ng-container>
             <p *ngIf="!_user.vacationsId.length">Нет записей в истории отпусков</p>
         </div>
     </main>
 </div>
 
-<ng-template #errors>
+<ng-template #thenBlock>
     <div>
-                ошибка баля
-                <bn-button (click)="reloadPage()">reload</bn-button>
-                <bn-button (click)="navigateToHome()">navigate to home page</bn-button>
+        ошибка баля
+        <bn-button (click)="reloadPage()">reload</bn-button>
+        <bn-button (click)="navigateToHome()">navigate to home page</bn-button>
     </div>
 </ng-template>
+
 
 
