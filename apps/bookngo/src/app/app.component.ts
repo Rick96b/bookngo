@@ -4,11 +4,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from "./base/services/auth.service";
 import { TabBarComponent } from "./modules/tab-bar";
+import { CalendarComponent } from "./modules/calendar/components/calendar/calendar.component";
 import { Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, TuiRootModule, TuiDialogModule, TuiAlertModule, TabBarComponent],
+  imports: [RouterModule, TuiRootModule, TuiDialogModule, TuiAlertModule, TabBarComponent, CalendarComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
