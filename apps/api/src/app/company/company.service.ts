@@ -8,8 +8,12 @@ export class CompanyService {
     constructor(private _prismaService: PrismaService) {
     }
  
-    async getCompany() {
-
+    async getCompany(name: string) {
+        return await this._prismaService.company.findUnique({
+            where: {
+                name: name
+            }
+        });
     }
 
     async postCompany(dto: CompanyInDto) {

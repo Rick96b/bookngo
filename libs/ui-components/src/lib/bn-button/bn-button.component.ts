@@ -12,4 +12,6 @@ import { TuiButtonComponent, TuiButtonModule } from '@taiga-ui/core';
   templateUrl: './bn-button.component.html',
   styleUrl: './bn-button.component.scss',
 })
-export class BnButtonComponent extends TuiButtonComponent {}
+export class BnButtonComponent extends TuiButtonComponent {
+  
+}
