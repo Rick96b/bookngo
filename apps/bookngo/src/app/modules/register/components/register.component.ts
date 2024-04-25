@@ -41,7 +41,6 @@ export class RegisterComponent implements OnInit{
         private customValidator: CustomValidationService,
         private registerService: RegisterService,
         private router: Router,
-        private authService: AuthService
     ){}
 
     ngOnInit(): void {
@@ -60,18 +59,18 @@ export class RegisterComponent implements OnInit{
         );
     }
 
-    submit() {
+    public submit(): void {
         const user = this.registerForm.value
-        const token = this.registerService.registerUser({
+        this.registerService.registerUser({
             employmentStatus: user.employmentStatus,
             companyName: user.companyName,
             companyDepartment: user.companyDepartment,
             fullName: user.fullName,
             email: user.email,
             password: user.password
-        })
-        this.authService.loginByToken(token)
-        this.router.navigate(['/home'])
+        }).subscribe({
+            next: () => this.router.navigate(['home'])
+        });
     }
 
 
