@@ -22,7 +22,7 @@ export class DepartmentService {
         this._department = value;
     }
 
-    public getUsers$(): Observable<User[]> {
+    public getUsers(): Observable<User[]> {
         return this._users$.asObservable();
     }
 

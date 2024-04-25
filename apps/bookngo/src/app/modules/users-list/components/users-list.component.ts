@@ -24,7 +24,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.departmentService.getUsers$().pipe(
+        this.departmentService.getUsers().pipe(
             tap((users: User[]): void => {
                 this.users = users;
             }),
