@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { UserLoginDto } from '@common';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { BASE_URL } from '../../modules/common/tokens/base-url.token';
 
 @Injectable({
     providedIn: 'root'
@@ -18,21 +19,28 @@ export class AuthService {
         return this._authState.asObservable();
     }
 
-    constructor(private http: HttpClient) {
+    public getAuthStateSnapshot(): boolean {
+        return this._authState.getValue();
+    }
+
+    constructor(@Inject(BASE_URL) private _baseUrl: string, private httpClient: HttpClient) {
         if (localStorage.getItem('token')) {
             this.setAuthState(true);
         }
     }
 
-    public login(user: UserLoginDto) {
-        return this.http.post<{ token: string }>('http://localhost:3000/api/auth/signIn', user)
-            .subscribe({
-                next: (res: {token: string}): void => {
+    public login(user: UserLoginDto): Observable<{ token: string }> {
+        return this.httpClient.post<{ token: string }>(`${this._baseUrl}/auth/signIn`, user)
+            .pipe(
+                tap((res: { token: string }): void => {
                     localStorage.setItem('token', res.token);
                     this.setAuthState(true);
-                },
-                error: (err) => console.error(err)
-            });
+                }),
+                catchError(err => {
+                    console.log(err);
+                    return throwError(err);
+                })
+            );
     }
 
     public logout() {

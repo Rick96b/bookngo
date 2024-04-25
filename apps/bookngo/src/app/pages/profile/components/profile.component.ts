@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiAvatarModule, tuiAvatarOptionsProvider } from '@taiga-ui/kit';
 import { TabBarComponent } from '../../../modules/tab-bar';
-import { User } from '@prisma/client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { BnButtonComponent } from '@bookngo/ui-components';
 import { PositionTransformPipe } from '../pipes/position-transform.pipe';
 import { TuiForModule } from '@taiga-ui/cdk';
+import { User } from '@bookngo/base';
 
 @Component({
     selector: 'app-profile',
@@ -25,7 +25,7 @@ import { TuiForModule } from '@taiga-ui/cdk';
 })
 export class ProfileComponent implements OnInit {
     protected _user: User;
-    protected error = false;
+    protected hasError = false;
 
     constructor(private _activatedRoute: ActivatedRoute, private _router: Router) {
     }
@@ -33,9 +33,12 @@ export class ProfileComponent implements OnInit {
     ngOnInit(): void {
         this._activatedRoute.data.pipe(
             tap(({ user }): void => {
-                user ? this._user = user : this.error = true;
+                user ? this._user = user : this.hasError = true;
             })
         ).subscribe();
+
+        console.log(this._user)
+        console.log(this.hasError)
     }
 
     protected reloadPage(): void {
