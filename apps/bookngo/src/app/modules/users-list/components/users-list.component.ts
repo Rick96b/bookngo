@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DepartmentService } from '../../common/services/department.service';
-import { User } from '@bookngo/base'
+import { User } from '@bookngo/base';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { TuiAvatarModule, TuiSelectModule } from '@taiga-ui/kit';
 import { CommonModule } from '@angular/common';
@@ -16,26 +16,23 @@ import { CommonModule } from '@angular/common';
     templateUrl: './users-list.component.html',
     styleUrls: ['./users-list.component.scss']
 })
-export class UsersListComponent implements OnInit {
-    users: User[]
+export class UsersListComponent implements OnInit, OnDestroy {
+    users: User[];
     private destroy$: Subject<void> = new Subject<void>();
 
-    constructor(
-        private departmentServise: DepartmentService
-    ) { }
+    constructor(private departmentService: DepartmentService) {
+    }
 
-    ngOnInit(): void { 
-        this.departmentServise.getUsers$().pipe(
-            tap((users) => {
-                this.users = users
+    ngOnInit(): void {
+        this.departmentService.getUsers$().pipe(
+            tap((users: User[]): void => {
+                this.users = users;
             }),
             takeUntil(this.destroy$)
-        ).subscribe()
+        ).subscribe(console.log);
     }
 
     ngOnDestroy(): void {
         this.destroy$.next();
     }
-
-
 }
