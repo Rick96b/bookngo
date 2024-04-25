@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Req, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, Param } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CompanyInDto } from '@common'
 
@@ -8,8 +8,8 @@ export class CompanyController {
 
   @Get('company')
   @HttpCode(200)
-  getCompany(@Req() req: Request) {
-    return this.companyService;
+  getCompany(@Param() params: {name: string}) {
+    return this.companyService.getCompany(params.name);
   }
 
   @Post('company')

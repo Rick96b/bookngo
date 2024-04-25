@@ -8,10 +8,10 @@ export class UsersService {
 
   constructor(private _prismaService: PrismaService) {
   }
-  async findOne(req: any): Promise<User> {
+  async findOne(email: string): Promise<User> {
     const user: User | null = await this._prismaService.user.findUnique({
       where: {
-        email: req.user.email
+        email: email
       }
     });
 

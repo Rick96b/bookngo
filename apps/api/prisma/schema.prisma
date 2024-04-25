@@ -42,7 +42,6 @@ model Company {
 model Vacation {
   id Int @id @default(autoincrement())
 
-  employeeId Int @map("employee-id")
   startDate DateTime @map("start")
   endDate DateTime @map("end")
   duration Int @map("vacation-duration")
