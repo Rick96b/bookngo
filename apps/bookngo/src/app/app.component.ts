@@ -2,9 +2,9 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER } from '@taiga-ui/core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthService } from "./base/services/auth.service";
-import { TabBarComponent } from "./modules/tab-bar";
-import { CalendarComponent } from "./modules/calendar/components/calendar/calendar.component";
+import { AuthService } from './base/services/auth.service';
+import { TabBarComponent } from './modules/tab-bar';
+import { CalendarComponent } from './modules/calendar/components/calendar/calendar.component';
 import { Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
