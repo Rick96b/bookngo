@@ -26,7 +26,7 @@ export class TabBarComponent {
             title: 'Calendar',
             icon: 'assets/tabbar-icons/calendar.svg',
             isActive: false,
-            path: '../calendar'
+            path: '../home'
         },
         {
             title: 'Planner',
