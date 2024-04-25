@@ -1,9 +1,13 @@
-import { HttpHeaders } from "@angular/common/http";
+import { HttpHeaders } from '@angular/common/http';
 
-const headerDict = {
-    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-}
+const getHeaderDict = (): { Authorization: string } => {
+  return {
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  };
+};
 
-export const requestOptions = {                                                                                                                                                                                 
-    headers: new HttpHeaders(headerDict), 
+export const getRequestOptions = (): { headers: HttpHeaders } => {
+  return {
+    headers: new HttpHeaders(getHeaderDict())
+  };
 };

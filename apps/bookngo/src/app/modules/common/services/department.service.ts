@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import { User } from '@bookngo/base';
 import { generateColorForUser } from '../utils/generateColorForUser';
-import { UserService } from './user.service';
+import { UserService } from '../../../base/services/user.service';
 
 @Injectable({
     providedIn: 'root'
