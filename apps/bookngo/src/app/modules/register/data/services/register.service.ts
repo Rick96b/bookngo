@@ -21,31 +21,21 @@ export class RegisterService {
 
     //временная типизация
     registerUser(user: UserBaseInfoDto): Observable<null | object> {
-        return this.http.post<{ token: string }>(`${this._baseUrl}/auth/signUp`, user)
+        if(user.employmentStatus === 'employee') {
+            return this.http.post<{ token: string }>(`${this._baseUrl}/auth/signUp/user`, user)
             .pipe(
                 tap(({ token }): void => {
                     this.authService.loginByToken(token);
-                }),
-                switchMap(({ token }) => {
-                    const data = jwtDecode<{ email: string, id: number }>(token);
-                    return this.addCompany({
-                        name: user.companyName,
-                        ceo: data.id,
-                        departments: [],
-                        employees: []
-                    });
                 })
             );
-
-    }
-
-    addCompany(company: CompanyInDto) {
-        return this.http.post(`${this._baseUrl}/auth/signUp`, company)
+        } else {
+            return this.http.post<{ token: string }>(`${this._baseUrl}/auth/signUp/ceo`, user)
             .pipe(
-                catchError((err) => {
-                    console.log(err);
-                    return of(null);
+                tap(({ token }): void => {
+                    this.authService.loginByToken(token);
                 })
             );
+        }
+
     }
 }

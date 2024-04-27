@@ -1,7 +1,10 @@
 <section class="users">
     <header class="users__department departments">
         <p>Выбранные отделы: </p>
-        <tui-select class="departments__input"/>
+        <tui-select 
+            class="departments__input"
+            formControlName="selectControl"
+        />
     </header>
     <ul class="users__list users-list">
         @for(user of users; track user.id) {

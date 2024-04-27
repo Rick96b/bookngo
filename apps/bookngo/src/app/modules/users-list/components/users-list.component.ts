@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DepartmentService } from '../../common/services/department.service';
-import { User } from '@bookngo/base';
+import { User, Company } from '@bookngo/base';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { TuiAvatarModule, TuiSelectModule } from '@taiga-ui/kit';
 import { CommonModule } from '@angular/common';
+import { FormControl } from '@angular/forms';
+import { CompanyService } from '@bookngo/base'
 
 @Component({
     standalone: true,
@@ -18,18 +19,20 @@ import { CommonModule } from '@angular/common';
 })
 export class UsersListComponent implements OnInit, OnDestroy {
     users: User[];
+    company: Company
     private destroy$: Subject<void> = new Subject<void>();
+    selectControl = new FormControl()
 
-    constructor(private departmentService: DepartmentService) {
+    constructor(private companyService: CompanyService) {
     }
 
     ngOnInit(): void {
-        this.departmentService.getUsers().pipe(
+        this.companyService.getAllUsers().pipe(
             tap((users: User[]): void => {
                 this.users = users;
             }),
             takeUntil(this.destroy$)
-        ).subscribe(console.log);
+        ).subscribe();
     }
 
     ngOnDestroy(): void {

@@ -6,7 +6,11 @@ import { CustomValidationService } from '../services/ValidationService.service';
 import { RegisterService } from '../data/services/register.service';
 import { BnInputComponent } from '@bookngo/ui-components'
 import { Router } from '@angular/router';
-import { AuthService } from "@bookngo/base";
+import { HttpErrorResponse } from '@angular/common/http';
+import {TuiFieldErrorPipeModule} from '@taiga-ui/kit';
+import {TuiErrorModule} from '@taiga-ui/core';
+import { CommonModule } from '@angular/common';
+import { EmployeeStatuses } from '../models/UserModel';
 
 @Component({
     standalone: true,
@@ -22,6 +26,9 @@ import { AuthService } from "@bookngo/base";
         TuiInputPasswordModule,
         TuiButtonModule,
         BnInputComponent,
+        TuiFieldErrorPipeModule,
+        TuiErrorModule,
+        CommonModule
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
@@ -62,14 +69,17 @@ export class RegisterComponent implements OnInit{
     public submit(): void {
         const user = this.registerForm.value
         this.registerService.registerUser({
-            employmentStatus: user.employmentStatus,
+            employmentStatus: EmployeeStatuses[user.employmentStatus as 'Сотрудник' | 'CEO'],
             companyName: user.companyName,
             companyDepartment: user.companyDepartment,
             fullName: user.fullName,
             email: user.email,
             password: user.password
         }).subscribe({
-            next: () => this.router.navigate(['home'])
+            next: () => this.router.navigate(['home']),
+            error: (err) => {
+                this.customValidator.handleErrors(this.registerForm, err)
+            }
         });
     }
 

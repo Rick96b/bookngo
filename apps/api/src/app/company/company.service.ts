@@ -17,7 +17,7 @@ export class CompanyService {
     }
 
     async postCompany(dto: CompanyInDto) {
-        const oldCompany: Company = await this._prismaService.company.findUnique({
+        const oldCompany: Company | null = await this._prismaService.company.findUnique({
             where: {
                 name: dto.name
             }
