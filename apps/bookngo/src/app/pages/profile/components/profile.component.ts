@@ -36,9 +36,6 @@ export class ProfileComponent implements OnInit {
                 user ? this._user = user : this.hasError = true;
             })
         ).subscribe();
-
-        console.log(this._user)
-        console.log(this.hasError)
     }
 
     protected reloadPage(): void {

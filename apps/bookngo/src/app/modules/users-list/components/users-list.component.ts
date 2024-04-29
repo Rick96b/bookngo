@@ -18,9 +18,11 @@ import { CompanyService } from '@bookngo/base'
     styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent implements OnInit, OnDestroy {
-    users: User[];
-    company: Company
+    protected users: User[];
+    protected company: Company
+
     private destroy$: Subject<void> = new Subject<void>();
+
     selectControl = new FormControl()
 
     constructor(private companyService: CompanyService) {
