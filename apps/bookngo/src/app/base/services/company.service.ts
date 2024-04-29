@@ -52,5 +52,10 @@ export class CompanyService {
   fetchMe() {
     return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`, getRequestOptions()) 
   }
+  fetchCompany() {
+    return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`, getRequestOptions()).pipe(
+      switchMap(user => this._httpClient.get<Company>(`${this._baseUrl}/company/company/:${user.companyName}`))
+    )
+  }
 }
 
