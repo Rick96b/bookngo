@@ -8,7 +8,7 @@ import { Company, getRequestOptions, User } from '@bookngo/base';
   providedIn: 'root'
 })
 export class CompanyService {
-
+  private _activeDepartment$: BehaviorSubject<string> = new BehaviorSubject<string>('')
   private _me$ = new BehaviorSubject<User | null>(null)
   private _users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   private _company$ = new BehaviorSubject<Company | null>(null)
@@ -23,12 +23,22 @@ export class CompanyService {
           return of(null);
         })
       ).subscribe();
-    this.fetchMe().subscribe({
-      next: (res) => this._me$.next(res)
-    })
-    this.fetchCompany().subscribe({
-      next: (res) => this._company$.next(res)
-    })
+    this.fetchMe()      
+      .pipe(
+        tap((user: User) => this._me$.next(user)),
+        catchError((err) => {
+          console.error(err);
+          return of(null);
+        })
+      ).subscribe();
+    this.fetchCompany()
+    .pipe(
+      tap((company: Company) => this._company$.next(company)),
+      catchError((err) => {
+        console.error(err);
+        return of(null);
+      })
+    ).subscribe();
   }
 
   public getMe(): Observable<User | null> {
@@ -41,20 +51,33 @@ export class CompanyService {
     );
   }
 
+  public getCompany(): Observable<Company | null> {
+    return this._company$.asObservable()
+  }
+
   public getAllUsers(): Observable<User[]> {
     return this._users$.asObservable()
   }
 
-  fetchUsers() {
+  public getActiveDepartment(): Observable<string> {
+    return this._activeDepartment$.asObservable()
+  }
+
+  public setActiveDepartment(activeDepartment: string): void {
+    this._activeDepartment$.next(activeDepartment)
+  }
+
+  private fetchUsers() {
     return this._httpClient.get<User[]>(`${this._baseUrl}/users/getAll`, getRequestOptions()) as Observable<User[]>;
   }
 
-  fetchMe() {
+  private fetchMe() {
     return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`, getRequestOptions()) 
   }
-  fetchCompany() {
+
+  private fetchCompany() {
     return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`, getRequestOptions()).pipe(
-      switchMap(user => this._httpClient.get<Company>(`${this._baseUrl}/company/company/:${user.companyName}`))
+      switchMap(user => this._httpClient.get<Company>(`${this._baseUrl}/company/${user.companyName}`))
     )
   }
 }

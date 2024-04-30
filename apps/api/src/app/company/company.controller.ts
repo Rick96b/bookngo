@@ -6,10 +6,10 @@ import { CompanyInDto } from '@common'
 export class CompanyController {
   constructor(private companyService: CompanyService) {}
 
-  @Get('company')
+  @Get(':company')
   @HttpCode(200)
-  getCompany(@Param() params: {name: string}) {
-    return this.companyService.getCompany(params.name);
+  getCompany(@Param() params: {company: string}) {
+    return this.companyService.getCompany(params.company);
   }
 
   @Post('company')

@@ -1,13 +1,13 @@
 @import '../theme.scss';
-@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+@import '../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local.scss';
 
-[tuiButton][data-appearance='bn-theme'] {
-    background: $activities-color;
-    color: $activities-text-color;
-    --tui-padding: 30px;
-    font: $button-font;
+
+// This goes into global, non-encapsulated styles
+[tuiWrapper][data-appearance='bn-theme'] {
+    background: #bc71c9;
+    color: #fff;
  
-    .wrapper-hover {
+    .wrapper-hover{
         background: #a381ff;
     };
  
@@ -15,7 +15,7 @@
         background: #8f75d1;
     };
  
-    .wrapper-disabled {
+    .wrapper-disabled{
         background: #eaecee;
     };
 }

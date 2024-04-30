@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiButtonComponent, TuiButtonModule } from '@taiga-ui/core';
 
@@ -11,7 +11,8 @@ import { TuiButtonComponent, TuiButtonModule } from '@taiga-ui/core';
   ],
   templateUrl: './bn-button.component.html',
   styleUrl: './bn-button.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
-export class BnButtonComponent extends TuiButtonComponent {
+export class BnButtonComponent {
   
 }

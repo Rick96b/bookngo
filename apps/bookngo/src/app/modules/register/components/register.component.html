@@ -52,7 +52,7 @@
                 />
             </tui-input>
             <tui-input
-                formControlName="email"
+                [formControlName]="'email'"
                 [tuiTextfieldLabelOutside]="true"
             >
                 Email
@@ -87,12 +87,9 @@
             </tui-input-password>
         </div>
 
-        <button
-            tuiButton
-            (click)="submit()"
-            class="auth-form__submit-button"
+        <bn-button
         >
             Отправить
-        </button>
+        </bn-button>
 	</form>
 </section>

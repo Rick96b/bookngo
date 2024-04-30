@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputComponent, TuiInputModule } from '@taiga-ui/kit';
 
@@ -8,12 +8,13 @@ import { TuiInputComponent, TuiInputModule } from '@taiga-ui/kit';
     selector: 'bn-input',
     imports: [
         TuiInputModule,
-        TuiTextfieldControllerModule
+        TuiTextfieldControllerModule,
+        ReactiveFormsModule
     ],
     templateUrl: './bn-input.component.html',
     styleUrls: ['./bn-input.component.scss'],
 })
 export class BnInputComponent extends TuiInputComponent {
     @Input() inputType: string = 'text';
-    @Input() formControl: FormControl
+    @Input() name: FormControl
 }

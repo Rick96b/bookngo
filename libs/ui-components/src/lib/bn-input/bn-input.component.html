@@ -1,7 +1,6 @@
 <tui-input 
     [tuiTextfieldLabelOutside]="true"
     appearance="bn-theme"
-    formControlName=""
     class="wrapper"
 >
     <ng-content />
@@ -9,5 +8,6 @@
         class="input"
         tuiTextfield
         [type]="inputType"
+        formControlName="{{name}}"
     />
 </tui-input>
