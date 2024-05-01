@@ -1,13 +1,13 @@
 <section class="form-section">
     <h2 class="form-section__title">Регистрация</h2>
-    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="submit">
+    <form class="auth-form" [formGroup]="registerForm">
         <div class="auth-form__inputs-container">
             <tui-select
                 tuiTextfieldSize="l"
                 class="auth-form__role-input"
                 formControlName="employmentStatus"
                 [tuiTextfieldLabelOutside]="true"
-	        >
+            >
                 <input
                     tuiTextfield
                 />
@@ -21,12 +21,12 @@
                 [tuiTextfieldLabelOutside]="true"
             >
                 Компания
-            </tui-input >
+            </tui-input>
             <tui-error
                 formControlName="companyName"
                 [error]="[] | tuiFieldError | async"
             ></tui-error>
-            @if(registerForm.controls["employmentStatus"].value === 'Сотрудник'){
+            @if (registerForm.controls["employmentStatus"].value === 'Сотрудник') {
                 <tui-input
                     formControlName="companyDepartment"
                     [tuiTextfieldLabelOutside]="true"
@@ -87,9 +87,9 @@
             </tui-input-password>
         </div>
 
-        <bn-button
+        <bn-button (click)="submit()"
         >
             Отправить
         </bn-button>
-	</form>
+    </form>
 </section>
