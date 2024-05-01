@@ -6,6 +6,9 @@ import { HomePageComponent } from './pages/home/home.component';
 import { authGuard } from './base/guards/authGuard';
 import { ProfileComponent } from './pages/profile';
 import { profileResolver } from './pages/profile/resolvers/profile.resolver';
+import {
+    UserInformationEditComponent
+} from './modules/user-information-edit/components/user-information-edit.component';
 
 // определение маршрутов
 export const appRoutes: Routes = [
@@ -13,5 +16,18 @@ export const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'auth', component: LoginComponent },
     { path: '', component: WelcomePageComponent },
-    { path: 'profile', component: ProfileComponent, resolve: { user: profileResolver } },
+    {
+      path: 'profile',
+      children: [
+          {
+              path: '',
+              component: ProfileComponent
+          },
+          {
+              path: 'edit',
+              component: UserInformationEditComponent
+          }
+      ],
+        resolve: {user: profileResolver}
+    },
 ];
