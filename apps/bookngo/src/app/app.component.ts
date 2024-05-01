@@ -15,7 +15,7 @@ import { HomePageComponent } from './pages/home/home.component';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
-    providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer ]
+    providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer} ]
 })
 export class AppComponent implements OnInit, OnDestroy {
     constructor(private authService: AuthService, public companyService: CompanyService) {
