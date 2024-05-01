@@ -1,6 +1,6 @@
 <div class="profile" *ngIf="!hasError; else thenBlock">
     <header class="profile__header">
-        здесь будут элементы упарвления
+        <a tuiButton routerLink="edit">Редактировать</a>
     </header>
 
     <main class="profile__main">
@@ -13,6 +13,7 @@
             <div class="profile__info">
                 <h2>{{ _user.fullName }}</h2>
                 <p class="company__name">{{ _user.companyName }}</p>
+                <p *ngIf="_user.companyDepartment" class="departament__name">{{ _user.companyDepartment }}</p>
                 <p class="job__position">{{ _user.employmentStatus | positionTransform }}</p>
             </div>
         </div>
