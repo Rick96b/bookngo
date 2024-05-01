@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
 import { User, Company } from '@bookngo/base';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { TuiAvatarModule, TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CompanyService } from '@bookngo/base'
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { HomePageComponent } from '../../../pages/home/home.component';
 
 @Component({
     standalone: true,
@@ -19,7 +20,12 @@ import { TuiTextfieldControllerModule } from '@taiga-ui/core';
     ],
     selector: 'app-users-list',
     templateUrl: './users-list.component.html',
-    styleUrls: ['./users-list.component.scss']
+    styleUrls: ['./users-list.component.scss'],
+    providers: [{
+        provide: CompanyService,
+        useFactory: (parentComponent: HomePageComponent) => parentComponent.companyService,
+        deps: [forwardRef(() => HomePageComponent)]
+    }]
 })
 export class UsersListComponent implements OnInit, OnDestroy {
     protected users$: User[];
