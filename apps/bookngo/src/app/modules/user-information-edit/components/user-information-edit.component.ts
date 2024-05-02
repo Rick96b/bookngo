@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TuiInputModule, TuiInputPhoneModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
 import { BnButtonComponent } from '@bookngo/ui-components';
-import { UserInformationServiceService } from '../services/user-information-service.service';
+import { UserInformationService } from '../services/user-information.service';
 
 @Component({
     selector: 'app-user-information-edit',
@@ -15,14 +15,14 @@ import { UserInformationServiceService } from '../services/user-information-serv
     imports: [CommonModule, ReactiveFormsModule, TuiInputModule, TuiHintModule, TuiInputPhoneModule, BnButtonComponent, TuiButtonModule],
     templateUrl: './user-information-edit.component.html',
     styleUrl: './user-information-edit.component.scss',
-    providers: [UserInformationServiceService]
+    providers: [UserInformationService]
 })
 export class UserInformationEditComponent implements OnInit {
     protected _user: User;
     protected _userEditForm: FormGroup;
 
     constructor(private _activatedRoute: ActivatedRoute, private _fb: FormBuilder,
-                private _userInformationService: UserInformationServiceService, private _router: Router) {
+                private _userInformationService: UserInformationService, private _router: Router) {
     }
 
     ngOnInit(): void {
