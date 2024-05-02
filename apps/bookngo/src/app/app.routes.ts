@@ -9,6 +9,7 @@ import { profileResolver } from './pages/profile/resolvers/profile.resolver';
 import {
     UserInformationEditComponent
 } from './modules/user-information-edit/components/user-information-edit.component';
+import { profileGuard } from './pages/profile/guards/profile.guard';
 
 // определение маршрутов
 export const appRoutes: Routes = [
@@ -17,17 +18,18 @@ export const appRoutes: Routes = [
     { path: 'auth', component: LoginComponent },
     { path: '', component: WelcomePageComponent },
     {
-      path: 'profile',
-      children: [
-          {
-              path: '',
-              component: ProfileComponent
-          },
-          {
-              path: 'edit',
-              component: UserInformationEditComponent
-          }
-      ],
-        resolve: {user: profileResolver}
-    },
+        path: 'profile',
+        children: [
+            {
+                path: '',
+                component: ProfileComponent
+            },
+            {
+                path: 'edit',
+                component: UserInformationEditComponent
+            }
+        ],
+        canActivate: [profileGuard]
+    }
+
 ];
