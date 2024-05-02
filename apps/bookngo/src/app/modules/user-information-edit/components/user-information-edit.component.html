@@ -1,5 +1,4 @@
-<section class="form-section">
-
+<section class="form-section" *ngIf="_user">
     <h2 class="form-section__title">Редактирование информации пользователя</h2>
     <form class="user-edit-form" [formGroup]="_userEditForm">
         <tui-input formControlName="fullName">
