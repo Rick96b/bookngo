@@ -9,7 +9,7 @@ import { Company, getRequestOptions, User } from '@bookngo/base';
 })
 export class CompanyService {
     private _activeDepartment$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-    private _me$ = new BehaviorSubject<User | null>(null);
+    //private _me$ = new BehaviorSubject<User | null>(null);
     private _users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
     private _company$ = new BehaviorSubject<Company | null>(null);
 
@@ -22,27 +22,27 @@ export class CompanyService {
                     return of(null);
                 })
             ).subscribe();
-        this.fetchMe()
-            .pipe(
-                tap((user: User) => this._me$.next(user)),
-                catchError((err) => {
-                    console.error(err);
-                    return of(null);
-                })
-            ).subscribe();
-        this.fetchCompany()
-            .pipe(
-                tap((company: Company) => this._company$.next(company)),
-                catchError((err) => {
-                    console.error(err);
-                    return of(null);
-                })
-            ).subscribe();
+        // this.fetchMe()
+        //     .pipe(
+        //         tap((user: User) => this._me$.next(user)),
+        //         catchError((err) => {
+        //             console.error(err);
+        //             return of(null);
+        //         })
+        //     ).subscribe();
+        // this.fetchCompany()
+        //     .pipe(
+        //         tap((company: Company) => this._company$.next(company)),
+        //         catchError((err) => {
+        //             console.error(err);
+        //             return of(null);
+        //         })
+        //     ).subscribe();
     }
 
-    public getMe(): Observable<User | null> {
-        return this._me$.asObservable();
-    }
+    // public getMe(): Observable<User | null> {
+    //     return this._me$.asObservable();
+    // }
 
     public getUser(userId: number): Observable<User | undefined> {
         return this._users$.pipe(
