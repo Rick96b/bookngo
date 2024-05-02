@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { concatMap, delay, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { User } from '@bookngo/base';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiInputModule, TuiInputPhoneModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
 import { BnButtonComponent } from '@bookngo/ui-components';
 import { UserInformationService } from '../services/user-information.service';
+import { UserService } from '../../../base/services/user.service';
 
 @Component({
     selector: 'app-user-information-edit',
@@ -17,21 +18,28 @@ import { UserInformationService } from '../services/user-information.service';
     styleUrl: './user-information-edit.component.scss',
     providers: [UserInformationService]
 })
-export class UserInformationEditComponent implements OnInit {
+export class UserInformationEditComponent implements OnInit, OnDestroy {
     protected _user: User;
     protected _userEditForm: FormGroup;
+    private destroy$: Subject<null> = new Subject<null>();
 
-    constructor(private _activatedRoute: ActivatedRoute, private _fb: FormBuilder,
+    constructor(private _userService: UserService, private _fb: FormBuilder,
                 private _userInformationService: UserInformationService, private _router: Router) {
     }
 
     ngOnInit(): void {
-        this._activatedRoute.data.pipe(
-            tap(({ user }): void => {
-                this._user = user;
-                this.updateForm();
-            })
-        ).subscribe();
+        console.log(this._userService.rnd + 'в edit')
+        this._userService.getMe()
+            .pipe(
+                tap((user: User | null) => {
+                    if (user) {
+                        this._user = user;
+                    }
+                }),
+                takeUntil(this.destroy$)
+            ).subscribe();
+
+        this.updateForm();
     }
 
     private updateForm(): void {
@@ -47,9 +55,12 @@ export class UserInformationEditComponent implements OnInit {
     }
 
     protected submit(): void {
-        this._userInformationService.updateUser(this._userEditForm.getRawValue())
-            .pipe(
-                tap(() => this._router.navigate(['profile']))
-            ).subscribe();
+        this._userInformationService.updateUser(this._userEditForm.getRawValue()).pipe(
+            tap(value => this._userService.updateMe(value) )
+        ).subscribe();
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next(null)
     }
 }
