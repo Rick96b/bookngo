@@ -1,4 +1,4 @@
-<div class="profile" *ngIf="!hasError; else thenBlock">
+<div class="profile" *ngIf="!hasError && user; else thenBlock">
     <header class="profile__header">
         <a tuiButton routerLink="edit">Редактировать</a>
     </header>
@@ -7,40 +7,40 @@
 
         <div class="profile__details">
             <div class="profile__avatar-wrapper">
-                <tui-avatar [text]="_user.fullName"></tui-avatar>
+                <tui-avatar [text]="user.fullName"></tui-avatar>
             </div>
 
             <div class="profile__info">
-                <h2>{{ _user.fullName }}</h2>
-                <p class="company__name">{{ _user.companyName }}</p>
-                <p *ngIf="_user.companyDepartment" class="departament__name">{{ _user.companyDepartment }}</p>
-                <p class="job__position">{{ _user.employmentStatus | positionTransform }}</p>
+                <h2>{{ user.fullName }}</h2>
+                <p class="company__name">{{ user.companyName }}</p>
+                <p *ngIf="user.companyDepartment" class="departament__name">{{ user.companyDepartment }}</p>
+                <p class="job__position">{{ user.employmentStatus | positionTransform }}</p>
             </div>
         </div>
 
         <div class="contact_info">
             <h3>Контактная информация:</h3>
-            <p *ngIf="_user.phoneNumber">Телефон: <a href="tel:{{_user.phoneNumber}}"></a>{{ _user.phoneNumber }}</p>
-            <p *ngIf="_user.telegramUsername">Телеграм: <a
-                href="https://t.me/{{_user.telegramUsername}}">&commat;{{ _user.telegramUsername }}</a></p>
-            <p *ngIf="!_user.phoneNumber && !_user.telegramUsername">Пользователь не предоставил контактную
+            <p *ngIf="user.phoneNumber">Телефон: <a href="tel:{{user.phoneNumber}}"></a>{{ user.phoneNumber }}</p>
+            <p *ngIf="user.telegramUsername">Телеграм: <a
+                href="https://t.me/{{user.telegramUsername}}">&commat;{{ user.telegramUsername }}</a></p>
+            <p *ngIf="!user.phoneNumber && !user.telegramUsername">Пользователь не предоставил контактную
                 информацию</p>
         </div>
 
         <div class="vacations">
             <h3>Отпуски и отгулы:</h3>
             <!-- Логика позже будет -->
-            <p>{{ _user.accumulatedVacationDays }} дней накопено</p>
-            <p>{{ _user.vacationBalance }} начислено</p>
-            <p>{{ _user.compensationDays }} отгулов в этом году</p>
+            <p>{{ user.accumulatedVacationDays }} дней накопено</p>
+            <p>{{ user.vacationBalance }} начислено</p>
+            <p>{{ user.compensationDays }} отгулов в этом году</p>
         </div>
 
         <div class="vacation-history">
             <h3>История отпусков:</h3>
-            <ng-container *ngFor="let item of _user.vacationsId">
+            <ng-container *ngFor="let item of user.vacationsId">
                 <p>{{ item }}</p>
             </ng-container>
-            <p *ngIf="!_user.vacationsId.length">Нет записей в истории отпусков</p>
+            <p *ngIf="!user.vacationsId.length">Нет записей в истории отпусков</p>
         </div>
     </main>
 </div>
