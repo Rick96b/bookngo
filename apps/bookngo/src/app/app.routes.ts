@@ -5,7 +5,6 @@ import { LoginComponent } from './modules/login';
 import { HomePageComponent } from './pages/home/home.component';
 import { authGuard } from './base/guards/authGuard';
 import { ProfileComponent } from './pages/profile';
-import { profileResolver } from './pages/profile/resolvers/profile.resolver';
 import {
     UserInformationEditComponent
 } from './modules/user-information-edit/components/user-information-edit.component';
