@@ -36,7 +36,6 @@ export class UserService {
     public updateMe(body: User): Observable<User | null> {
         return this._httpClient.put<User>(`${this._baseUrl}/users/updateOne`, body, getRequestOptions())
             .pipe(
-                tap((user: User) => this._me$.next(user)),
                 catchError((err) => {
                     console.error(err);
                     return of(null);
