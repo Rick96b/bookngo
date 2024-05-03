@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {  Routes } from '@angular/router';
 import { RegisterComponent } from './modules/register';
 import { WelcomePageComponent } from './pages/welcome';
 import { LoginComponent } from './modules/login';
@@ -21,14 +21,15 @@ export const appRoutes: Routes = [
         children: [
             {
                 path: '',
-                component: ProfileComponent
+                component: ProfileComponent,
+                canActivate: [profileGuard]
+
             },
             {
                 path: 'edit',
-                component: UserInformationEditComponent
+                component: UserInformationEditComponent,
             }
         ],
-        canActivate: [profileGuard]
     }
 
 ];
