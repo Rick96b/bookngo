@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class UserService {
 
     private _me$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+    public isFetched = false;
 
     constructor(@Inject(BASE_URL) private _baseUrl: string, private _httpClient: HttpClient) {
     }
@@ -19,11 +20,11 @@ export class UserService {
     }
 
     public fetchMe(): Observable<User | null> {
-        const salt: number = (new Date()).getTime();
-        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne?${salt}`, getRequestOptions())
+        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`, getRequestOptions())
             .pipe(
-                tap((user: User) => {
+                tap((user: User): void => {
                     this._me$.next(user);
+                    this.isFetched = true;
                 }),
                 catchError((err) => {
                     console.error(err);
@@ -36,6 +37,7 @@ export class UserService {
     public updateMe(body: User): Observable<User | null> {
         return this._httpClient.put<User>(`${this._baseUrl}/users/updateOne`, body, getRequestOptions())
             .pipe(
+                tap((user: User) => this._me$.next(user)),
                 catchError((err) => {
                     console.error(err);
                     return of(null);
