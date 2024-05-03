@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import { getRequestOptions, User } from '@bookngo/base';
-import { BASE_URL } from '../../modules/common/tokens/base-url.token';
+import { BASE_URL_TOKEN } from '../../modules/common/tokens/base-url.token';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class UserService {
     private _me$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
     public isFetched = false;
 
-    constructor(@Inject(BASE_URL) private _baseUrl: string, private _httpClient: HttpClient) {
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
     }
 
     public getMe(): Observable<User | null> {

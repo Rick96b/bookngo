@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { UserLoginDto } from '@common';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
-import { BASE_URL } from '../../modules/common/tokens/base-url.token';
+import { BASE_URL_TOKEN } from '../../modules/common/tokens/base-url.token';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +23,7 @@ export class AuthService {
         return this._authState.getValue();
     }
 
-    constructor(@Inject(BASE_URL) private _baseUrl: string, private httpClient: HttpClient) {
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private httpClient: HttpClient) {
         if (localStorage.getItem('token')) {
             this.setAuthState(true);
         }
