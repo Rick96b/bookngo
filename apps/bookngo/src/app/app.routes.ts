@@ -1,4 +1,4 @@
-import {  Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { RegisterComponent } from './modules/register';
 import { WelcomePageComponent } from './pages/welcome';
 import { LoginComponent } from './modules/login';
@@ -12,10 +12,10 @@ import { profileGuard } from './pages/profile/guards/profile.guard';
 
 // определение маршрутов
 export const appRoutes: Routes = [
-    { path: 'home', component: HomePageComponent, canActivate: [authGuard] },
-    { path: 'register', component: RegisterComponent },
-    { path: 'auth', component: LoginComponent },
     { path: '', component: WelcomePageComponent },
+    { path: 'auth', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'home', component: HomePageComponent, canActivate: [authGuard] },
     {
         path: 'profile',
         children: [
@@ -27,9 +27,10 @@ export const appRoutes: Routes = [
             },
             {
                 path: 'edit',
-                component: UserInformationEditComponent,
+                component: UserInformationEditComponent
             }
         ],
+        canActivate: [authGuard]
     }
 
 ];
