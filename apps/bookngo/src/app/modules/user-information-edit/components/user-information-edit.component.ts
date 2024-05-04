@@ -53,7 +53,10 @@ export class UserInformationEditComponent implements OnInit, OnDestroy {
     }
 
     protected submit(): void {
-        this._userService.updateMe(this._userEditForm.getRawValue())
+        this._userService.updateMe({
+            ...this._userEditForm.getRawValue(),
+            employmentStatus: this._user.employmentStatus
+        })
             .pipe(
                 tap(() => this._router.navigate(['profile']))
             )
