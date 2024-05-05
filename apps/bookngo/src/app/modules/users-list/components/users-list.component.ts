@@ -1,13 +1,13 @@
-import { Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
-import { User, Company } from '@bookngo/base';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { Component, forwardRef, OnInit } from '@angular/core';
+import { Company, CompanyService, User } from '@bookngo/base';
+import { takeUntil, tap } from 'rxjs';
 import { TuiAvatarModule, TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CompanyService } from '@bookngo/base'
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { HomePageComponent } from '../../../pages/home/home.component';
 import { DepartmentService } from '../../../pages/home/services/department.service';
+import { DestroyService } from '../../../base/services/destroy.service';
 
 @Component({
     standalone: true,
@@ -25,18 +25,17 @@ import { DepartmentService } from '../../../pages/home/services/department.servi
     providers: [{
         provide: CompanyService,
         useFactory: (parentComponent: HomePageComponent) => parentComponent.companyService,
-        deps: [forwardRef(() => HomePageComponent)]
-    }]
+        deps: [forwardRef(() => HomePageComponent)],
+    }, DestroyService]
 })
-export class UsersListComponent implements OnInit, OnDestroy {
+export class UsersListComponent implements OnInit {
     protected users$: User[];
     protected company$: Company | null
     protected activeDepartment$: string
-    private destroy$: Subject<void> = new Subject<void>();
 
     filterForm: FormGroup
 
-    constructor(private companyService: CompanyService, private _departmentService: DepartmentService) {
+    constructor(private companyService: CompanyService, private _departmentService: DepartmentService, private destroy$: DestroyService ) {
         this.filterForm = new FormGroup({
             department: new FormControl('')
         })
@@ -64,10 +63,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.filterForm.controls['department'].valueChanges.pipe(
             tap(value => this._departmentService.setActiveDepartment(value))
         ).subscribe()
-    }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
     }
 
     onDepartmentChange(): void {
