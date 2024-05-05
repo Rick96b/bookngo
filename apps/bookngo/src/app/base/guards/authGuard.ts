@@ -1,7 +1,12 @@
-import {inject} from "@angular/core";
-import {AuthService} from "../services/auth.service";
+import { inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { Router, UrlTree } from '@angular/router';
 
-export const authGuard = () => {
-    const authService: AuthService = inject(AuthService);    // получаем сервис
-    return authService.getAuthState();
+export const authGuard = (): boolean | UrlTree => {
+    const authService: AuthService = inject(AuthService);
+
+    if (authService.getAuthStateSnapshot()) {
+        return true;
+    }
+    return inject(Router).parseUrl('');
 };

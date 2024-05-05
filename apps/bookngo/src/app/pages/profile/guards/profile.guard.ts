@@ -4,9 +4,14 @@ import { UserService } from '../../../base/services/user.service';
 import { concatMap, Observable, of } from 'rxjs';
 
 export const profileGuard: CanActivateFn = (): Observable<boolean> => {
-  return inject(UserService).fetchMe().pipe(
-    concatMap(() => {
-      return of(true);
-    })
-  );
+    const userService: UserService = inject(UserService);
+
+    if (userService.isFetched) {
+        return of(true);
+    }
+    return inject(UserService).fetchMe().pipe(
+        concatMap(() => {
+            return of(true);
+        })
+    );
 };

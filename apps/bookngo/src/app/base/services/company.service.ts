@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, filter, map, tap, catchError, of, switchMap } from 'rxjs';
-import { BASE_URL } from '../../modules/common/tokens/base-url.token';
+import { BASE_URL_TOKEN } from '../../modules/common/tokens/base-url.token';
 import { Company, getRequestOptions, User } from '@bookngo/base';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class CompanyService {
     private _users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
     private _company$ = new BehaviorSubject<Company | null>(null);
 
-    constructor(@Inject(BASE_URL) private _baseUrl: string, private _httpClient: HttpClient) {
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
         this.fetchUsers()
             .pipe(
                 tap((users: User[]) => this._users$.next(users)),

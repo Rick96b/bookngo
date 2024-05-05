@@ -4,7 +4,7 @@ import { CompanyInDto, UserBaseInfoDto } from '@common';
 import { jwtDecode } from 'jwt-decode';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '@bookngo/base';
-import { BASE_URL } from '../../../common/tokens/base-url.token';
+import { BASE_URL_TOKEN } from '../../../common/tokens/base-url.token';
 
 
 @Injectable({
@@ -13,7 +13,7 @@ import { BASE_URL } from '../../../common/tokens/base-url.token';
 export class RegisterService {
 
     constructor(
-        @Inject(BASE_URL) private _baseUrl: string,
+        @Inject(BASE_URL_TOKEN) private _baseUrl: string,
         private http: HttpClient,
         private authService: AuthService
     ) {
