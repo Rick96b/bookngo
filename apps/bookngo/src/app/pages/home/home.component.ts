@@ -3,6 +3,7 @@ import { CalendarComponent } from '../../modules/calendar';
 import { UsersListComponent } from '../../modules/users-list';
 import { CompanyService } from '@bookngo/base';
 import { AppComponent } from '../../app.component';
+import { DepartmentService } from './services/department.service';
 
 @Component({
     standalone: true,
@@ -17,7 +18,7 @@ import { AppComponent } from '../../app.component';
         provide: CompanyService,
         useFactory: (parent: AppComponent) => parent.companyService,
         deps: [forwardRef(() => AppComponent)]
-    }]
+    }, DepartmentService]
 })
 export class HomePageComponent implements OnInit {
     constructor(public companyService: CompanyService) {

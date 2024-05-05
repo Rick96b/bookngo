@@ -8,8 +8,6 @@ import { Company, getRequestOptions, User } from '@bookngo/base';
     providedIn: 'root'
 })
 export class CompanyService {
-    private _activeDepartment$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-    //private _me$ = new BehaviorSubject<User | null>(null);
     private _users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
     private _company$ = new BehaviorSubject<Company | null>(null);
 
@@ -22,27 +20,15 @@ export class CompanyService {
                     return of(null);
                 })
             ).subscribe();
-        // this.fetchMe()
-        //     .pipe(
-        //         tap((user: User) => this._me$.next(user)),
-        //         catchError((err) => {
-        //             console.error(err);
-        //             return of(null);
-        //         })
-        //     ).subscribe();
-        // this.fetchCompany()
-        //     .pipe(
-        //         tap((company: Company) => this._company$.next(company)),
-        //         catchError((err) => {
-        //             console.error(err);
-        //             return of(null);
-        //         })
-        //     ).subscribe();
+        this.fetchCompany()
+            .pipe(
+                tap((company: Company) => this._company$.next(company)),
+                catchError((err) => {
+                    console.error(err);
+                    return of(null);
+                })
+            ).subscribe();
     }
-
-    // public getMe(): Observable<User | null> {
-    //     return this._me$.asObservable();
-    // }
 
     public getUser(userId: number): Observable<User | undefined> {
         return this._users$.pipe(
@@ -58,20 +44,17 @@ export class CompanyService {
         return this._users$.asObservable();
     }
 
-    public getActiveDepartment(): Observable<string> {
-        return this._activeDepartment$.asObservable();
-    }
-
-    public setActiveDepartment(activeDepartment: string): void {
-        this._activeDepartment$.next(activeDepartment);
+    public getUsersByDepartment(department: string): Observable<User[]> {
+        if(!department) {
+            return this._users$.asObservable();
+        }
+        return this._users$.pipe(
+            map(users => users.filter(user => user.companyDepartment === department))
+        )
     }
 
     private fetchUsers() {
         return this._httpClient.get<User[]>(`${this._baseUrl}/users/getAll`, getRequestOptions()) as Observable<User[]>;
-    }
-
-    private fetchMe() {
-        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`, getRequestOptions());
     }
 
     private fetchCompany() {

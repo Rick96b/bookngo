@@ -6,6 +6,7 @@ import { Day } from '../../model/day.interface';
 import { TuiMonthPipe } from '../../pipes/TuiMonth.pipe';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { CalendarDayComponent } from '../calendar-day/calendar-day.component';
+import { DepartmentService } from 'apps/bookngo/src/app/pages/home/services/department.service';
 
 @Component({
     standalone: true,
@@ -16,7 +17,8 @@ import { CalendarDayComponent } from '../calendar-day/calendar-day.component';
     ],
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
-    styleUrl: './calendar.component.scss'
+    styleUrl: './calendar.component.scss',
+    providers: [CalendarService]
 })
 export class CalendarComponent implements OnInit, OnDestroy {
     protected days: Day[] = [];

@@ -73,6 +73,7 @@ export class AuthService {
         email: dto.email
       }
     });
+
     const passwordEquals: boolean = await argon2.verify(user.password, dto.password);
 
     if (user && passwordEquals) {

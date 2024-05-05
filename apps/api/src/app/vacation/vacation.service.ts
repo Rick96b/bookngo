@@ -8,12 +8,10 @@ export class VacationService {
     constructor(private _prismaService: PrismaService) {
     }
  
-    async getVacations(vacationsId: number[]) {
+    async getVacations(userId: number) {
         return await this._prismaService.vacation.findMany({
             where: {
-                id: {
-                    in: vacationsId
-                }
+                employee: userId
             }
         });
     }

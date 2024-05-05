@@ -9,15 +9,15 @@ export class VacationController {
   constructor(private readonly vacationService: VacationService) {
   }
 
-  @Get('getVacations')
+  @Get(':userId')
   @UseGuards(JwtAuthGuard)
-  getUser(@Param() params: {vacationsId: number[]}) {
-    return this.vacationService.getVacations(params.vacationsId);
+  getVacations(@Param() params: {userId: number}) {
+    return this.vacationService.getVacations(params.userId);
   }
 
   @Post('postVacation')
   @UseGuards(JwtAuthGuard)
-  getAllUsers(@Body() dto: VacationInDto) {
+  setVacation(@Body() dto: VacationInDto) {
     return this.vacationService.postVacation(dto);
   }
 }

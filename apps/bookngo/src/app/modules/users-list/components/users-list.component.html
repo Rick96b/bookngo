@@ -1,16 +1,19 @@
 <section class="users">
     <header class="users__department departments">
         <p>Выбранные отделы: </p>
-        <tui-select 
-            class="departments__input"
-            formControlName="departments"
-            [tuiTextfieldLabelOutside]="true"
-        >
-            <tui-data-list-wrapper
-                *tuiDataList
-                [items]="company$?.departments || []"
-            />
-        </tui-select>
+        <form [formGroup]="filterForm">
+            <tui-select 
+                class="departments__input"
+                formControlName="department"
+                [tuiTextfieldLabelOutside]="true"
+            >
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    [items]="company$?.departments || []"
+                />
+            </tui-select>
+        </form>
+
     </header>
     <ul class="users__list users-list">
         @for(user of users$; track user.id) {

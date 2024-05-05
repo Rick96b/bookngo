@@ -7,6 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CompanyService } from '@bookngo/base'
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { HomePageComponent } from '../../../pages/home/home.component';
+import { DepartmentService } from '../../../pages/home/services/department.service';
 
 @Component({
     standalone: true,
@@ -35,14 +36,14 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
     filterForm: FormGroup
 
-    constructor(private companyService: CompanyService) {
+    constructor(private companyService: CompanyService, private _departmentService: DepartmentService) {
         this.filterForm = new FormGroup({
-            departments: new FormControl('')
+            department: new FormControl('')
         })
     }
 
     ngOnInit(): void {
-        this.companyService.getAllUsers().pipe(
+        this._departmentService.getActiveUsers().pipe(
             tap((users) => {
                 this.users$ = users;
             }),
@@ -54,15 +55,22 @@ export class UsersListComponent implements OnInit, OnDestroy {
             }),
             takeUntil(this.destroy$)
         ).subscribe();
-        this.companyService.getActiveDepartment().pipe(
+        this._departmentService.getActiveDepartment().pipe(
             tap((department) => {
                 this.activeDepartment$ = department
             }),
             takeUntil(this.destroy$)
         )
+        this.filterForm.controls['department'].valueChanges.pipe(
+            tap(value => this._departmentService.setActiveDepartment(value))
+        ).subscribe()
     }
 
     ngOnDestroy(): void {
         this.destroy$.next();
+    }
+
+    onDepartmentChange(): void {
+        console.log('hehe')
     }
 }

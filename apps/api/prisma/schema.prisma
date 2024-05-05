@@ -22,7 +22,6 @@ model User {
   companyName String @map("company-name")
   companyDepartment String? @map("company-department")
   employmentStatus String @default("employee") @map("employment-status")
-  vacationsId Int[] @default([]) @map("vacations-id") 
   accumulatedVacationDays Int? @default(0) @map("accumulated-vacation-days")
   compensationDays Int? @default(0) @map("compensation-days")
   vacationBalance Int? @default(0) @map("vacation-balance")
@@ -42,7 +41,8 @@ model Company {
 model Vacation {
   id Int @id @default(autoincrement())
 
-  startDate DateTime @map("start")
-  endDate DateTime @map("end")
+  employee Int @default(0) @map("employee-id")
+  startDate DateTime @db.Date @map("start") 
+  endDate DateTime @db.Date @map("end") 
   duration Int @map("vacation-duration")
 }
