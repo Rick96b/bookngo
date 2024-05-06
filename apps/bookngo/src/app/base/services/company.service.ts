@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, filter, map, tap, catchError, of, switchMap } from 'rxjs';
-import { BASE_URL_TOKEN } from '../../modules/common/tokens/base-url.token';
-import { Company, getRequestOptions, User } from '@bookngo/base';
+import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { BASE_URL_TOKEN, Company, User } from '@bookngo/base';
 
 @Injectable({
     providedIn: 'root'
@@ -54,11 +53,11 @@ export class CompanyService {
     }
 
     private fetchUsers() {
-        return this._httpClient.get<User[]>(`${this._baseUrl}/users/getAll`, getRequestOptions()) as Observable<User[]>;
+        return this._httpClient.get<User[]>(`${this._baseUrl}/users/getAll`) as Observable<User[]>;
     }
 
     private fetchCompany() {
-        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`, getRequestOptions()).pipe(
+        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`).pipe(
             switchMap(user => this._httpClient.get<Company>(`${this._baseUrl}/company/${user.companyName}`))
         );
     }

@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
-import { getRequestOptions, User } from '@bookngo/base';
-import { BASE_URL_TOKEN } from '../../modules/common/tokens/base-url.token';
+import { BASE_URL_TOKEN, User } from '@bookngo/base';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class UserService {
     }
 
     public fetchMe(): Observable<User | null> {
-        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`, getRequestOptions())
+        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`)
             .pipe(
                 tap((user: User): void => {
                     this._me$.next(user);
@@ -35,7 +34,7 @@ export class UserService {
     }
 
     public updateMe(body: User): Observable<User | null> {
-        return this._httpClient.put<User>(`${this._baseUrl}/users/updateOne`, body, getRequestOptions())
+        return this._httpClient.put<User>(`${this._baseUrl}/users/updateOne`, body)
             .pipe(
                 tap((user: User) => this._me$.next(user)),
                 catchError((err) => {

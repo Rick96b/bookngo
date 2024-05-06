@@ -1,10 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CompanyInDto, UserBaseInfoDto } from '@common';
-import { jwtDecode } from 'jwt-decode';
-import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { AuthService } from '@bookngo/base';
-import { BASE_URL_TOKEN } from '../../../common/tokens/base-url.token';
+import { UserBaseInfoDto } from '@common';
+import { Observable, tap } from 'rxjs';
+import { AuthService, BASE_URL_TOKEN } from '@bookngo/base';
 
 
 @Injectable({
