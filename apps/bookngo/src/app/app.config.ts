@@ -5,7 +5,7 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor, CustomErrorHandler } from '@bookngo/base';
+import { authInterceptor, GlobalErrorHandler } from '@bookngo/base';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
       provideHttpClient(withInterceptors([authInterceptor])),
       {
           provide: ErrorHandler,
-          useClass: CustomErrorHandler
+          useClass: GlobalErrorHandler
       }
   ]
 };
