@@ -2,14 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { UserLoginDto } from '@common';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
-import { BASE_URL_TOKEN } from '../../modules/common/tokens/base-url.token';
+import { BASE_URL_TOKEN } from '../tokens';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
     private _authState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
 
     public setAuthState(state: boolean): void {
         this._authState.next(state);
@@ -27,6 +26,10 @@ export class AuthService {
         if (localStorage.getItem('token')) {
             this.setAuthState(true);
         }
+    }
+
+    public getAuthToken(): string {
+        return localStorage.getItem('token')!;
     }
 
     public login(user: UserLoginDto): Observable<{ token: string }> {
