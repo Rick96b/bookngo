@@ -9,6 +9,7 @@ import {
     UserInformationEditComponent
 } from './modules/user-information-edit/components/user-information-edit.component';
 import { profileGuard } from './pages/profile/guards/profile.guard';
+import { ErrorComponent } from './pages/error/components/error.component';
 
 // определение маршрутов
 export const appRoutes: Routes = [
@@ -31,6 +32,7 @@ export const appRoutes: Routes = [
             }
         ],
         canActivate: [authGuard]
-    }
-
+    },
+    { path: 'error', component: ErrorComponent },
+    { path: '**', redirectTo: 'error' }
 ];
