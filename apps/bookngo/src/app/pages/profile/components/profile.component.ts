@@ -8,14 +8,14 @@ import { BnButtonComponent } from '@bookngo/ui-components';
 import { PositionTransformPipe } from '../pipes/position-transform.pipe';
 import { TuiForModule } from '@taiga-ui/cdk';
 import { User } from '@bookngo/base';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiFormatPhonePipeModule } from '@taiga-ui/core';
 import { UserService } from '../../../base/services/user.service';
 import { DestroyService } from '../../../base/services/destroy.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, TabBarComponent, TuiAvatarModule, BnButtonComponent, PositionTransformPipe, TuiForModule, RouterLink, TuiButtonModule],
+    imports: [CommonModule, TabBarComponent, TuiAvatarModule, BnButtonComponent, PositionTransformPipe, TuiForModule, RouterLink, TuiButtonModule, TuiFormatPhonePipeModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   providers: [

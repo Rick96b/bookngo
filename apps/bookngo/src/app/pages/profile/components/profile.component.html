@@ -20,7 +20,8 @@
 
         <div class="contact_info">
             <h3>Контактная информация:</h3>
-            <p *ngIf="_user.phoneNumber">Телефон: <a href="tel:{{_user.phoneNumber}}"></a>{{ _user.phoneNumber }}</p>
+            <p *ngIf="_user.phoneNumber">Телефон: <a
+                href="tel:{{_user.phoneNumber}}"></a>{{ _user.phoneNumber | tuiFormatPhone }}</p>
             <p *ngIf="_user.telegramUsername">Телеграм: <a
                 href="https://t.me/{{_user.telegramUsername}}">&commat;{{ _user.telegramUsername }}</a></p>
             <p *ngIf="!_user.phoneNumber && !_user.telegramUsername">Пользователь не предоставил контактную
