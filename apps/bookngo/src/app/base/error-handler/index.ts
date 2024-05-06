@@ -1,1 +1,1 @@
-export * from './custom-error-handler.service'
+export * from './global-error-handler.service'
