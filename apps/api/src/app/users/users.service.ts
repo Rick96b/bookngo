@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { User } from '@prisma/client';
 import { UserDto } from '@common';
@@ -36,5 +36,34 @@ export class UsersService {
                 ...dto
             }
         });
+    }
+
+    async findUsersById(usersId: number[]): Promise<User[]> {
+        const users: User[] = [];
+
+        if (!usersId) {
+            throw new BadRequestException({ message: 'Не переданы id пользователей' });
+        }
+
+        await Promise.all(usersId.map(async (id: number): Promise<void> => {
+            try {
+                const user: User = await this._prismaService.user.findFirstOrThrow({
+                    where: {
+                        id: id
+                    }
+                });
+
+                if (user) {
+                    delete user.password;
+                    users.push(user);
+                }
+            } catch (err) {
+                console.error(`Ошибка при поиске пользователя с id ${id}: ${err.message}`);
+            }
+
+        }));
+
+        return users;
+
     }
 }
