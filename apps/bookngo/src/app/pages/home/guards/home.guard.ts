@@ -13,12 +13,12 @@ export const homeGuard: CanActivateFn = (): Observable<boolean> => {
     }
 
     if (userService.isFetched) {
-        companyService.updateCompanyData(userService.getMeSnapshot().companyName);
+        companyService.fetchCompanyData(userService.getMeSnapshot().companyName);
     }
 
     return userService.fetchMe()
         .pipe(
-            mergeMap((user: User) => companyService.updateCompanyData(user.companyName)),
+            mergeMap((user: User) => companyService.fetchCompanyData(user.companyName)),
             mergeMap(() => of(true))
         );
 };
