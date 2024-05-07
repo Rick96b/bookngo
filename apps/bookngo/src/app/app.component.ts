@@ -6,8 +6,8 @@ import { AuthService } from './base/services/auth.service';
 import { TabBarComponent } from './modules/tab-bar';
 import { CalendarComponent } from './modules/calendar/components/calendar/calendar.component';
 import { takeUntil, tap } from 'rxjs';
-import { CompanyService, DestroyService } from '@bookngo/base';
-import { HomePageComponent } from './pages/home/home.component';
+import { DestroyService } from '@bookngo/base';
+import { HomePageComponent } from './pages/home/components/home.component';
 
 @Component({
     standalone: true,
@@ -18,7 +18,7 @@ import { HomePageComponent } from './pages/home/home.component';
     providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}, DestroyService ]
 })
 export class AppComponent implements OnInit {
-    constructor(private authService: AuthService, public companyService: CompanyService, private destroy$: DestroyService) {
+    constructor(private authService: AuthService, private destroy$: DestroyService) {
     }
 
     title = 'bookngo';
