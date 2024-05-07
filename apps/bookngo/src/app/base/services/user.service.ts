@@ -13,6 +13,7 @@ export class UserService {
     public isFetched = false;
 
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
+        
     }
 
     public getMe(): Observable<User | null> {

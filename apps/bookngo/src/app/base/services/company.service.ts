@@ -30,10 +30,8 @@ export class CompanyService {
             ).subscribe();
     }
 
-    public getUser(userId: number): Observable<User | undefined> {
-        return this._users$.pipe(
-            map((users: User[]) => users.find((user: User) => user.id === userId))
-        );
+    public getUser(userId: number): User | undefined {
+        return this._users$.getValue().find(user => user.id === userId);
     }
 
     public getCompany(): Observable<Company | null> {

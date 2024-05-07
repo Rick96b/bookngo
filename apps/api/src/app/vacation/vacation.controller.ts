@@ -11,13 +11,14 @@ export class VacationController {
 
   @Get(':userId')
   @UseGuards(JwtAuthGuard)
-  getVacations(@Param() params: {userId: number}) {
-    return this.vacationService.getVacations(params.userId);
+  getVacations(@Param() params: {userId: string}) {
+    return this.vacationService.getVacations(parseInt(params.userId));
   }
 
   @Post('postVacation')
   @UseGuards(JwtAuthGuard)
   setVacation(@Body() dto: VacationInDto) {
+    console.log('hehe')
     return this.vacationService.postVacation(dto);
   }
 }

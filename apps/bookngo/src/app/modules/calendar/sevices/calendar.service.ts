@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, switchMap, tap } from 'rxjs';
-import { User, Vacation } from '@bookngo/base'
+import { BehaviorSubject, Observable, filter, map, switchMap, tap } from 'rxjs';
+import { CompanyService, User, Vacation } from '@bookngo/base'
 import { DepartmentService } from '../../../pages/home/services/department.service';
 import { VacationsService } from '../data/vacations.service';
 import { getDatesBetween } from '../utils/getDatesBetween';
+import * as dayjs from 'dayjs';
+import * as isBetween from 'dayjs/plugin/isBetween'
 
 @Injectable()
 export class CalendarService {
     private _date$ = new BehaviorSubject<{year: number, month: number}>({year: 2000, month: 0});
-    private _vacations$ = new BehaviorSubject<Record<string, User[]>>({})
+    private _vacations$ = new BehaviorSubject<Vacation[]>([])
     
     constructor(
         private _departmentService: DepartmentService,
-        private _vacationsService: VacationsService
+        private _vacationsService: VacationsService,
+        private _companyService: CompanyService
     ) {
-        this._date$.next({year: 0, month: 0})
+        this._date$.next({year: 2024, month: 4})
         this.fetchVacations()
+        dayjs.extend(isBetween)
     }
 
     public getDate$() {
@@ -37,20 +41,35 @@ export class CalendarService {
     private fetchVacations() {
         this._departmentService.getActiveUsers().pipe(
             switchMap(users => this._vacationsService.getVacationsByUser(users)),
-            map(vacations => this.formatVacations(vacations)),
-            tap(vacations => this._vacations$.next(vacations))
-        )
+            tap(vacations => {
+                this._vacations$.next(vacations)
+            })
+        ).subscribe()
     }
 
-    private formatVacations(vacationsToFormat: {user: User, vacations: Vacation[]}[]) {
-        let result: Record<string, User[]> = {}
-        vacationsToFormat.forEach(vacations => {
-            vacations.vacations.forEach(vacation => {
-                getDatesBetween(vacation.startDate, vacation.endDate).forEach(date => {
-                    result[date].push(vacations.user)
+    public getVacationsByDate(year: number, month: number, day: number) {
+        return this._vacations$.pipe(
+            map(vacations => {
+                const date = dayjs(new Date(year, month, day))
+                return vacations.filter(vacation => {
+                    const startDate = dayjs(vacation.startDate)
+                    const endDate = dayjs(vacation.endDate)
+                    const user = this._companyService.getUser(vacation.employee)
+                    if(date.isBetween(startDate, endDate, 'day', '[]') && user)  {
+                        return true
+                    }
+                    return false
+                })
+            }),
+            map(vacations => {
+                return vacations.map(vacation => {
+                    const user = this._companyService.getUser(vacation.employee) as User
+                    return {
+                        user: user,
+                        vacationStatus: 'Отпуск'
+                    }
                 })
             })
-        })
-        return result
-    }
+        )
+    }   
 }

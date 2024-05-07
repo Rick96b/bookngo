@@ -1,9 +1,9 @@
 export interface VacationOutDto extends VacationInDto{
-  id: number;
+  id: number
 }
 
 export interface VacationInDto {
-  startDate: Date;
-  endDate: Date;
-  duration: number;
+  employee: number
+  startDate: string
+  endDate: string
 }

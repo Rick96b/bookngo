@@ -9,6 +9,7 @@ export class VacationService {
     }
  
     async getVacations(userId: number) {
+        console.log('hnhn')
         return await this._prismaService.vacation.findMany({
             where: {
                 employee: userId
@@ -19,6 +20,7 @@ export class VacationService {
     async postVacation(dto: VacationInDto) {
         const oldVacation: Vacation = await this._prismaService.vacation.findFirst({
             where: {
+                employee: dto.employee,
                 startDate: dto.startDate,
                 endDate: dto.endDate
             }
@@ -27,7 +29,7 @@ export class VacationService {
         if (oldVacation) {
             throw new BadRequestException('Vacation already exist');
         }
-
+        console.log('hmhmhmhm')
         this._prismaService.vacation.create({
             data: dto
         });

@@ -5,7 +5,6 @@ export interface UserDto extends UserBaseInfoDto {
 
   telegramUsername?: string;
   phoneNumber?: string;
-  vacationsId: number[];
 
   accumulatedVacationDays: number;
   compensationDays: number;

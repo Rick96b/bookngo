@@ -1,8 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, filter, Observable, of, tap } from 'rxjs';
-import { CompanyService, getRequestOptions, User } from '@bookngo/base';
-import { BASE_URL } from '../../../modules/common/tokens/base-url.token';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { CompanyService, User } from '@bookngo/base';
 
 @Injectable()
 export class DepartmentService {
@@ -25,7 +23,6 @@ export class DepartmentService {
     private updateActiveUsers(): void {
         this._companyService.getUsersByDepartment(this._activeDepartment$.getValue())
         .pipe(
-
             tap(users => this._activeUsers$.next(users))
         ).subscribe()
     }

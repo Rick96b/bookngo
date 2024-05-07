@@ -42,7 +42,6 @@ model Vacation {
   id Int @id @default(autoincrement())
 
   employee Int @default(0) @map("employee-id")
-  startDate DateTime @db.Date @map("start") 
-  endDate DateTime @db.Date @map("end") 
-  duration Int @map("vacation-duration")
+  startDate DateTime @map("start") 
+  endDate DateTime @map("end") 
 }

@@ -1,0 +1,61 @@
+.calendar-day__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0px 7px 1px;
+
+    font-family: var(--main-font);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+
+    background-color: inherit;
+    border: none
+}
+
+.users-dropdown {
+    padding: 10px;
+}
+
+.user-color {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 4px;
+    border-radius: 50%;
+}
+
+.user-undercolor {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.user-vacation {
+    margin-left: 40px;
+
+    font-size: 10px;
+    opacity: 0.6;
+}
+
+.user-undercolors {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 5px;
+}
+
+.active {
+    background-color: #5AC8FA;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 50%;
+}
