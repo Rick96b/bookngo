@@ -5,7 +5,7 @@ import { TuiAvatarModule, TuiDataListWrapperModule, TuiSelectModule } from '@tai
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { HomePageComponent } from '../../../pages/home/home.component';
+import { HomePageComponent } from '../../../pages/home/components/home.component';
 import { DepartmentService } from '../../../pages/home/services/department.service';
 
 @Component({
@@ -47,12 +47,14 @@ export class UsersListComponent implements OnInit {
             }),
             takeUntil(this.destroy$)
         ).subscribe();
+
         this.companyService.getCompany().pipe(
             tap((company) => {
                 this.company$ = company
             }),
             takeUntil(this.destroy$)
         ).subscribe();
+
         this._departmentService.getActiveDepartment().pipe(
             tap((department) => {
                 this.activeDepartment$ = department
