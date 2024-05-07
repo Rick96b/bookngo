@@ -7,12 +7,14 @@ import { VacationInDto } from '@common';
     providedIn: 'root'
 })
 export class VacationRequestApiService {
-    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
+    constructor(
+        @Inject(BASE_URL_TOKEN) 
+        private _baseUrl: string, private _httpClient: HttpClient,
+    ) {
 
     }
 
     public sendRequest(vacation: VacationInDto) {
-        console.log(vacation)
         return this._httpClient.post(`${this._baseUrl}/vacations/postVacation`, vacation)
     }
 }

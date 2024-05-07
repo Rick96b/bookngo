@@ -36,7 +36,7 @@ export class CalendarDayComponent implements OnInit {
         this.open = active && this.open;
     }
 
-    vacations: {user: User, vacationStatus: string}[]
+    vacations: {user: User, vacationStatus: string}[] = []
     constructor(private _calendarService: CalendarService) { }
 
     ngOnInit(): void {

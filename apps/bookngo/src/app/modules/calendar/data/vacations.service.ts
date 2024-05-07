@@ -7,10 +7,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class VacationsService {
-    private _vacations$ = new BehaviorSubject<{date: number, employees: string[]}[]>([])
-
     constructor(
-        private _departmentService: DepartmentService,
         @Inject(BASE_URL_TOKEN) private _baseUrl: string,
         private _httpClient: HttpClient
     ) {
@@ -21,7 +18,6 @@ export class VacationsService {
         return forkJoin(
             users.map(user => this.fetchVacations(user))
         ).pipe(
-            tap(vacations => console.log(vacations)),
             map(vacations => vacations.flat())
         )
     }
