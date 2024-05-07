@@ -34,10 +34,13 @@ export class VacationRequestComponent implements OnInit {
     }
 
     onSubmit() {
+        const me = this._userService.getMeSnapshot()
+        const start = this.vacationForm.controls['start'].value
+        const end = this.vacationForm.controls['end'].value
         this._vacationRequestApiService.sendRequest({
-            employee: 1,
-            startDate: dayjs(this.vacationForm.controls['start'].value).format('YYYY-MM-DD'),
-            endDate: dayjs(this.vacationForm.controls['end'].value).format('YYYY-MM-DD'),
+            employee: me.id,
+             startDate: new Date(start.year, start.month, start.day + 1).toISOString(),
+             endDate: new Date(end.year, end.month, end.day + 1).toISOString(),
         }).subscribe(console.log)
     }
 }
