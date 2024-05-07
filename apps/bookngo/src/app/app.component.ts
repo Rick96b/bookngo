@@ -6,9 +6,8 @@ import { AuthService } from './base/services/auth.service';
 import { TabBarComponent } from './modules/tab-bar';
 import { CalendarComponent } from './modules/calendar/components/calendar/calendar.component';
 import { takeUntil, tap } from 'rxjs';
-import { CompanyService } from '@bookngo/base';
+import { CompanyService, DestroyService } from '@bookngo/base';
 import { HomePageComponent } from './pages/home/home.component';
-import { DestroyService } from './base/services/destroy.service';
 
 @Component({
     standalone: true,

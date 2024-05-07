@@ -1,5 +1,5 @@
 import { Component, forwardRef, OnInit } from '@angular/core';
-import { Company, CompanyService, User } from '@bookngo/base';
+import { Company, CompanyService, DestroyService, User } from '@bookngo/base';
 import { takeUntil, tap } from 'rxjs';
 import { TuiAvatarModule, TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { CommonModule } from '@angular/common';
@@ -7,7 +7,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { HomePageComponent } from '../../../pages/home/home.component';
 import { DepartmentService } from '../../../pages/home/services/department.service';
-import { DestroyService } from '../../../base/services/destroy.service';
 
 @Component({
     standalone: true,

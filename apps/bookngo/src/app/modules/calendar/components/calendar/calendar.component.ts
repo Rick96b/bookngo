@@ -6,7 +6,7 @@ import { Day } from '../../model/day.interface';
 import { TuiMonthPipe } from '../../pipes/TuiMonth.pipe';
 import { takeUntil, tap } from 'rxjs';
 import { CalendarDayComponent } from '../calendar-day/calendar-day.component';
-import { DestroyService } from '../../../../base/services/destroy.service';
+import { DestroyService } from '@bookngo/base';
 
 @Component({
     standalone: true,

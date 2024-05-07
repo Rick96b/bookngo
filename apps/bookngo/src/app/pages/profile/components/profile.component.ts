@@ -7,10 +7,8 @@ import { takeUntil, tap } from 'rxjs';
 import { BnButtonComponent } from '@bookngo/ui-components';
 import { PositionTransformPipe } from '../pipes/position-transform.pipe';
 import { TuiForModule } from '@taiga-ui/cdk';
-import { User } from '@bookngo/base';
+import { DestroyService, User, UserService } from '@bookngo/base';
 import { TuiButtonModule, TuiFormatPhonePipeModule } from '@taiga-ui/core';
-import { UserService } from '../../../base/services/user.service';
-import { DestroyService } from '../../../base/services/destroy.service';
 
 @Component({
   selector: 'app-profile',

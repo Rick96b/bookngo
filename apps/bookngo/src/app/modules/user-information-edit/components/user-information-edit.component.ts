@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { takeUntil, tap } from 'rxjs';
-import { User } from '@bookngo/base';
+import { DestroyService, User, UserService } from '@bookngo/base';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiInputModule, TuiInputPhoneModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
 import { BnButtonComponent } from '@bookngo/ui-components';
-import { UserService } from '../../../base/services/user.service';
-import { DestroyService } from '../../../base/services/destroy.service';
 
 @Component({
     selector: 'app-user-information-edit',
