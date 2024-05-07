@@ -11,7 +11,6 @@ export class UserService {
     private _me$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
     public isFetched = false;
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
-        
     }
 
     public getMe(): Observable<User | null> {
