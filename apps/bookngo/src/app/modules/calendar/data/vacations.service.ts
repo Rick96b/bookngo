@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, Observable, tap } from 'rxjs';
 import { Vacation } from '../../../base/interfaces';
 import { BASE_URL_TOKEN, User } from '@bookngo/base';
 import { DepartmentService } from '../../../pages/home/services/department.service';
@@ -27,6 +27,6 @@ export class VacationsService {
     }
 
     private fetchVacations(user: User) {
-        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/${user.id}`, getRequestOptions())
+        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/${user.id}`)
     }
 }

@@ -7,7 +7,7 @@ import { Vacation } from '@prisma/client';
 export class VacationService {
     constructor(private _prismaService: PrismaService) {
     }
- 
+
     async getVacations(userId: number) {
         console.log('hnhn')
         return await this._prismaService.vacation.findMany({
@@ -18,6 +18,7 @@ export class VacationService {
     }
 
     async postVacation(dto: VacationInDto) {
+        console.log(dto)
         const oldVacation: Vacation = await this._prismaService.vacation.findFirst({
             where: {
                 employee: dto.employee,

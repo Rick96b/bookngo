@@ -4,7 +4,6 @@ import { TuiDay } from '@taiga-ui/cdk';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { TuiInputDateModule } from '@taiga-ui/kit';
 import { UserService } from '../../../base/services/user.service';
-import { tap } from 'rxjs';
 import { VacationRequestApiService } from '../data/services/vacations-request-api.service';
 import * as dayjs from 'dayjs';
 
@@ -27,7 +26,7 @@ export class VacationRequestComponent implements OnInit {
         private _userService: UserService
     ) { }
 
-    ngOnInit(): void { 
+    ngOnInit(): void {
         this.vacationForm = this._fb.group<{start: TuiDay | null, end: TuiDay | null}>({
             start: null,
             end: null,
@@ -37,8 +36,8 @@ export class VacationRequestComponent implements OnInit {
     onSubmit() {
         this._vacationRequestApiService.sendRequest({
             employee: 1,
-            startDate: dayjs(this.vacationForm.controls['start'].value).format('YYYY-MM-DD'), 
+            startDate: dayjs(this.vacationForm.controls['start'].value).format('YYYY-MM-DD'),
             endDate: dayjs(this.vacationForm.controls['end'].value).format('YYYY-MM-DD'),
-        })
+        }).subscribe(console.log)
     }
 }
