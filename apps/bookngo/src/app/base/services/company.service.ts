@@ -14,7 +14,7 @@ export class CompanyService {
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
     }
 
-    public updateCompanyData(companyName: string): Observable<User[]> {
+    public fetchCompanyData(companyName: string): Observable<User[]> {
         return this.fetchCompany(companyName).pipe(
             mergeMap((company: Company) => this.fetchUsers(company.employees.concat(company.ceo)))
         );
@@ -39,20 +39,18 @@ export class CompanyService {
         return this._company$.asObservable();
     }
 
-    public getUser(userId: number) {
-        return this._companyUsers$.getValue().find((user: User) => user.id === userId)
-        // return this._companyUsers$.pipe(
-        //     map((users: User[]) => users.find((user: User) => user.id === userId))
-        // );
+
+    public getUser(userId: number): User | undefined {
+        return this._companyUsers$.getValue().find((user: User) => user.id === userId);
     }
 
-
     public getUsersByDepartment(department: string): Observable<User[]> {
-        if (!department) {
+        if (!department || !this._company$.getValue()?.departments.includes(department)) {
             return this._companyUsers$.asObservable();
         }
+
         return this._companyUsers$.pipe(
-            map(users => users.filter(user => user.companyDepartment === department))
+            map((users: User[]) => users.filter((user: User): boolean => user.companyDepartment === department))
         );
     }
 
