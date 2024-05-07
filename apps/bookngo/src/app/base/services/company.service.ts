@@ -39,11 +39,12 @@ export class CompanyService {
         return this._company$.asObservable();
     }
 
-    // public getUser(userId: number): Observable<User | undefined> {
-    //     return this._companyUsers$.pipe(
-    //         map((users: User[]) => users.find((user: User) => user.id === userId))
-    //     );
-    // }
+    public getUser(userId: number) {
+        return this._companyUsers$.getValue().find((user: User) => user.id === userId)
+        // return this._companyUsers$.pipe(
+        //     map((users: User[]) => users.find((user: User) => user.id === userId))
+        // );
+    }
 
 
     public getUsersByDepartment(department: string): Observable<User[]> {
