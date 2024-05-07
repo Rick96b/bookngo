@@ -36,7 +36,7 @@
             <p>{{ _user.compensationDays }} отгулов в этом году</p>
         </div>
 
-        <div class="vacation-history" *ngIf="_user.vacationsId">
+        <div class="vacation-history" *ngIf="_user">
             <h3>История отпусков:</h3>
             <!-- <ng-container *ngFor="let item of _user.vacationsId">
                 <p>{{ item }}</p>
