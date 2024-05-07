@@ -1,5 +1,6 @@
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -7,10 +8,16 @@ export class GlobalErrorHandler implements ErrorHandler {
     constructor(private zone: NgZone, private _router: Router) {
     }
 
-    handleError(error: unknown): void {
+    handleError(error: any): void {
         this.zone.run((): void => {
-            console.error('Caught by Custom Error Handler: ', error);
-            this._router.navigate(['error']);
+            if (error instanceof HttpErrorResponse) {
+                console.error('Backend returned status code: ', error.status);
+                console.error('Response body:', error.message);
+            } else {
+                console.error('An error occurred:', error.message!);
+            }
+
+            this._router.navigate(['error'])
         });
     }
 }
