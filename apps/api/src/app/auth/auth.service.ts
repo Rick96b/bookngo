@@ -10,7 +10,7 @@ import { CompanyBaseService } from '../base';
 @Injectable()
 export class AuthService {
   constructor(
-    private _prismaService: PrismaService, 
+    private _prismaService: PrismaService,
     private _jwtService: JwtService,
     private companyBaseService: CompanyBaseService
   ) {
@@ -74,6 +74,10 @@ export class AuthService {
       }
     });
 
+    if (!user) {
+        throw new BadRequestException();
+    }
+
     const passwordEquals: boolean = await argon2.verify(user.password, dto.password);
 
     if (user && passwordEquals) {
@@ -102,7 +106,7 @@ export class AuthService {
 
     return !!oldUser
   }
-  
+
   private async IsCompanyExist(dto: UserBaseInfoDto) {
     const company = await this.companyBaseService.getCompany(dto.companyName)
     return !!company

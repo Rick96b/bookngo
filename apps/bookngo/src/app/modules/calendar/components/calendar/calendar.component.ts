@@ -1,11 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { generateCalendar } from '../../utils/generateCalendar';
 import { CalendarService } from '../../sevices/calendar.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { Day } from '../../model/day.interface';
 import { TuiMonthPipe } from '../../pipes/TuiMonth.pipe';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { takeUntil, tap } from 'rxjs';
 import { CalendarDayComponent } from '../calendar-day/calendar-day.component';
+import { DestroyService } from '@bookngo/base';
 import { VacationsService } from '../../data/vacations.service';
 
 @Component({
@@ -18,17 +19,16 @@ import { VacationsService } from '../../data/vacations.service';
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
     styleUrl: './calendar.component.scss',
-    providers: [CalendarService, VacationsService]
+    providers: [CalendarService, VacationsService, DestroyService]
 })
-export class CalendarComponent implements OnInit, OnDestroy {
+export class CalendarComponent implements OnInit {
     protected days: Day[] = [];
     protected month: { year: number, month: number };
 
-    private destroy$: Subject<void> = new Subject<void>();
 
-    constructor(private calendarService: CalendarService) {
+    constructor(private calendarService: CalendarService, private destroy$: DestroyService) {
     }
-    
+
     ngOnInit(): void {
         this.calendarService.getDate$().pipe(
             tap((date) => {
@@ -41,9 +41,5 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     changeMonth({ year, month }: { year: number, month: number }): void {
         this.calendarService.setDate(year, month);
-    }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
     }
 }

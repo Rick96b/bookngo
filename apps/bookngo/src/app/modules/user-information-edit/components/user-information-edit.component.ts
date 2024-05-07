@@ -1,13 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Subject, takeUntil, tap } from 'rxjs';
-import { User } from '@bookngo/base';
+import { takeUntil, tap } from 'rxjs';
+import { DestroyService, User, UserService } from '@bookngo/base';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiInputModule, TuiInputPhoneModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
 import { BnButtonComponent } from '@bookngo/ui-components';
-import { UserService } from '../../../base/services/user.service';
 
 @Component({
     selector: 'app-user-information-edit',
@@ -15,15 +14,14 @@ import { UserService } from '../../../base/services/user.service';
     imports: [CommonModule, ReactiveFormsModule, TuiInputModule, TuiHintModule, TuiInputPhoneModule, BnButtonComponent, TuiButtonModule],
     templateUrl: './user-information-edit.component.html',
     styleUrl: './user-information-edit.component.scss',
-    providers: []
+    providers: [DestroyService]
 })
-export class UserInformationEditComponent implements OnInit, OnDestroy {
+export class UserInformationEditComponent implements OnInit {
     protected _user: User;
     protected _userEditForm: FormGroup;
-    private destroy$: Subject<null> = new Subject<null>();
 
     constructor(private _userService: UserService, private _fb: FormBuilder,
-                private _router: Router) {
+                private _router: Router, private destroy$: DestroyService) {
     }
 
     ngOnInit(): void {
@@ -61,9 +59,5 @@ export class UserInformationEditComponent implements OnInit, OnDestroy {
                 tap(() => this._router.navigate(['profile']))
             )
             .subscribe();
-    }
-
-    ngOnDestroy(): void {
-        this.destroy$.next(null);
     }
 }
