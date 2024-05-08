@@ -7,7 +7,7 @@ import {
     TuiInputPasswordModule,
     TuiSelectModule
 } from '@taiga-ui/kit';
-import { TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { CustomValidationService } from '../services/ValidationService.service';
 import { RegisterService } from '../data/services/register.service';
 import { Router } from '@angular/router';
@@ -28,7 +28,6 @@ import { EmployeeStatuses } from '../models/UserModel';
         TuiFieldErrorPipeModule,
         AsyncPipe,
         TuiErrorModule,
-        CommonModule,
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
