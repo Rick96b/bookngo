@@ -46,6 +46,6 @@ export class ProfileComponent implements OnInit {
   }
 
   protected navigateToHome(): void {
-    this._router.navigate(['home']);
+    this._router.navigate(['cabinet']);
   }
 }

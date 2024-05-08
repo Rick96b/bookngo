@@ -54,9 +54,9 @@ export class UserInformationEditComponent implements OnInit {
             ...this._userEditForm.getRawValue(),
             employmentStatus: this._user.employmentStatus
         })
-        .pipe(
-            tap(() => this._router.navigate(['profile']))
-        )
-        .subscribe();
+            .pipe(
+                tap(() => this._router.navigate(['cabinet/profile']))
+            )
+            .subscribe();
     }
 }

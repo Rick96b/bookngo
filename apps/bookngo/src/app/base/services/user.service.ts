@@ -3,9 +3,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { BASE_URL_TOKEN, User } from '@bookngo/base';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class UserService {
 
     private _me$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);

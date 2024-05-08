@@ -10,10 +10,10 @@ import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
     selector: 'app-tab-bar',
     standalone: true,
     imports: [
-        CommonModule, 
-        RouterLink, 
-        NgOptimizedImage, 
-        TuiDropdownModule, 
+        CommonModule,
+        RouterLink,
+        NgOptimizedImage,
+        TuiDropdownModule,
         VacationRequestComponent,
         TuiButtonModule,
         TuiActiveZoneModule,
@@ -29,19 +29,19 @@ export class TabBarComponent {
             title: 'Calendar',
             icon: 'assets/tabbar-icons/calendar.svg',
             isActive: true,
-            path: '../home'
+            path: '../cabinet/home'
         },
         {
             title: 'Planner',
             icon: 'assets/tabbar-icons/planner.svg',
             isActive: false,
-            path: '../planner'
+            path: '../cabinet/planner'
         },
         {
             title: 'Profile',
             icon: 'assets/tabbar-icons/profile.svg',
             isActive: false,
-            path: '../profile'
+            path: '../cabinet/profile'
         }
     ];
 

@@ -20,7 +20,7 @@ export class WelcomePageComponent {
     ) {
 
         if (this.authService.getAuthStateSnapshot()) {
-            this.router.navigate(['/home']);
+            this.router.navigate(['/cabinet']);
         }
     }
 }

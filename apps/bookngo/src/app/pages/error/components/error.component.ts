@@ -16,6 +16,6 @@ export class ErrorComponent {
     }
 
     protected navigateToHome(): void {
-        this._router.navigate(['home']);
+        this._router.navigate(['cabinet']);
     }
 }

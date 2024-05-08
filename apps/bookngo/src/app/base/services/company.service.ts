@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL_TOKEN, Company, User } from '@bookngo/base';
 import { BehaviorSubject, map, mergeMap, Observable, tap } from 'rxjs';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class CompanyService {
     private _company$: BehaviorSubject<Company | null> = new BehaviorSubject<Company | null>(null);
     private _companyUsers$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
@@ -41,7 +39,7 @@ export class CompanyService {
 
 
     public getUser(userId: number): User | undefined {
-        return this._companyUsers$.getValue().find((user: User) => user.id === userId);
+        return this._companyUsers$.getValue().find((user: User): boolean => user.id === userId);
     }
 
     public getUsersByDepartment(department: string): Observable<User[]> {
