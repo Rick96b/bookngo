@@ -5,7 +5,8 @@ import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputDateModule } from '@taiga-ui/kit';
 import { UserService } from '../../../base/services/user.service';
 import { VacationRequestApiService } from '../data/services/vacations-request-api.service';
-import * as dayjs from 'dayjs';
+import { Vacation } from '@bookngo/base';
+import { tap } from 'rxjs';
 
 @Component({
     standalone: true,
@@ -42,6 +43,9 @@ export class VacationRequestComponent implements OnInit {
             employee: me.id,
              startDate: new Date(start.year, start.month, start.day + 1).toISOString(),
              endDate: new Date(end.year, end.month, end.day + 1).toISOString(),
-        }).subscribe(console.log)
+        }).pipe(
+            tap((value: Vacation) => this._userService.setVacations(value) )
+        ).subscribe()
+            //временно
     }
 }
