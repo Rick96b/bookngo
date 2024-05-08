@@ -4,7 +4,6 @@ import { TuiAvatarModule, tuiAvatarOptionsProvider } from '@taiga-ui/kit';
 import { TabBarComponent } from '../../../modules/tab-bar';
 import { Router, RouterLink } from '@angular/router';
 import { takeUntil, tap } from 'rxjs';
-import { BnButtonComponent } from '@bookngo/ui-components';
 import { PositionTransformPipe } from '../pipes/position-transform.pipe';
 import { TuiForModule } from '@taiga-ui/cdk';
 import { DestroyService, User, UserService } from '@bookngo/base';
@@ -13,7 +12,7 @@ import { TuiButtonModule, TuiFormatPhonePipeModule } from '@taiga-ui/core';
 @Component({
   selector: 'app-profile',
   standalone: true,
-    imports: [CommonModule, TabBarComponent, TuiAvatarModule, BnButtonComponent, PositionTransformPipe, TuiForModule, RouterLink, TuiButtonModule, TuiFormatPhonePipeModule],
+    imports: [CommonModule, TabBarComponent, TuiAvatarModule, PositionTransformPipe, TuiForModule, RouterLink, TuiButtonModule, TuiFormatPhonePipeModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   providers: [

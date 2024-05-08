@@ -7,8 +7,11 @@
                     type="button"
                     [tuiDropdown]="dropdownContent"
                     [tuiDropdownManual]="open"
+                    tuiDropdownAlign="center"
                     tuiDropdownDirection="top"
                     (click)="onClick(tab)"
+                    (tuiActiveZoneChange)="onActiveZone($event)"
+                    (tuiObscured)="onObscured($event)"
                 >
                     hehe
                 </button>

@@ -1,6 +1,8 @@
 <tui-root>
-    <router-outlet></router-outlet>
-    @if(isLoggedIn) {
-        <app-tab-bar></app-tab-bar>
-    }
+    <div [class.container]="isLoggedIn">
+        <router-outlet></router-outlet>
+        @if(isLoggedIn) {
+            <app-tab-bar></app-tab-bar>
+        }
+    </div>
 </tui-root>

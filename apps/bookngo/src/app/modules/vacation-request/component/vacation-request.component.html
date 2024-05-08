@@ -1,10 +1,12 @@
 <section class="vacation-request">
     <h2>Запланировать отпуск</h2>
-    <form [formGroup]="vacationForm">
+    <form [formGroup]="vacationForm" class="vacation-request__form">
         <tui-input-date
+            [tuiTextfieldLabelOutside]="true"
             formControlName="start"
         />
         <tui-input-date
+            [tuiTextfieldLabelOutside]="true"
             formControlName="end"
         />
         <button tuiButton (click)="onSubmit()">

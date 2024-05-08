@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputDateModule } from '@taiga-ui/kit';
 import { UserService } from '../../../base/services/user.service';
 import { VacationRequestApiService } from '../data/services/vacations-request-api.service';
@@ -12,7 +12,8 @@ import * as dayjs from 'dayjs';
     imports: [
         ReactiveFormsModule,
         TuiInputDateModule,
-        TuiButtonModule
+        TuiButtonModule,
+        TuiTextfieldControllerModule,
     ],
     selector: 'app-vacation-request',
     templateUrl: './vacation-request.component.html',

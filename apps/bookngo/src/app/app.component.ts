@@ -1,6 +1,6 @@
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { TUI_SANITIZER, TuiAlertModule, TuiDialogModule, TuiRootModule } from '@taiga-ui/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './base/services/auth.service';
 import { TabBarComponent } from './modules/tab-bar';
@@ -14,8 +14,8 @@ import { HomePageComponent } from './pages/home/components/home.component';
     imports: [RouterModule, TuiRootModule, TuiDialogModule, TuiAlertModule, TabBarComponent, CalendarComponent, HomePageComponent],
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss',
-    providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}, DestroyService ]
+    styleUrls: ['./app.component.scss'],
+    providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}, DestroyService ],
 })
 export class AppComponent implements OnInit {
     constructor(private authService: AuthService, private destroy$: DestroyService) {

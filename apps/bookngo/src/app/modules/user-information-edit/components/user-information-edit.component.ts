@@ -6,12 +6,11 @@ import { DestroyService, User, UserService } from '@bookngo/base';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiInputModule, TuiInputPhoneModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
-import { BnButtonComponent } from '@bookngo/ui-components';
 
 @Component({
     selector: 'app-user-information-edit',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, TuiInputModule, TuiHintModule, TuiInputPhoneModule, BnButtonComponent, TuiButtonModule],
+    imports: [CommonModule, ReactiveFormsModule, TuiInputModule, TuiHintModule, TuiInputPhoneModule, TuiButtonModule],
     templateUrl: './user-information-edit.component.html',
     styleUrl: './user-information-edit.component.scss',
     providers: [DestroyService]
@@ -55,9 +54,9 @@ export class UserInformationEditComponent implements OnInit {
             ...this._userEditForm.getRawValue(),
             employmentStatus: this._user.employmentStatus
         })
-            .pipe(
-                tap(() => this._router.navigate(['profile']))
-            )
-            .subscribe();
+        .pipe(
+            tap(() => this._router.navigate(['profile']))
+        )
+        .subscribe();
     }
 }

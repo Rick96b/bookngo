@@ -4,6 +4,7 @@ import { ITabBarElement } from '../data/interfaces/tab.interface';
 import { RouterLink } from '@angular/router';
 import { TuiButtonModule, TuiDropdownModule } from '@taiga-ui/core';
 import { VacationRequestComponent } from '../../vacation-request';
+import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
 
 @Component({
     selector: 'app-tab-bar',
@@ -14,7 +15,9 @@ import { VacationRequestComponent } from '../../vacation-request';
         NgOptimizedImage, 
         TuiDropdownModule, 
         VacationRequestComponent,
-        TuiButtonModule
+        TuiButtonModule,
+        TuiActiveZoneModule,
+        TuiObscuredModule
     ],
     templateUrl: './tab-bar.component.html',
     styleUrl: './tab-bar.component.scss'
@@ -25,7 +28,7 @@ export class TabBarComponent {
         {
             title: 'Calendar',
             icon: 'assets/tabbar-icons/calendar.svg',
-            isActive: false,
+            isActive: true,
             path: '../home'
         },
         {
@@ -51,5 +54,15 @@ export class TabBarComponent {
             });
         }
 
+    }
+
+    onObscured(obscured: boolean): void {
+        if (obscured) {
+            this.open = false;
+        }
+    }
+ 
+    onActiveZone(active: boolean): void {
+        this.open = active && this.open;
     }
 }

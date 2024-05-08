@@ -3,19 +3,29 @@
 
 
 // This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance='bn-theme'] {
-    background: #bc71c9;
-    color: #fff;
+[tuiButton][data-appearance='bn-theme'] {
+    width: 100%;
+    background: $activities-color;
+    color: $activities-text-color;
+    --tui-padding: 30px;
  
     .wrapper-hover{
-        background: #a381ff;
+        background: $activities-hover-color;
     };
  
     .wrapper-active{
-        background: #8f75d1;
+        background: $activities-hover-color;
     };
  
     .wrapper-disabled{
-        background: #eaecee;
+        background: $activities-disabled-color;
     };
+}
+
+[tuiButton][data-appearance='bn-theme'][data-size='s'] {
+    --tui-height-l: auto;
+}
+
+[tuiButton][data-appearance='bn-theme'][data-size='l'] {
+    --tui-height-l: 3rem;
 }

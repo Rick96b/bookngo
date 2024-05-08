@@ -25,7 +25,6 @@ export const appRoutes: Routes = [
                 path: '',
                 component: ProfileComponent,
                 canActivate: [profileGuard]
-
             },
             {
                 path: 'edit',
