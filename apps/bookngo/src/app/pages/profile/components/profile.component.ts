@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiAvatarModule, tuiAvatarOptionsProvider } from '@taiga-ui/kit';
 import { TabBarComponent } from '../../../modules/tab-bar';
 import { Router, RouterLink } from '@angular/router';
-import { takeUntil, tap } from 'rxjs';
 import { PositionTransformPipe } from '../pipes/position-transform.pipe';
 import { TuiForModule } from '@taiga-ui/cdk';
-import { DestroyService, User, UserService } from '@bookngo/base';
+import { DestroyService, UserService } from '@bookngo/base';
 import { TuiButtonModule, TuiFormatPhonePipeModule } from '@taiga-ui/core';
+import { FormatVacationDateDirective } from '../directives/format-vacation-date.directive';
+import { FormatDatePipe } from '../pipes/format-date.pipe';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-    imports: [CommonModule, TabBarComponent, TuiAvatarModule, PositionTransformPipe, TuiForModule, RouterLink, TuiButtonModule, TuiFormatPhonePipeModule],
+    imports: [CommonModule, TabBarComponent, TuiAvatarModule, PositionTransformPipe, TuiForModule, RouterLink, TuiButtonModule, TuiFormatPhonePipeModule, FormatVacationDateDirective, FormatDatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   providers: [
@@ -24,21 +25,9 @@ import { TuiButtonModule, TuiFormatPhonePipeModule } from '@taiga-ui/core';
       DestroyService
   ]
 })
-export class ProfileComponent implements OnInit {
-  protected _user: User;
-  protected hasError = false;
+export class ProfileComponent {
 
-  constructor(private _router: Router, private _userService: UserService, private destroy$: DestroyService) {
-  }
-
-  ngOnInit(): void {
-    this._userService.getMe()
-      .pipe(
-        tap((user: User | null): void => {
-          user ? this._user = user : this.hasError = true;
-        }),
-        takeUntil(this.destroy$)
-      ).subscribe();
+  constructor(private _router: Router, protected _userService: UserService) {
   }
 
   protected reloadPage(): void {
