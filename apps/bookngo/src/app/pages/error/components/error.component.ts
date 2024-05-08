@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { BnButtonComponent } from '@bookngo/ui-components';
+import { TuiButtonModule } from '@taiga-ui/core';
 
 @Component({
     selector: 'app-error',
     standalone: true,
-    imports: [CommonModule, BnButtonComponent],
+    imports: [CommonModule, TuiButtonModule],
     templateUrl: './error.component.html',
     styleUrl: './error.component.scss',
 })

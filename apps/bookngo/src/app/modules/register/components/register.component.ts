@@ -7,10 +7,9 @@ import {
     TuiInputPasswordModule,
     TuiSelectModule
 } from '@taiga-ui/kit';
-import { TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { CustomValidationService } from '../services/ValidationService.service';
 import { RegisterService } from '../data/services/register.service';
-import { BnButtonComponent } from '@bookngo/ui-components';
 import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { EmployeeStatuses } from '../models/UserModel';
@@ -24,11 +23,11 @@ import { EmployeeStatuses } from '../models/UserModel';
         TuiTextfieldControllerModule,
         TuiDataListWrapperModule,
         TuiInputModule,
+        TuiInputPasswordModule,
+        TuiButtonModule,
         TuiFieldErrorPipeModule,
         AsyncPipe,
         TuiErrorModule,
-        TuiInputPasswordModule,
-        BnButtonComponent
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],

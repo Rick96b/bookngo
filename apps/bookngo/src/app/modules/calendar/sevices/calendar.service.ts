@@ -55,7 +55,6 @@ export class CalendarService {
                     const startDate = dayjs(vacation.startDate)
                     const endDate = dayjs(vacation.endDate)
                     const user = this._companyService.getUser(vacation.employee)
-                    console.log(vacation, year, month, day, user)
                     if(date.isBetween(startDate, endDate, 'day', '[]') && user)  {
                         return true
                     }

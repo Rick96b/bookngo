@@ -1,2 +1,6 @@
-@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+@import '../theme.scss';
+@import '../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local.scss';
 
+[tuiWrapper][data-appearance='bn-theme-textfield'] {
+    box-shadow: none;
+}
