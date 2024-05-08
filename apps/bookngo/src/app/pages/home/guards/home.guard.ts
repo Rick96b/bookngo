@@ -16,7 +16,7 @@ export const homeGuard: CanActivateFn = (): Observable<boolean> => {
 
     return userService.fetchMe()
         .pipe(
-            mergeMap((user: User) => companyService.fetchCompanyData(user.companyName)),
+            mergeMap((user: User | null) => companyService.fetchCompanyData(user!.companyName)),
             mergeMap(() => of(true)),
         );
 };
