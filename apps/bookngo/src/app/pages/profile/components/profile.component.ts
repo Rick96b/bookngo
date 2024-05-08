@@ -8,12 +8,13 @@ import { TuiForModule } from '@taiga-ui/cdk';
 import { DestroyService, UserService } from '@bookngo/base';
 import { TuiButtonModule, TuiFormatPhonePipeModule } from '@taiga-ui/core';
 import { FormatVacationDateDirective } from '../directives/format-vacation-date.directive';
-import { FormatDatePipe } from '../pipes/format-date.pipe';
+import { FormatMonthDatePipe } from '../pipes/format-month-date.pipe';
+import { FormatDayDatePipe } from '../pipes/format-day-date.pipe';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-    imports: [CommonModule, TabBarComponent, TuiAvatarModule, PositionTransformPipe, TuiForModule, RouterLink, TuiButtonModule, TuiFormatPhonePipeModule, FormatVacationDateDirective, FormatDatePipe],
+    imports: [CommonModule, TabBarComponent, TuiAvatarModule, PositionTransformPipe, TuiForModule, RouterLink, TuiButtonModule, TuiFormatPhonePipeModule, FormatVacationDateDirective, FormatMonthDatePipe, FormatDayDatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   providers: [

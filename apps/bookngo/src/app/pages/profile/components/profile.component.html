@@ -41,12 +41,12 @@
 
             <ng-container *ngIf="_userService.getVacations() | async as vacations; else vacationsNotFound">
 
-                <ng-container *ngFor="let vacation of vacations">
+                <ng-container *ngFor="let vacation of vacations.reverse()">
 
                     <div *formatVacationDate="vacation; let duration = vacationDuration; let startDate = startDate; let endDate = endDate">
-                        <p class="vacation-duration">{{ duration }} дней</p>
+                        <p class="vacation-duration">{{ duration | formatDayDate }}</p>
                         <p class="vacation-duration">
-                            {{startDate | formatDate : endDate}}
+                            {{startDate | formatMonthDate}} - {{endDate | formatMonthDate}}
                         </p>
 
                     </div>

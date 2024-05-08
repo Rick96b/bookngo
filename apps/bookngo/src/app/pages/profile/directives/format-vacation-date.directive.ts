@@ -1,6 +1,6 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Vacation } from '@bookngo/base';
-import { FormatDateContextInterface } from '../interfaces/format-date-context.interface';
+import { FormatDateInterface } from '../interfaces/format-date.interface';
 
 @Directive({
     selector: '[formatVacationDate]',
@@ -10,8 +10,8 @@ export class FormatVacationDateDirective implements OnInit {
 
     private _vacationDuration: number;
 
-    private _startDate: FormatDateContextInterface
-    private _endDate: FormatDateContextInterface
+    private _startDate: FormatDateInterface
+    private _endDate: FormatDateInterface
 
     @Input()
     set formatVacationDate({ startDate, endDate }: Vacation) {
@@ -24,11 +24,11 @@ export class FormatVacationDateDirective implements OnInit {
         return Math.floor((endDate.getTime() - startDate.getTime()) / (24 * 3600 * 1000));
     }
 
-    private formatDate(date: Date): FormatDateContextInterface {
+    private formatDate(date: Date): FormatDateInterface {
         return  {
             day: date.getDate(),
             monthName: date.toLocaleString('default', { month: 'long' })
-        } as FormatDateContextInterface
+        } as FormatDateInterface
     }
 
     constructor(private templateRef: TemplateRef<any>, private viewContainerRef: ViewContainerRef) {
