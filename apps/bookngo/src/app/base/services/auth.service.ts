@@ -14,10 +14,6 @@ export class AuthService {
         this._authState.next(state);
     }
 
-    public getAuthState(): Observable<boolean> {
-        return this._authState.asObservable();
-    }
-
     public getAuthStateSnapshot(): boolean {
         return this._authState.getValue();
     }

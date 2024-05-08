@@ -56,7 +56,7 @@ export class UserInformationEditComponent implements OnInit {
             employmentStatus: this._user.employmentStatus
         })
             .pipe(
-                tap(() => this._router.navigate(['profile']))
+                tap(() => this._router.navigate(['cabinet/profile']))
             )
             .subscribe();
     }

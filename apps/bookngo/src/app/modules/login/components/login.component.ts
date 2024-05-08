@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
     selector: 'app-login',
     templateUrl: './login.component.html',
     imports: [
+        ReactiveFormsModule,
         TuiInputModule,
         TuiTextfieldControllerModule,
-        TuiButtonModule,
-        ReactiveFormsModule,
-        TuiInputPasswordModule
+        TuiInputPasswordModule,
+        TuiButtonModule
     ],
     styleUrl: './login.component.scss'
 })
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
             email: user.email,
             password: user.password
         }).subscribe({
-            next: () => this.router.navigate(['/home'])
+            next: () => this.router.navigate(['/cabinet'])
         });
 
     }

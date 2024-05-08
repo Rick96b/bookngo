@@ -8,5 +8,6 @@ export const authGuard = (): boolean | UrlTree => {
     if (authService.getAuthStateSnapshot()) {
         return true;
     }
+
     return inject(Router).createUrlTree(['']);
 };

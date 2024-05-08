@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import {TuiDataListWrapperModule, TuiInputModule, TuiInputPasswordModule, TuiSelectModule} from '@taiga-ui/kit';
-import {TuiButtonModule, TuiDataListModule, TuiTextfieldControllerModule} from '@taiga-ui/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    TuiDataListWrapperModule,
+    TuiFieldErrorPipeModule,
+    TuiInputModule,
+    TuiInputPasswordModule,
+    TuiSelectModule
+} from '@taiga-ui/kit';
+import { TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { CustomValidationService } from '../services/ValidationService.service';
 import { RegisterService } from '../data/services/register.service';
-import { BnButtonComponent, BnInputComponent } from '@bookngo/ui-components'
+import { BnButtonComponent } from '@bookngo/ui-components';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import {TuiFieldErrorPipeModule} from '@taiga-ui/kit';
-import {TuiErrorModule} from '@taiga-ui/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { EmployeeStatuses } from '../models/UserModel';
 
 @Component({
@@ -18,17 +21,13 @@ import { EmployeeStatuses } from '../models/UserModel';
     imports: [
         ReactiveFormsModule,
         TuiSelectModule,
-        TuiDataListWrapperModule,
-        TuiDataListModule,
-        FormsModule,
         TuiTextfieldControllerModule,
+        TuiDataListWrapperModule,
         TuiInputModule,
-        TuiInputPasswordModule,
-        TuiButtonModule,
-        BnInputComponent,
         TuiFieldErrorPipeModule,
+        AsyncPipe,
         TuiErrorModule,
-        CommonModule,
+        TuiInputPasswordModule,
         BnButtonComponent
     ],
     templateUrl: './register.component.html',
@@ -77,7 +76,7 @@ export class RegisterComponent implements OnInit{
             email: user.email,
             password: user.password
         }).subscribe({
-            next: () => this.router.navigate(['home']),
+            next: () => this.router.navigate(['cabinet']),
             error: (err) => {
                 this.customValidator.handleErrors(this.registerForm, err)
             }

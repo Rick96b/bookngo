@@ -9,10 +9,10 @@ import { VacationRequestComponent } from '../../vacation-request';
     selector: 'app-tab-bar',
     standalone: true,
     imports: [
-        CommonModule, 
-        RouterLink, 
-        NgOptimizedImage, 
-        TuiDropdownModule, 
+        CommonModule,
+        RouterLink,
+        NgOptimizedImage,
+        TuiDropdownModule,
         VacationRequestComponent,
         TuiButtonModule
     ],
@@ -26,19 +26,19 @@ export class TabBarComponent {
             title: 'Calendar',
             icon: 'assets/tabbar-icons/calendar.svg',
             isActive: false,
-            path: '../home'
+            path: '../cabinet/home'
         },
         {
             title: 'Planner',
             icon: 'assets/tabbar-icons/planner.svg',
             isActive: false,
-            path: '../planner'
+            path: '../cabinet/planner'
         },
         {
             title: 'Profile',
             icon: 'assets/tabbar-icons/profile.svg',
             isActive: false,
-            path: '../profile'
+            path: '../cabinet/profile'
         }
     ];
 
