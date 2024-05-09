@@ -1,47 +1,47 @@
-
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
-  fullName String
-  password String
-  email String @unique
-  telegramUsername String @default("") @map("telegram-username")
-  phoneNumber String @default("") @map("phone-number")
+    fullName         String
+    password         String
+    email            String @unique
+    telegramUsername String @default("") @map("telegram-username")
+    phoneNumber      String @default("") @map("phone-number")
 
-  companyName String @map("company-name")
-  companyDepartment String? @map("company-department")
-  employmentStatus String @default("employee") @map("employment-status")
-  accumulatedVacationDays Int? @default(0) @map("accumulated-vacation-days")
-  compensationDays Int? @default(0) @map("compensation-days")
-  vacationBalance Int? @default(0) @map("vacation-balance")
+    salary                  Int?    @default(0)
+    companyName             String  @map("company-name")
+    companyDepartment       String? @map("company-department")
+    employmentStatus        String  @default("employee") @map("employment-status")
+    accumulatedVacationDays Int?    @default(0) @map("accumulated-vacation-days")
+    compensationDays        Int?    @default(0) @map("compensation-days")
+    vacationBalance         Int?    @default(0) @map("vacation-balance")
 }
 
 model Company {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
-  name String @unique @map("company-name")
-  ceo Int @map("ceo-id")
-  departments String[] @default([]) @map("departments")
-  employees Int[] @default([]) @map("employees-id")
+    name        String   @unique @map("company-name")
+    ceo         Int      @map("ceo-id")
+    departments String[] @default([]) @map("departments")
+    employees   Int[]    @default([]) @map("employees-id")
 }
 
 model Vacation {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  employee Int @default(0) @map("employee-id")
-  startDate DateTime @map("start")
-  endDate DateTime @map("end")
+    employee  Int      @default(0) @map("employee-id")
+    startDate DateTime @map("start")
+    endDate   DateTime @map("end")
 }
