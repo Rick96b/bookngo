@@ -4,7 +4,6 @@ import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { UserLoginDto } from '@common';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from '../data/services/login.service';
 import { DestroyService } from '@bookngo/base';
 import { takeUntil } from 'rxjs';
@@ -21,7 +20,7 @@ import { takeUntil } from 'rxjs';
         TuiButtonModule
     ],
     styleUrl: './login.component.scss',
-    providers: [LoginService]
+    providers: [LoginService, DestroyService]
 })
 export class LoginComponent implements OnInit {
     protected authForm: FormGroup;

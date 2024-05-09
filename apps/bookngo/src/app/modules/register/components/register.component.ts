@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
-    TUI_VALIDATION_ERRORS,
     TuiDataListWrapperModule,
     TuiFieldErrorPipeModule,
     TuiInputModule,
@@ -9,13 +8,13 @@ import {
     TuiSelectModule
 } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { RegistrationValidationService } from '../services/RegistrationValidator.service';
 import { RegisterService } from '../data/services/register.service';
 import { AsyncPipe } from '@angular/common';
 import { EmployeeStatuses } from '../models/UserModel';
 import { catchError, of, takeUntil } from 'rxjs';
 import { DestroyService } from '@bookngo/base';
 import { BaseValidatorService } from '../../common/services/baseValidator.service';
+import { RegistrationValidationService } from '../services/RegistrationValidator.service';
 
 @Component({
     standalone: true,
@@ -34,17 +33,10 @@ import { BaseValidatorService } from '../../common/services/baseValidator.servic
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
-    providers: [ RegisterService, RegistrationValidationService,
-      {
-        provide: TUI_VALIDATION_ERRORS,
-        useValue: {
-            required: 'This field is required!',
-            email: 'Enter a valid email',
-            invalidPassword: 'The password must not be shorter than 8 characters and must contain at least one lowercase and one uppercase letter, a special character and a number',
-            passwordMismatch: 'Passwords missmatch',
-            
-        },
-    },
+    providers: [
+        RegisterService,
+        RegistrationValidationService,
+        BaseValidatorService
     ]
 })
 export class RegisterComponent implements OnInit {
@@ -53,13 +45,14 @@ export class RegisterComponent implements OnInit {
         'Сотрудник',
         'CEO'
     ];
-    error: {message: string} = {message: ''}
+
+    error: { message: string } = { message: '' };
 
     protected registerForm: FormGroup;
 
     constructor(
         private fb: FormBuilder,
-        private registrationValidator: RegistrationValidationService,
+        private customValidator: RegistrationValidationService,
         private registerService: RegisterService,
         private destroy$: DestroyService
     ) {
@@ -86,17 +79,14 @@ export class RegisterComponent implements OnInit {
 
         this.registerService.registerUser({
             ...user,
-            employmentStatus: EmployeeStatuses[user.employmentStatus as 'Сотрудник' | 'CEO'],
-
+            employmentStatus: EmployeeStatuses[user.employmentStatus as 'Сотрудник' | 'CEO']
         }).pipe(
             catchError((err) => {
                 this.customValidator.handleErrors(this.registerForm, err);
-                return of(err)
+                return of(err);
             }),
             takeUntil(this.destroy$)
         ).subscribe();
 
     }
-
-
 }

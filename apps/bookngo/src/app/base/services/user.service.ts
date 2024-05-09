@@ -13,10 +13,8 @@ export class UserService {
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
     }
 
-    public setVacations(vacation: Vacation) {
-        const v = this._vacations$.getValue()
-        v.push(vacation)
-        this._vacations$.next(v)
+    public setVacations(vacation: Vacation): void {
+        this._vacations$.next([...this._vacations$.value, vacation]);
     }
 
     public getMe(): Observable<User | null> {
