@@ -1,4 +1,4 @@
-<div class="profile" *ngIf="_userService.getMe() | async as user; else thenBlock">
+<div class="profile" *ngIf="_userService.getMe() | async as user">
     <header class="profile__header">
         <a tuiButton routerLink="edit">Редактировать</a>
     </header>
@@ -44,10 +44,10 @@
                 <ng-container *ngFor="let vacation of vacations.reverse()">
 
                     <div *formatVacationDate="vacation; let duration = vacationDuration; let startDate = startDate; let endDate = endDate">
-                        <p class="vacation-duration">{{ duration | formatDayDate }}</p>
-                        <p class="vacation-duration">
+                        <span class="vacation-duration">{{ duration | formatDayDate }}</span>
+                        <span class="vacation-duration">
                             {{startDate | formatMonthDate}} - {{endDate | formatMonthDate}}
-                        </p>
+                        </span>
 
                     </div>
 
@@ -65,14 +65,6 @@
 
     </main>
 </div>
-
-<ng-template #thenBlock>
-    <div>
-        ошибка баля
-        <button tuiButton (click)="reloadPage()">reload</button>
-        <button tuiButton (click)="navigateToHome()">navigate to home page</button>
-    </div>
-</ng-template>
 
 
 
