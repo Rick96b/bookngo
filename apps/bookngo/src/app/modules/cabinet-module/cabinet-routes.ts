@@ -11,7 +11,7 @@ export const cabinetRoutes: Routes = [
             {path: '', redirectTo: 'home', pathMatch: 'full'},
             {
                 path: 'home',
-                loadComponent: () => import('../../pages/home/components/home.component')
+                loadComponent: () => import('../../pages/home')
                     .then((component: any) => component.HomePageComponent),
                 canActivate: [homeGuard]
             },
@@ -27,7 +27,7 @@ export const cabinetRoutes: Routes = [
                     },
                     {
                         path: 'edit',
-                        loadComponent: () => import('../user-information-edit/components/user-information-edit.component')
+                        loadComponent: () => import('../user-information-edit')
                             .then((component: any) => component.UserInformationEditComponent)
                     }
                 ]
