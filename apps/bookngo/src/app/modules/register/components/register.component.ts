@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
+    TUI_VALIDATION_ERRORS,
     TuiDataListWrapperModule,
     TuiFieldErrorPipeModule,
     TuiInputModule,
@@ -15,6 +16,7 @@ import { catchError, of, takeUntil } from 'rxjs';
 import { DestroyService } from '@bookngo/base';
 import { BaseValidatorService } from '../../common/services/baseValidator.service';
 import { RegistrationValidationService } from '../services/RegistrationValidator.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     standalone: true,
@@ -36,7 +38,15 @@ import { RegistrationValidationService } from '../services/RegistrationValidator
     providers: [
         RegisterService,
         RegistrationValidationService,
-        BaseValidatorService
+        {
+            provide: TUI_VALIDATION_ERRORS,
+            useValue: {
+                required: 'Enter this!',
+                email: 'Enter a valid email',
+                invalidPassword: 'The password must be at least 8 characters long and contain at least one uppercase and lowercase letter, a special character and a number.',
+                passwordMismatch: 'Password missmatch'
+            },
+        },
     ]
 })
 export class RegisterComponent implements OnInit {
@@ -45,8 +55,7 @@ export class RegisterComponent implements OnInit {
         'Сотрудник',
         'CEO'
     ];
-
-    error: { message: string } = { message: '' };
+    public error: { message: string } = { message: '' };
 
     protected registerForm: FormGroup;
 
@@ -81,8 +90,8 @@ export class RegisterComponent implements OnInit {
             ...user,
             employmentStatus: EmployeeStatuses[user.employmentStatus as 'Сотрудник' | 'CEO']
         }).pipe(
-            catchError((err) => {
-                this.customValidator.handleErrors(this.registerForm, err);
+            catchError((err: HttpErrorResponse) => {
+                this.error = err.error;
                 return of(err);
             }),
             takeUntil(this.destroy$)

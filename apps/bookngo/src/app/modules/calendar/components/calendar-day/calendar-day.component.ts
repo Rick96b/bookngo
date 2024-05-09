@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Day } from '../../model/day.interface';
 import { CalendarService } from '../../sevices/calendar.service';
-import { tap } from 'rxjs';
+import { generate, tap } from 'rxjs';
 import { User } from '@bookngo/base';
 import { TuiButtonModule, TuiDropdownModule } from '@taiga-ui/core';
 import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
@@ -24,7 +24,9 @@ export class CalendarDayComponent implements OnInit {
     open = false;
 	generateColorForUser = generateColorForUser
     onClick(): void {
-        this.open = !this.open;
+        if(this.vacations.length) {
+            this.open = !this.open;
+        }
     }
     onObscured(obscured: boolean): void {
         if (obscured) {

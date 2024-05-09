@@ -1,11 +1,17 @@
 $activities-color: #0584BE;
-$activities-hover-color: #075d85;
+$activities-hover-color: #0898db;
+$activities-active-color: #075d85;
 $activities-disabled-color: #eaecee;
 $second-color: #5AC8FA;
 $main-font: 'Montserrat';
 $activities-text-color: #fff;
 $text-color: #000;
 
-$button-font: 400 18px $main-font 
+$button-font: 400 18px $main-font;
 
-
+:root {
+    --tui-primary: #{$activities-color};
+    --tui-primary-hover: #{$activities-hover-color};
+    --tui-primary-active: #{$activities-active-color};
+    --tui-link: #{$activities-color};
+}

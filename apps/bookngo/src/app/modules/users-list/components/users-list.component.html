@@ -4,6 +4,7 @@
         <form [formGroup]="filterForm">
             <tui-select
                 class="departments__input"
+                appearance="bn-input-select"
                 formControlName="department"
                 [tuiTextfieldLabelOutside]="true"
             >
@@ -26,7 +27,7 @@
                     [size]="'l'"
                 />
                 <p class="users-list__user-info">
-                    <span [ngStyle]="{'background-color': user.color}" class="users-list__user-color"></span>
+                    <span [style.backgroundColor]="generateColorForUser(user.id)" class="users-list__user-color"></span>
                     <span>{{user.fullName.split(' ')[1]}}</span>
                 </p>
             </li>

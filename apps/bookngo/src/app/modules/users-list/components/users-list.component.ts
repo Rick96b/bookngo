@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { DepartmentService } from '../../../pages/home/services/department.service';
+import { generateColorForUser } from '../../common/utils/generateColorForUser';
 
 @Component({
     standalone: true,
@@ -24,7 +25,7 @@ import { DepartmentService } from '../../../pages/home/services/department.servi
 })
 export class UsersListComponent implements OnInit {
     protected filterForm: FormGroup
-
+	generateColorForUser = generateColorForUser
     constructor(protected _departmentService: DepartmentService, private destroy$: DestroyService
     ) {
         this.filterForm = new FormGroup({

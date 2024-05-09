@@ -1,4 +1,4 @@
-<div class="profile" *ngIf="_userService.getMe() | async as user">
+<div class="profile container-for-tabbar base-container" *ngIf="_userService.getMe() | async as user">
     <header class="profile__header">
         <a tuiButton routerLink="edit">Редактировать</a>
     </header>
