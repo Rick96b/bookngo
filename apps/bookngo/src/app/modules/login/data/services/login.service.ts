@@ -1,15 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { UserLoginDto } from '@common';
+import { Observable, tap } from 'rxjs';
+import { AuthService, BASE_URL_TOKEN } from '@bookngo/base';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class LoginService {
-      
-    constructor(private http: HttpClient){ }
-      
-    registerUser(user: UserLoginDto) {
-        this.http.post("http://localhost:3000/api/auth/signIn", user).subscribe({next: (data:any) => console.log(data)})
+
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient, private _authService: AuthService) {
+    }
+    public login(loginDto: UserLoginDto): Observable<{ token: string }> {
+        return this._httpClient.post<{ token: string }>(`${this._baseUrl}/auth/signIn`, loginDto)
+            .pipe(
+                tap((res: { token: string }): void => {
+                    localStorage.setItem('token', res.token);
+                    this._authService.setAuthState(true);
+                })
+            );
     }
 }

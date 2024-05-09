@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
-import { AuthService } from '../../../base/services/auth.service';
 import { UserLoginDto } from '@common';
 import { Router } from '@angular/router';
+import { LoginService } from '../data/services/login.service';
+import { DestroyService } from '@bookngo/base';
+import { takeUntil } from 'rxjs';
 
 @Component({
     standalone: true,
@@ -17,15 +19,17 @@ import { Router } from '@angular/router';
         TuiInputPasswordModule,
         TuiButtonModule
     ],
-    styleUrl: './login.component.scss'
+    styleUrl: './login.component.scss',
+    providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
     protected authForm: FormGroup;
 
     constructor(
         private fb: FormBuilder,
-        private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private loginService: LoginService,
+        private destroy$: DestroyService
     ) {
     }
 
@@ -37,14 +41,9 @@ export class LoginComponent implements OnInit {
     }
 
     public submit(): void {
-        const user = this.authForm.value;
-
-        this.authService.login({
-            email: user.email,
-            password: user.password
-        }).subscribe({
-            next: () => this.router.navigate(['/cabinet'])
-        });
-
+        this.loginService.login(this.authForm.getRawValue() as UserLoginDto)
+            .pipe(
+                takeUntil(this.destroy$)
+            ).subscribe();
     }
 }
