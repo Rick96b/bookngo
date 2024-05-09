@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TuiButtonModule } from '@taiga-ui/core';
-import { AuthService } from '../../../base/services/auth.service';
 
 @Component({
     standalone: true,
@@ -14,13 +13,4 @@ import { AuthService } from '../../../base/services/auth.service';
     styleUrl: './welcome.component.scss'
 })
 export class WelcomePageComponent {
-    constructor(
-        private authService: AuthService,
-        private router: Router
-    ) {
-
-        if (this.authService.getAuthStateSnapshot()) {
-            this.router.navigate(['/cabinet']);
-        }
-    }
 }
