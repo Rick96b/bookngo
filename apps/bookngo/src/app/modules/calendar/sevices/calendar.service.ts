@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, switchMap, takeUntil, tap } from 'rxjs';
-import { CompanyService, DestroyService, User, Vacation } from '@bookngo/base';
+import { CompanyService, DestroyService, User, UserService, Vacation } from '@bookngo/base';
 import { DepartmentService } from '../../../pages/home/services/department.service';
 import { VacationsService } from '../data/vacations.service';
 import * as dayjs from 'dayjs';
@@ -18,7 +18,8 @@ export class CalendarService {
         private _departmentService: DepartmentService,
         private _vacationsService: VacationsService,
         private _companyService: CompanyService,
-        private destroy$: DestroyService
+        private destroy$: DestroyService,
+        private _userService: UserService
     ) {
         this.fetchVacations();
         dayjs.extend(isBetween);
@@ -49,6 +50,12 @@ export class CalendarService {
                 }),
                 takeUntil(this.destroy$)
             ).subscribe();
+
+        this._userService.getVacations()
+            .pipe(
+                tap((vacations: Vacation[]) => this._vacations$.next([...this._vacations$.getValue(), ...vacations])),
+                takeUntil(this.destroy$)
+            ).subscribe()
     }
 
     public getVacationsByDate(year: number, month: number, day: number) {
