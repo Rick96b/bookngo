@@ -3,10 +3,8 @@ import { ValidatorFn, AbstractControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { BaseValidatorService } from '../../common/services/baseValidator.service';
 
-@Injectable({
-    providedIn: 'root'
-})
-export class CustomValidationService extends BaseValidatorService {
+@Injectable()
+export class RegistrationValidationService extends BaseValidatorService {
     patternValidator(): ValidatorFn {
         return (control: AbstractControl) => {
           if (!control.value) {

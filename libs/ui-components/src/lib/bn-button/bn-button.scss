@@ -3,17 +3,15 @@
 
 
 // This goes into global, non-encapsulated styles
-[tuiButton][data-appearance='bn-theme'] {
-    width: 100%;
+[tuiWrapper][data-appearance='bn-button'] {
     background: $activities-color;
     color: $activities-text-color;
-    --tui-padding: 30px;
  
-    .wrapper-hover{
+    &:hover{
         background: $activities-hover-color;
     };
  
-    .wrapper-active{
+    &:active{
         background: $activities-hover-color;
     };
  
@@ -22,10 +20,15 @@
     };
 }
 
-[tuiButton][data-appearance='bn-theme'][data-size='s'] {
+[tuiButton][data-appearance='bn-button'] {
+    --tui-radius-m: 10px;
+    --tui-padding: 30px;
+}
+
+[tuiButton][data-appearance='bn-button'][data-size='s'] {
     --tui-height-l: auto;
 }
 
-[tuiButton][data-appearance='bn-theme'][data-size='l'] {
+[tuiButton][data-appearance='bn-button'][data-size='l'] {
     --tui-height-l: 3rem;
 }

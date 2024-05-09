@@ -26,13 +26,13 @@ export class AuthService {
     const isCompanyExist = await this.IsCompanyExist(dto)
     const isDepartmentExist = await this.IsDepartmentExist(dto)
     if (isUserExist) {
-      throw new BadRequestException({'email': 'User with this email already exist'});
+      throw new BadRequestException({message: 'User with this email already exist'});
     }
     if (!isCompanyExist) {
-      throw new BadRequestException({'companyName': 'Company does not exist'});
+      throw new BadRequestException({message: 'Company does not exist'});
     }
     if(!isDepartmentExist) {
-      throw new BadRequestException({'companyName': 'Department does not exist'});
+      throw new BadRequestException({message: 'Department does not exist'});
     }
 
     const user: User = await this._prismaService.user.create({
@@ -47,11 +47,11 @@ export class AuthService {
     const isUserExist = await this.IsUserExist(dto)
     const isCompanyExist = await this.IsCompanyExist(dto)
     if (isUserExist) {
-      throw new BadRequestException({'email': 'User with this email already exist'});
+      throw new BadRequestException({message: 'User with this email already exist'});
     }
     if (isCompanyExist) {
       console.log(this.IsCompanyExist(dto))
-      throw new BadRequestException({'companyName': 'Company already exist'});
+      throw new BadRequestException({message: 'Company already exist'});
     }
 
     const user: User = await this._prismaService.user.create({
@@ -74,14 +74,11 @@ export class AuthService {
       }
     });
 
-    if (!user) {
-        throw new BadRequestException();
-    }
-
-    const passwordEquals: boolean = await argon2.verify(user.password, dto.password);
-
-    if (user && passwordEquals) {
-      return user;
+    if (user) {
+      const passwordEquals: boolean = await argon2.verify(user.password, dto.password);
+      if (passwordEquals) {
+        return user;
+      }
     }
 
     throw new UnauthorizedException({

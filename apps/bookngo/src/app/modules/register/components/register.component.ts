@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
+    TUI_VALIDATION_ERRORS,
     TuiDataListWrapperModule,
     TuiFieldErrorPipeModule,
     TuiInputModule,
@@ -8,11 +9,12 @@ import {
     TuiSelectModule
 } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { CustomValidationService } from '../services/ValidationService.service';
+import { RegistrationValidationService } from '../services/RegistrationValidator.service';
 import { RegisterService } from '../data/services/register.service';
 import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { EmployeeStatuses } from '../models/UserModel';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     standalone: true,
@@ -31,8 +33,17 @@ import { EmployeeStatuses } from '../models/UserModel';
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
-    providers: [
-      RegisterService
+    providers: [ RegisterService, RegistrationValidationService,
+      {
+        provide: TUI_VALIDATION_ERRORS,
+        useValue: {
+            required: 'This field is required!',
+            email: 'Enter a valid email',
+            invalidPassword: 'The password must not be shorter than 8 characters and must contain at least one lowercase and one uppercase letter, a special character and a number',
+            passwordMismatch: 'Passwords missmatch',
+            
+        },
+    },
     ]
 })
 export class RegisterComponent implements OnInit{
@@ -40,11 +51,12 @@ export class RegisterComponent implements OnInit{
         'Сотрудник',
         'CEO'
     ];
+    error: {message: string} = {message: ''}
     registerForm: FormGroup;
 
     constructor(
         private fb: FormBuilder,
-        private customValidator: CustomValidationService,
+        private registrationValidator: RegistrationValidationService,
         private registerService: RegisterService,
         private router: Router,
     ){}
@@ -56,11 +68,11 @@ export class RegisterComponent implements OnInit{
             companyDepartment: "",
             fullName: ["", Validators.required],
             email: ["", [Validators.required, Validators.email]],
-            password: ["", Validators.compose([Validators.required, this.customValidator.patternValidator()])],
+            password: ["", Validators.compose([Validators.required, this.registrationValidator.patternValidator()])],
             confirmPassword: ""
         },
         {
-          validator: this.customValidator.MatchPassword('password', 'confirmPassword'),
+          validator: this.registrationValidator.MatchPassword('password', 'confirmPassword'),
         }
         );
     }
@@ -76,8 +88,8 @@ export class RegisterComponent implements OnInit{
             password: user.password
         }).subscribe({
             next: () => this.router.navigate(['cabinet']),
-            error: (err) => {
-                this.customValidator.handleErrors(this.registerForm, err)
+            error: (err: HttpErrorResponse) => {
+                this.error = err.error
             }
         });
     }

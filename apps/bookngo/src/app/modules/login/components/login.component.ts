@@ -5,6 +5,7 @@ import { TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { AuthService } from '../../../base/services/auth.service';
 import { UserLoginDto } from '@common';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     standalone: true,
@@ -21,7 +22,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
     protected authForm: FormGroup;
-
+    error: {message: string} = {message: ''}
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
@@ -43,7 +44,8 @@ export class LoginComponent implements OnInit {
             email: user.email,
             password: user.password
         }).subscribe({
-            next: () => this.router.navigate(['/cabinet'])
+            next: () => this.router.navigate(['/cabinet']),
+            error: (error: HttpErrorResponse) => this.error = error.error
         });
 
     }
