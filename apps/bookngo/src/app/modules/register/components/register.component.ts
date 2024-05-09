@@ -11,10 +11,11 @@ import {
 import { TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { RegistrationValidationService } from '../services/RegistrationValidator.service';
 import { RegisterService } from '../data/services/register.service';
-import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { EmployeeStatuses } from '../models/UserModel';
-import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, of, takeUntil } from 'rxjs';
+import { DestroyService } from '@bookngo/base';
+import { BaseValidatorService } from '../../common/services/baseValidator.service';
 
 @Component({
     standalone: true,
@@ -29,7 +30,7 @@ import { HttpErrorResponse } from '@angular/common/http';
         TuiButtonModule,
         TuiFieldErrorPipeModule,
         AsyncPipe,
-        TuiErrorModule,
+        TuiErrorModule
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
@@ -46,52 +47,55 @@ import { HttpErrorResponse } from '@angular/common/http';
     },
     ]
 })
-export class RegisterComponent implements OnInit{
-    items = [
+export class RegisterComponent implements OnInit {
+
+    protected items: string[] = [
         'Сотрудник',
         'CEO'
     ];
     error: {message: string} = {message: ''}
-    registerForm: FormGroup;
+
+    protected registerForm: FormGroup;
 
     constructor(
         private fb: FormBuilder,
         private registrationValidator: RegistrationValidationService,
         private registerService: RegisterService,
-        private router: Router,
-    ){}
+        private destroy$: DestroyService
+    ) {
+    }
 
     ngOnInit(): void {
         this.registerForm = this.fb.group({
-            employmentStatus: [this.items[0], Validators.required],
-            companyName: ["", Validators.required],
-            companyDepartment: "",
-            fullName: ["", Validators.required],
-            email: ["", [Validators.required, Validators.email]],
-            password: ["", Validators.compose([Validators.required, this.registrationValidator.patternValidator()])],
-            confirmPassword: ""
-        },
-        {
-          validator: this.registrationValidator.MatchPassword('password', 'confirmPassword'),
-        }
+                employmentStatus: [this.items[0], Validators.required],
+                companyName: ['', Validators.required],
+                companyDepartment: '',
+                fullName: ['', Validators.required],
+                email: ['', [Validators.required, Validators.email]],
+                password: ['', Validators.compose([Validators.required, this.customValidator.patternValidator()])],
+                confirmPassword: ''
+            }, {
+                validator: this.customValidator.MatchPassword('password', 'confirmPassword')
+            }
         );
     }
 
     public submit(): void {
-        const user = this.registerForm.value
+        const user = this.registerForm.value;
+        delete user.confirmPassword;
+
         this.registerService.registerUser({
+            ...user,
             employmentStatus: EmployeeStatuses[user.employmentStatus as 'Сотрудник' | 'CEO'],
-            companyName: user.companyName,
-            companyDepartment: user.companyDepartment,
-            fullName: user.fullName,
-            email: user.email,
-            password: user.password
-        }).subscribe({
-            next: () => this.router.navigate(['cabinet']),
-            error: (err: HttpErrorResponse) => {
-                this.error = err.error
-            }
-        });
+
+        }).pipe(
+            catchError((err) => {
+                this.customValidator.handleErrors(this.registerForm, err);
+                return of(err)
+            }),
+            takeUntil(this.destroy$)
+        ).subscribe();
+
     }
 
 

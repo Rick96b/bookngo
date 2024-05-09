@@ -1,33 +1,52 @@
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { BASE_URL_TOKEN, User } from '@bookngo/base';
+import { BehaviorSubject, mergeMap, Observable, tap } from 'rxjs';
+import { BASE_URL_TOKEN, User, Vacation } from '@bookngo/base';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class UserService {
 
     private _me$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+    private _vacations$: BehaviorSubject<Vacation[]> = new BehaviorSubject<Vacation[]>([]);
     public isFetched = false;
+
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
     }
 
-    public getMe(): Observable<User | null> {
-        return this._me$.asObservable();
+    public setVacations(vacation: Vacation) {
+        const v = this._vacations$.getValue()
+        v.push(vacation)
+        this._vacations$.next(v)
     }
 
-    public getMeSnapshot(): User  {
+    public getMe(): Observable<User | null> {
+        return this._me$.asObservable()!;
+    }
+
+    public getVacations(): Observable<Vacation[]> {
+        return this._vacations$.asObservable();
+    }
+
+    public getMeSnapshot(): User {
         return this._me$.getValue()!;
     }
 
-    public fetchMe(): Observable<User> {
+    public fetchMe(): Observable<User | null> {
         return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`)
             .pipe(
                 tap((user: User): void => {
                     this._me$.next(user);
                     this.isFetched = true;
-                })
+                }),
+                mergeMap( (user: User) => this.fetchVacations(user.id)),
+                mergeMap(() => this.getMe())
             );
+    }
 
+    private fetchVacations(id: number): Observable<Vacation[]> {
+        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/${id}`).pipe(
+            tap((vacations: Vacation[]) => this._vacations$.next(vacations))
+        );
     }
 
     public updateMe(body: User): Observable<User> {

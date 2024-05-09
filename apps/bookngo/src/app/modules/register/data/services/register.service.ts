@@ -5,35 +5,20 @@ import { Observable, tap } from 'rxjs';
 import { AuthService, BASE_URL_TOKEN } from '@bookngo/base';
 
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class RegisterService {
 
     constructor(
-        @Inject(BASE_URL_TOKEN) private _baseUrl: string,
-        private http: HttpClient,
-        private authService: AuthService
-    ) {
+        @Inject(BASE_URL_TOKEN) private _baseUrl: string, private httpClient: HttpClient, private authService: AuthService) {
     }
 
-    //временная типизация
-    registerUser(user: UserBaseInfoDto): Observable<null | object> {
-        if(user.employmentStatus === 'employee') {
-            return this.http.post<{ token: string }>(`${this._baseUrl}/auth/signUp/user`, user)
+    public registerUser(registerData: UserBaseInfoDto): Observable<{ token: string }> {
+        const path: string = registerData.employmentStatus === 'employee' ? 'user' : 'ceo';
+        return this.httpClient.post<{token: string}>(`${this._baseUrl}/auth/signUp/${path}`, registerData)
             .pipe(
-                tap(({ token }): void => {
-                    this.authService.loginByToken(token);
+                tap(({token} : {token: string}): void => {
+                    this.authService.loginByToken(token)
                 })
-            );
-        } else {
-            return this.http.post<{ token: string }>(`${this._baseUrl}/auth/signUp/ceo`, user)
-            .pipe(
-                tap(({ token }): void => {
-                    this.authService.loginByToken(token);
-                })
-            );
-        }
-
+            )
     }
 }

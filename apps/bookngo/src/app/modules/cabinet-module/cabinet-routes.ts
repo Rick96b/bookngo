@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomePageComponent } from '../../pages/home/components/home.component';
-import { ProfileComponent } from '../../pages/profile';
 import { profileGuard } from '../../pages/profile/guards/profile.guard';
-import { UserInformationEditComponent } from '../user-information-edit/components/user-information-edit.component';
 import { homeGuard } from '../../pages/home/guards/home.guard';
 import { CabinetComponent } from './components/cabinet.component';
 
@@ -12,19 +9,26 @@ export const cabinetRoutes: Routes = [
         component: CabinetComponent,
         children: [
             {path: '', redirectTo: 'home', pathMatch: 'full'},
-            { path: 'home', component: HomePageComponent, canActivate: [homeGuard] },
+            {
+                path: 'home',
+                loadComponent: () => import('../../pages/home')
+                    .then((component: any) => component.HomePageComponent),
+                canActivate: [homeGuard]
+            },
             {
                 path: 'profile',
                 children: [
                     {
                         path: '',
-                        component: ProfileComponent,
+                        loadComponent: () => import('../../pages/profile')
+                            .then((component: any) => component.ProfileComponent),
                         canActivate: [profileGuard]
 
                     },
                     {
                         path: 'edit',
-                        component: UserInformationEditComponent
+                        loadComponent: () => import('../user-information-edit')
+                            .then((component: any) => component.UserInformationEditComponent)
                     }
                 ]
             }

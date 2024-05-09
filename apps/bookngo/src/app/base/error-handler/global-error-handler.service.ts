@@ -17,7 +17,11 @@ export class GlobalErrorHandler implements ErrorHandler {
                 console.error('An error occurred:', error.message!);
             }
 
-            this._router.navigate(['error'])
+            if(error.statusText === 'Unauthorized') {
+                this._router.navigate([''])
+            } else {
+                this._router.navigate(['error'])
+            }
         });
     }
 }

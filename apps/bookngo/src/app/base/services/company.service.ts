@@ -51,7 +51,5 @@ export class CompanyService {
             map((users: User[]) => users.filter((user: User): boolean => user.companyDepartment === department))
         );
     }
-
-
 }
 

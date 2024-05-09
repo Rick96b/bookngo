@@ -2,11 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-
-// Существует на случай если прикрутим генерацию форм на сервере
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class BaseValidatorService {
     handleErrors(formGroup: FormGroup, error: HttpErrorResponse): void {
         if (error.status === 400) {
@@ -18,7 +14,7 @@ export class BaseValidatorService {
                     serverError: error.error[prop]
                 });
                 }
-            })   
+            })
         }
     }
 }

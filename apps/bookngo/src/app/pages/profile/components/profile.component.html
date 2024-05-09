@@ -1,4 +1,4 @@
-<div class="profile" *ngIf="!hasError && _user; else thenBlock">
+<div class="profile" *ngIf="_userService.getMe() | async as user">
     <header class="profile__header">
         <a tuiButton routerLink="edit">Редактировать</a>
     </header>
@@ -7,52 +7,64 @@
 
         <div class="profile__details">
             <div class="profile__avatar-wrapper">
-                <tui-avatar [text]="_user.fullName"></tui-avatar>
+                <tui-avatar [text]="user.fullName"></tui-avatar>
             </div>
 
             <div class="profile__info">
-                <h2>{{ _user.fullName }}</h2>
-                <p class="company__name">{{ _user.companyName }}</p>
-                <p *ngIf="_user.companyDepartment" class="departament__name">{{ _user.companyDepartment }}</p>
-                <p class="job__position">{{ _user.employmentStatus | positionTransform }}</p>
+                <h2>{{ user.fullName }}</h2>
+                <p class="company__name">{{ user.companyName }}</p>
+                <p *ngIf="user.companyDepartment" class="departament__name">{{ user.companyDepartment }}</p>
+                <p class="job__position">{{ user.employmentStatus | positionTransform }}</p>
             </div>
         </div>
 
         <div class="contact_info">
             <h3>Контактная информация:</h3>
-            <p *ngIf="_user.phoneNumber">Телефон: <a
-                href="tel:{{_user.phoneNumber}}"></a>{{ _user.phoneNumber | tuiFormatPhone }}</p>
-            <p *ngIf="_user.telegramUsername">Телеграм: <a
-                href="https://t.me/{{_user.telegramUsername}}">&commat;{{ _user.telegramUsername }}</a></p>
-            <p *ngIf="!_user.phoneNumber && !_user.telegramUsername">Пользователь не предоставил контактную
+            <p *ngIf="user.phoneNumber">Телефон: <a
+                href="tel:{{user.phoneNumber}}"></a>{{ user.phoneNumber | tuiFormatPhone }}</p>
+            <p *ngIf="user.telegramUsername">Телеграм: <a
+                href="https://t.me/{{user.telegramUsername}}">&commat;{{ user.telegramUsername }}</a></p>
+            <p *ngIf="!user.phoneNumber && !user.telegramUsername">Пользователь не предоставил контактную
                 информацию</p>
         </div>
 
         <div class="vacations">
             <h3>Отпуски и отгулы:</h3>
             <!-- Логика позже будет -->
-            <p>{{ _user.accumulatedVacationDays }} дней накопено</p>
-            <p>{{ _user.vacationBalance }} начислено</p>
-            <p>{{ _user.compensationDays }} отгулов в этом году</p>
+            <p>{{ user.accumulatedVacationDays }} дней накопено</p>
+            <p>{{ user.vacationBalance }} начислено</p>
+            <p>{{ user.compensationDays }} отгулов в этом году</p>
         </div>
 
-        <div class="vacation-history" *ngIf="_user">
+        <div class="vacation-history">
             <h3>История отпусков:</h3>
-            <!-- <ng-container *ngFor="let item of _user.vacationsId">
-                <p>{{ item }}</p>
+
+            <ng-container *ngIf="_userService.getVacations() | async as vacations; else vacationsNotFound">
+
+                <ng-container *ngFor="let vacation of vacations.reverse()">
+
+                    <div *formatVacationDate="vacation; let duration = vacationDuration; let startDate = startDate; let endDate = endDate">
+                        <span class="vacation-duration">{{ duration | formatDayDate }}</span>
+                        <span class="vacation-duration">
+                            {{startDate | formatMonthDate}} - {{endDate | formatMonthDate}}
+                        </span>
+
+                    </div>
+
+                </ng-container>
+
             </ng-container>
-            <p *ngIf="!_user.vacationsId.length">Нет записей в истории отпусков</p> -->
+
+            <ng-template #vacationsNotFound>
+                <p>Нет записей в истории отпусков</p>
+            </ng-template>
         </div>
+
+
+
+
     </main>
 </div>
-
-<ng-template #thenBlock>
-    <div>
-        ошибка баля
-        <button tuiButton (click)="reloadPage()">reload</button>
-        <button tuiButton (click)="navigateToHome()">navigate to home page</button>
-    </div>
-</ng-template>
 
 
 
