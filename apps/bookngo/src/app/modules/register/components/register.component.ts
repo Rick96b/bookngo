@@ -10,11 +10,11 @@ import {
 import { TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { CustomValidationService } from '../services/ValidationService.service';
 import { RegisterService } from '../data/services/register.service';
-import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { EmployeeStatuses } from '../models/UserModel';
 import { catchError, of, takeUntil } from 'rxjs';
 import { DestroyService } from '@bookngo/base';
+import { BaseValidatorService } from '../../common/services/baseValidator.service';
 
 @Component({
     standalone: true,
@@ -34,7 +34,9 @@ import { DestroyService } from '@bookngo/base';
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
     providers: [
-        RegisterService
+        RegisterService,
+        CustomValidationService,
+        BaseValidatorService
     ]
 })
 export class RegisterComponent implements OnInit {
@@ -50,7 +52,6 @@ export class RegisterComponent implements OnInit {
         private fb: FormBuilder,
         private customValidator: CustomValidationService,
         private registerService: RegisterService,
-        private router: Router,
         private destroy$: DestroyService
     ) {
     }

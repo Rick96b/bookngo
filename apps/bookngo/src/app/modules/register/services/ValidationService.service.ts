@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ValidatorFn, AbstractControl } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { BaseValidatorService } from '../../common/services/baseValidator.service';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class CustomValidationService extends BaseValidatorService {
     patternValidator(): ValidatorFn {
         return (control: AbstractControl) => {
