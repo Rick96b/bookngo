@@ -29,7 +29,7 @@ export class DepartmentService {
                 }
             }),
             takeUntil(this.destroy$)
-        ).subscribe()
+        ).subscribe();
     }
 
     public getActiveDepartment(): Observable<string> {
