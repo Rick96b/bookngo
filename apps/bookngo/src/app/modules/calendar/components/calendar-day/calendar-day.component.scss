@@ -1,14 +1,21 @@
+.calendar-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .calendar-day__button {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 0px 7px 1px;
+    width: 30px;
+    height: 30px;
 
     font-family: var(--main-font);
     font-size: 15px;
     font-weight: 500;
-    line-height: 20px;
+    line-height: 15px;
 
     background-color: inherit;
     border: none
@@ -49,6 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 2px;
 
     margin-top: 5px;
 }
@@ -57,5 +65,5 @@
     background-color: #5AC8FA;
     color: #fff;
     font-weight: 500;
-    border-radius: 50%;
+    border-radius: 15px;
 }

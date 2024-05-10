@@ -2,8 +2,6 @@
 @import '../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local.scss';
 
 [appearance='bn-input-select'] {
-    --tui-primary: #{$activities-color};
-
     [tuiWrapper][data-appearance='textfield'] {
         box-shadow: none;
         background-color: #EBEBEB;

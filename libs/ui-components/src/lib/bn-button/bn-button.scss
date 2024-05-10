@@ -2,24 +2,6 @@
 @import '../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local.scss';
 
 
-// This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance='bn-button'] {
-    background: $activities-color;
-    color: $activities-text-color;
- 
-    &:hover{
-        background: $activities-hover-color;
-    };
- 
-    &:active{
-        background: $activities-hover-color;
-    };
- 
-    .wrapper-disabled{
-        background: $activities-disabled-color;
-    };
-}
-
 [tuiButton][data-appearance='bn-button'] {
     --tui-radius-m: 10px;
     --tui-padding: 30px;

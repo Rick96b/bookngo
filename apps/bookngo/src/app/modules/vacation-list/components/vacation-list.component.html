@@ -1,17 +1,21 @@
-<div class="vacation-history" *ngIf="_userService.getVacations() | async as vacations">
-    <h3>История отпусков:</h3>
+<div class="vacations-history" *ngIf="_userService.getVacations() | async as vacations">
+    <h3>История отпусков</h3>
 
     <ng-container *ngIf="vacations.length; else vacationsNotFound">
-
-        <ng-container *ngFor="let vacation of vacations.reverse()">
-            <div *formatVacationDate="vacation; let duration = vacationDuration; let startDate = startDate; let endDate = endDate">
-                <span class="vacation-duration">{{ duration | formatDayDate }}</span>
-                <span class="vacation-duration">
+        <ul class="vacations-list">
+            <ng-container *ngFor="let vacation of vacations.reverse() | sortDate">
+                <li class="vacation" *formatVacationDate="vacation; let year = year; let duration = vacationDuration; let startDate = startDate; let endDate = endDate">
+                    <span class="vacation-duration">{{ duration | formatDayDate }}</span>
+                    <div>
+                        <span class="vacation-duration">
                             {{startDate | formatMonthDate}} - {{endDate | formatMonthDate}}
                         </span>
-            </div>
-        </ng-container>
+                        <span>{{year}}</span>
+                    </div>
 
+                </li>
+            </ng-container>
+        </ul>
     </ng-container>
 
 

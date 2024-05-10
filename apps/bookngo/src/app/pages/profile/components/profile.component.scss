@@ -1,27 +1,36 @@
 .profile {
-    display: flex;
-    flex-direction: column;
-    font-family: Montserrat, serif;
+    font-family: var(--main-font);
     line-height: 24px;
 
     .profile__header {
+        display: flex;
+        justify-content: space-between;
         position: sticky;
         top: 0;
         background-color: #fff;
-        z-index: 1000
+        z-index: 1000;
+        padding-top: 23px;
+        padding-bottom: 23px;
+
+        font-size: 18px;
+        font-weight: 500;
+
+        border-bottom: 1px solid #EEEEEE;
+    }
+
+    .profile__edit-button {
+        color: var(--tui-primary)
     }
 }
 
 .profile__main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
 
     .profile__details {
         display: flex;
         align-items: center;
         flex-direction: row;
+        margin-top: 20px;
+        margin-bottom: 20px;
 
         .profile__avatar-wrapper {
             flex: 0 0 auto;
@@ -49,37 +58,33 @@
     }
 
     .contact_info {
-        display: flex;
-        flex-direction: column;
-        align-content: start;
+        margin-bottom: 24px;
+
+        font-size: 12px;
+        font-weight: 500;
+
+        .contact_info__title {
+            font-size: 16px;
+        }
+
+        p {
+            margin-top: 16px;
+        }
     }
 
+    .vacations {
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 24px;
+
+        h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-top: 4px;
+        }
+    }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//.profile__avatar-wrapper {
-//    flex: 0 0 auto;
-//    margin-right: 20px;
-//}
-//
-//.profile__info {
-//    flex: 1;
-//
-//    justify-content: center;
-//    align-items: center;
-//
-//    h2 {
-//        font: 24px Montserrat;
-//    }
-//
-//    .job__position {
-//        font-size: 12px;
-//        line-height: 24px;
-//        color: #00000099;
-//    }
-//
-//    .company__name {
-//        font: 16px Montserrat;
-//    }
-//}
