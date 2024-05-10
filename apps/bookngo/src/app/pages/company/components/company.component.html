@@ -1,1 +1,34 @@
-hehe
+<section class="company" *ngIf="company">
+    <header>
+        {{company.name}}
+    </header>
+    <main>
+        <div class="company__ceo">
+            <tui-avatar [rounded]="true" text="{{ceo.fullName}}"/>
+            <div class="company__ceo-info">
+                <p>{{ceo.fullName}}</p>
+                <span>CEO</span>
+            </div>
+        </div>
+        <tui-accordion>
+                <tui-accordion-item class="container" *ngFor="let department of company.departments">
+                    Taiga UI cdk
+                    <ng-template tuiAccordionItemContent>
+                        <div *ngFor="let user of users | filterByDepartment:department">
+                            {{user.fullName}}
+                        </div>
+                    </ng-template>
+                </tui-accordion-item>   
+        </tui-accordion>
+    </main>
+    <tui-accordion-item class="container">
+        <tui-svg src="tuiIconPlusLarge"></tui-svg>
+        Добавить отдел
+        <ng-template tuiAccordionItemContent>
+            <form [formGroup]="addDepartmentForm">
+                <input type="text" formControlName="departmentName">
+                <button (click)="addDepartment()">Добавить</button>
+            </form>
+        </ng-template>
+    </tui-accordion-item> 
+</section> 

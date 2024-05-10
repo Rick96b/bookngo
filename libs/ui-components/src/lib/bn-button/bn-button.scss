@@ -1,6 +1,18 @@
 @import '../theme.scss';
 @import '../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local.scss';
 
+[tuiWrapper][data-appearance='bn-button'] {
+    background-color: $activities-color;
+    color: $activities-text-color;
+
+    &:hover {
+        background-color: $activities-hover-color;
+    }
+
+    &:active {
+        background-color: $activities-active-color;
+    }
+}
 
 [tuiButton][data-appearance='bn-button'] {
     --tui-radius-m: 10px;

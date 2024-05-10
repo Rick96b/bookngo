@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { CompanyInDto } from '@common';
+import { AddDepartmentDto, CompanyInDto } from '@common';
 import { Company } from '@prisma/client'
 
 @Injectable()
@@ -30,5 +30,24 @@ export class CompanyService {
         const company: Company = await this._prismaService.company.create({
             data: dto
         });
+    }
+
+
+    async addDepartment(dto: AddDepartmentDto) {
+        const company = await this._prismaService.company.findUnique({
+            where: {
+                id: dto.companyId
+            }
+        })
+        company.departments.push(dto.department)
+        console.log(company)
+        await this._prismaService.company.update({
+            where: {
+              id: dto.companyId,
+            },
+            data: {
+              departments: company.departments,
+            },
+          })
     }
 }

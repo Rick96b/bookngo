@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, HttpCode, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, Param, Put } from '@nestjs/common';
 import { CompanyService } from './company.service';
-import { CompanyInDto } from '@common'
+import { AddDepartmentDto, CompanyInDto } from '@common'
 
 @Controller('company')
 export class CompanyController {
@@ -16,5 +16,11 @@ export class CompanyController {
   @HttpCode(200)
   postCompany(@Body() dto: CompanyInDto) {
     this.companyService.postCompany(dto)
+  }
+
+  @Put('addDepartment')
+  @HttpCode(200)
+  addDepartment(@Body() dto: AddDepartmentDto) {
+    this.companyService.addDepartment(dto)
   }
 }
