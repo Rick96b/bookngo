@@ -1,4 +1,4 @@
-<section class="form-section" *ngIf="_user">
+<section class="form-section base-container container-for-tabbar" *ngIf="_user">
     <h2 class="form-section__title">Редактирование информации пользователя</h2>
     <form class="user-edit-form" [formGroup]="_userEditForm">
         <tui-input formControlName="fullName">
@@ -24,6 +24,7 @@
         <tui-input
             formControlName="telegramUsername"
             tuiHintContent="Имя пользователя телеграм"
+            appearence="bn-input"
         >
             Телеграм
             <input
@@ -31,7 +32,7 @@
             />
         </tui-input>
 
-        <tui-input-phone formControlName="phoneNumber">
+        <tui-input-phone appearence="bn-input" formControlName="phoneNumber">
             Номер телефона
         </tui-input-phone>
 

@@ -53,4 +53,7 @@ export class VacationRequestComponent implements OnInit {
         ).subscribe();
         //временно
     }
+
+    date = new Date()
+    now = new TuiDay(this.date.getFullYear(), this.date.getMonth(), this.date.getDate())
 }

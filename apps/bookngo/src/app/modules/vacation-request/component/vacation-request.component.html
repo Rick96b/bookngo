@@ -4,10 +4,12 @@
         <tui-input-date
             [tuiTextfieldLabelOutside]="true"
             formControlName="start"
+            [min]="now"
         />
         <tui-input-date
             [tuiTextfieldLabelOutside]="true"
             formControlName="end"
+            [min]="now"
         />
         <button tuiButton (click)="onSubmit()">
             Запланировать отпуск
