@@ -18,7 +18,6 @@ export class VacationController {
   @Post('postVacation')
   @UseGuards(JwtAuthGuard)
   setVacation(@Body() dto: VacationInDto) {
-    console.log('hehe')
     return this.vacationService.postVacation(dto);
   }
 }
