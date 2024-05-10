@@ -5,12 +5,13 @@ import { cabinetRoutes } from './cabinet-routes';
 import { CabinetComponent } from './components/cabinet.component';
 import { TabBarComponent } from '../tab-bar';
 import { CompanyService, UserService } from '@bookngo/base';
+import { NotificationsService } from '../notifications/services/notifications.service';
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(cabinetRoutes), TabBarComponent],
     exports: [RouterModule],
     declarations: [CabinetComponent],
     bootstrap: [CabinetComponent],
-    providers: [UserService, CompanyService]
+    providers: [UserService, CompanyService, NotificationsService]
 })
 export class CabinetRoutingModule {}

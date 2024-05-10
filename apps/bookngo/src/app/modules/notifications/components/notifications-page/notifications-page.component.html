@@ -1,0 +1,7 @@
+<div>
+    <ul *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications">
+        <li *ngFor="let notification of notifications" >
+                <app-notifications-item [notification]="notification"></app-notifications-item>
+        </li>
+    </ul>
+</div>

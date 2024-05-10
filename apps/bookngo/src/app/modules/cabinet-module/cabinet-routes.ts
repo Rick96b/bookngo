@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { profileGuard } from '../../pages/profile/guards/profile.guard';
 import { homeGuard } from '../../pages/home/guards/home.guard';
 import { CabinetComponent } from './components/cabinet.component';
+import { NotificationsPageComponent } from '../notifications';
+import { notificationsGuard } from '../notifications/guards/notifications.guard';
 
 export const cabinetRoutes: Routes = [
     {
@@ -29,6 +31,12 @@ export const cabinetRoutes: Routes = [
                         path: 'edit',
                         loadComponent: () => import('../user-information-edit')
                             .then((component: any) => component.UserInformationEditComponent)
+                    },
+                    {
+                        path: 'notifications',
+                        loadComponent: () => import('../notifications')
+                            .then((component: any) => component.NotificationsPageComponent),
+                        canActivate: [notificationsGuard]
                     }
                 ]
             }
