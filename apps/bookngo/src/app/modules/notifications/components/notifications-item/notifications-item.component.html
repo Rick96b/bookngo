@@ -1,8 +1,22 @@
+<ng-container *ngIf="notificationVacation">
 
-<ng-container>
     <div *ngIf="_companyService.getUser(notificationVacation.employee) as user" (click)="showDialog(user)">
-        <p>{{user.fullName}}</p>
+        <p>{{ user.fullName }}</p>
         <span>Заявление об отпуске</span>
-        <span>{{notificationVacation.createdAt | formatTime}}</span>
+        <span>{{ notificationVacation.createdAt | formatTime }}</span>
+    </div>
+
+</ng-container>
+
+
+<ng-container *ngIf="notificationJoin">
+    <div (click)="showDialog(notificationJoin)">
+        <p>{{ notificationJoin.fullName }}</p>
+        <span>Заявление на вступление в отдел</span>
+        <span>{{ notificationJoin.companyDepartment }}</span>
     </div>
 </ng-container>
+
+
+
+

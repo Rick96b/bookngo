@@ -37,7 +37,7 @@ import { takeUntil, tap } from 'rxjs';
 export class NotificationsDialogComponent {
 
     protected user: User;
-    protected vacation: Vacation | null;
+    protected notification: Vacation | User;
 
     constructor(@Inject(TuiDialogService) private readonly dialogs: TuiDialogService,
                 @Inject(POLYMORPHEUS_CONTEXT) protected readonly context: TuiDialogContext<any, any>,
@@ -45,15 +45,21 @@ export class NotificationsDialogComponent {
                 private destroy$: DestroyService
     ) {
         this.user = this.context.data.user;
-        this.vacation = this.context.data.notification ? context.data.notification : null;
-        console.log(context.header);
+        this.notification = this.context.data.notification ? context.data.notification : null;
     }
 
 
     protected approve(): void {
-        if (this.vacation) {
-            this.vacation.status = 'approved';
-            this.notificationsService.sendStatusVacation(this.vacation)
+        if ('employee' in this.notification) {
+            this.notification.status = 'approved';
+            this.notificationsService.sendStatusVacation(this.notification)
+                .pipe(
+                    tap(() => this.context.completeWith(null)),
+                    takeUntil(this.destroy$)
+                ).subscribe();
+        } else {
+            this.notification.status = 'approved';
+            this.notificationsService.sendStatusUser(this.notification)
                 .pipe(
                     tap(() => this.context.completeWith(null)),
                     takeUntil(this.destroy$)
@@ -63,9 +69,16 @@ export class NotificationsDialogComponent {
     }
 
     protected reject(): void {
-        if (this.vacation) {
-            this.vacation.status = 'rejected';
-            this.notificationsService.sendStatusVacation(this.vacation)
+        if ('employee' in this.notification) {
+            this.notification.status = 'rejected';
+            this.notificationsService.sendStatusVacation(this.notification)
+                .pipe(
+                    tap(() => this.context.completeWith(null)),
+                    takeUntil(this.destroy$)
+                ).subscribe();
+        } else {
+            this.notification.status = 'approved';
+            this.notificationsService.sendStatusUser(this.notification)
                 .pipe(
                     tap(() => this.context.completeWith(null)),
                     takeUntil(this.destroy$)

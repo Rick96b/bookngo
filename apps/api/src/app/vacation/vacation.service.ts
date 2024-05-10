@@ -63,7 +63,6 @@ export class VacationService {
     }
 
     async updateStatus(dto: VacationOutDto): Promise<Vacation> {
-        console.log(dto);
         return this._prismaService.vacation.update({
             where: {
                 id: dto.id

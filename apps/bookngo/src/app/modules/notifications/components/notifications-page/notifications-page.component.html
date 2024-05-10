@@ -6,7 +6,13 @@
 
             <ng-container *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications">
                 <li *ngFor="let notification of notifications" >
-                    <app-notifications-item [notification]="notification" notificationType="Заявление на отпуск"/>
+                    <app-notifications-item [notificationVacation]="notification" notificationLabel="Заявление на отпуск"/>
+                </li>
+            </ng-container>
+
+            <ng-container *ngIf="notificationsService.getJoinRequestNotifications() | async as notifications">
+                <li *ngFor="let notification of notifications" >
+                    <app-notifications-item [notificationJoin]="notification" notificationLabel="Заявление на вступление в отдел"/>
                 </li>
             </ng-container>
 

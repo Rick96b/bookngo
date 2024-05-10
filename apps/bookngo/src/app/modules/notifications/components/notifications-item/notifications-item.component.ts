@@ -1,4 +1,4 @@
-import { Component, Inject, Injector, Input } from '@angular/core';
+import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CompanyService, DestroyService, User, Vacation } from '@bookngo/base';
 import { FormatTimePipe } from '../../pipes/format-time.pipe';
@@ -16,7 +16,7 @@ import { UserDto } from '@common';
     styleUrl: './notifications-item.component.scss',
     providers: [DestroyService]
 })
-export class NotificationsItemComponent {
+export class NotificationsItemComponent  {
 
     constructor(
         protected _companyService: CompanyService,
@@ -24,25 +24,32 @@ export class NotificationsItemComponent {
         @Inject(Injector) private readonly injector: Injector,
         private destroy$: DestroyService
     ) {
+
     }
 
-    @Input('notification') public notificationVacation: Vacation;
-    @Input({ required: true, alias: 'notificationType' }) public notificationType: string;
+
+
+    @Input('notificationVacation') public notificationVacation?: Vacation;
+    @Input('notificationJoin') public notificationJoin?: UserDto;
+    @Input({ required: true, alias: 'notificationLabel' }) public notificationLabel: string;
 
     private dialog: Observable<void>;
 
 
     public showDialog(user: UserDto): void {
+
+        const notification = this.notificationVacation ? this.notificationVacation : this.notificationJoin
+
         const context = {
             user: user,
-            notification: this.notificationVacation ? this.notificationVacation : null
+            notification: notification
         }
 
         this.dialog = this.dialogs.open(
             new PolymorpheusComponent(NotificationsDialogComponent, this.injector),
             {
                 data: context,
-                label: this.notificationType,
+                label: this.notificationLabel,
                 dismissible: true,
                 size: 'auto'
             }

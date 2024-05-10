@@ -14,11 +14,14 @@ export class RegisterService {
 
     public registerUser(registerData: UserBaseInfoDto): Observable<{ token: string }> {
         const path: string = registerData.employmentStatus === 'employee' ? 'user' : 'ceo';
-        return this.httpClient.post<{token: string}>(`${this._baseUrl}/auth/signUp/${path}`, registerData)
+        return this.httpClient.post<{ token: string }>(`${this._baseUrl}/auth/signUp/${path}`, {
+            ...registerData,
+            status: registerData.employmentStatus === 'ceo' ? 'approved' : 'pending'
+        })
             .pipe(
-                tap(({token} : {token: string}): void => {
-                    this.authService.loginByToken(token)
+                tap(({ token }: { token: string }): void => {
+                    this.authService.loginByToken(token);
                 })
-            )
+            );
     }
 }
