@@ -39,7 +39,8 @@ model Company {
 }
 
 model Vacation {
-    id Int @id @default(autoincrement())
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
 
     status    String?  @default("pending")
     employee  Int      @default(0) @map("employee-id")
