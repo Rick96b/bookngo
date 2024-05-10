@@ -4,6 +4,7 @@ import { homeGuard } from '../../pages/home/guards/home.guard';
 import { CabinetComponent } from './components/cabinet.component';
 import { NotificationsPageComponent } from '../notifications';
 import { notificationsGuard } from '../notifications/guards/notifications.guard';
+import { companyGuard } from '../../pages/company/guards/company.guard';
 
 export const cabinetRoutes: Routes = [
     {
@@ -39,6 +40,12 @@ export const cabinetRoutes: Routes = [
                         canActivate: [notificationsGuard]
                     }
                 ]
+            },
+            {
+                path: 'company',
+                loadComponent: () => import('../../pages/company')
+                    .then((component: any) => component.CompanyComponent),
+                canActivate: [companyGuard]
             }
         ]
 
