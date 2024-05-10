@@ -23,6 +23,9 @@ import { takeUntil, tap } from 'rxjs';
 })
 export class VacationRequestComponent implements OnInit {
     vacationForm: FormGroup;
+    protected nowDay: TuiDay;
+    protected maxDay: TuiDay;
+
 
     constructor(
         private _fb: FormBuilder,
@@ -30,6 +33,11 @@ export class VacationRequestComponent implements OnInit {
         private _userService: UserService,
         private destroy$: DestroyService
     ) {
+        const  date: Date = new Date();
+        this.nowDay = new TuiDay(date.getFullYear(), date.getMonth(), date.getDate());
+
+        date.setDate(date.getDate() + this._userService.getMeSnapshot().accumulatedVacationDays)
+        this.maxDay = new TuiDay(date.getFullYear(), date.getMonth(), date.getDate())
     }
 
     ngOnInit(): void {
@@ -53,7 +61,4 @@ export class VacationRequestComponent implements OnInit {
         ).subscribe();
         //временно
     }
-
-    date = new Date()
-    now = new TuiDay(this.date.getFullYear(), this.date.getMonth(), this.date.getDate())
 }

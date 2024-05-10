@@ -42,7 +42,7 @@ export class UserService {
     }
 
     private fetchVacations(id: number): Observable<Vacation[]> {
-        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/${id}`).pipe(
+        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/user/${id}`).pipe(
             tap((vacations: Vacation[]) => this._vacations$.next(vacations))
         );
     }

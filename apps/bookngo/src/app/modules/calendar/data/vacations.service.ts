@@ -18,6 +18,6 @@ export class VacationsService {
     }
 
     private fetchVacations(user: User): Observable<Vacation[]> {
-        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/${user.id}`)
+        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/user/${user.id}`)
     }
 }

@@ -1,15 +1,16 @@
-import { VacationInDto } from '@common';
+import { UserDto, VacationInDto } from '@common';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { Vacation } from '@prisma/client';
+import { User, Vacation } from '@prisma/client';
+import { CompanyBaseService, UserBaseService } from '../base';
 
 @Injectable()
 export class VacationService {
-    constructor(private _prismaService: PrismaService) {
+    constructor(private _prismaService: PrismaService, private _userBaseService: UserBaseService, private _companyBaseService: CompanyBaseService) {
     }
 
     async getVacations(userId: number) {
-        return await this._prismaService.vacation.findMany({
+        return this._prismaService.vacation.findMany({
             where: {
                 employee: userId
             }
@@ -17,7 +18,7 @@ export class VacationService {
     }
 
     async postVacation(dto: VacationInDto) {
-        console.log(dto)
+
         const oldVacation: Vacation = await this._prismaService.vacation.findFirst({
             where: {
                 employee: dto.employee,
@@ -33,5 +34,30 @@ export class VacationService {
         return this._prismaService.vacation.create({
             data: dto
         });
+    }
+
+    async getPendingVacations(ceoId: number): Promise<Vacation[]> {
+
+        const employeesId: number[] = await this._companyBaseService.getEmployeesByCeoId(ceoId);
+        const vacations: Vacation[] = [];
+
+        await Promise.all(employeesId.map(async (id: number): Promise<void> => {
+            try {
+                const vacation: Vacation[] = await this._prismaService.vacation.findMany({
+                    where: {
+                        employee: id,
+                        status: 'pending'
+                    }
+                });
+
+                if (vacations) {
+                    vacations.push(...vacation);
+                }
+            } catch (err) {
+                console.error(`Ошибка при поиске отпуска с id ${id}: ${err.message}`);
+            }
+        }));
+
+        return vacations;
     }
 }

@@ -1,9 +1,10 @@
-export interface VacationOutDto extends VacationInDto{
-  id: number
+export interface VacationOutDto extends VacationInDto {
+    id: number;
 }
 
 export interface VacationInDto {
-  employee: number
-  startDate: string
-  endDate: string
+    status?: 'pending' | 'rejected' | 'approved';
+    employee: number;
+    startDate: string;
+    endDate: string;
 }

@@ -51,11 +51,7 @@ export class CalendarService {
                 takeUntil(this.destroy$)
             ).subscribe();
 
-        this._userService.getVacations()
-            .pipe(
-                tap((vacations: Vacation[]) => this._vacations$.next([...this._vacations$.getValue(), ...vacations])),
-                takeUntil(this.destroy$)
-            ).subscribe()
+
     }
 
     public getVacationsByDate(year: number, month: number, day: number) {

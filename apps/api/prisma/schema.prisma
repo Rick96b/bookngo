@@ -41,6 +41,7 @@ model Company {
 model Vacation {
     id Int @id @default(autoincrement())
 
+    status    String?  @default("pending")
     employee  Int      @default(0) @map("employee-id")
     startDate DateTime @map("start")
     endDate   DateTime @map("end")
