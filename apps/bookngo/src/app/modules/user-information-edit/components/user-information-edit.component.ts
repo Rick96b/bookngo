@@ -45,16 +45,18 @@ export class UserInformationEditComponent implements OnInit {
             employmentStatus: [{ value: this._user.employmentStatus.toUpperCase(), disabled: true }],
             email: [{ value: this._user.email, disabled: true }],
             telegramUsername: [this._user.telegramUsername, { Validators: [Validators.pattern(/^[A-Za-z\d_]{5,32}$/)] }],
-            phoneNumber: [this._user.phoneNumber]
+            phoneNumber: [this._user.phoneNumber],
+            salary: [this._user.salary.toString()]
         });
     }
 
     protected submit(): void {
+        const userNewData: User = this._userEditForm.getRawValue();
         this._userService.updateMe({
-            ...this._userEditForm.getRawValue(),
+            ...userNewData,
+            salary: Number(userNewData.salary),
             employmentStatus: this._user.employmentStatus
-        })
-            .pipe(
+        }).pipe(
                 tap(() => this._router.navigate(['cabinet/profile']))
             )
             .subscribe();

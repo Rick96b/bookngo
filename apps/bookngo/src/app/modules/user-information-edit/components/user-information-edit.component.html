@@ -35,6 +35,16 @@
             Номер телефона
         </tui-input-phone>
 
+        <tui-input
+            formControlName="salary"
+            tuiHintContent="Средняя ЗП за месяц"
+        >
+            Средняя заработная плата
+            <input
+                tuiTextfield
+            />
+        </tui-input>
+
         <button tuiButton (click)="submit()" [disabled]="_userEditForm.untouched || !_userEditForm.valid">
             Сохранить
         </button>
