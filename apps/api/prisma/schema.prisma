@@ -18,6 +18,7 @@ model User {
     telegramUsername String @default("") @map("telegram-username")
     phoneNumber      String @default("") @map("phone-number")
 
+    status                  String? @default("pending")
     salary                  Int?    @default(0)
     companyName             String  @map("company-name")
     companyDepartment       String? @map("company-department")

@@ -4,7 +4,6 @@ import { VacationController } from './vacation.controller';
 import { PrismaService } from '../../prisma.service';
 import { AuthModule } from '../auth/auth.module';
 import { CompanyBaseService, UserBaseService } from '../base';
-import { RolesGuard } from '../auth/roles.guard';
 
 @Module({
   controllers: [VacationController],

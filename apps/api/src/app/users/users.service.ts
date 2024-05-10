@@ -2,13 +2,13 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { User, Vacation } from '@prisma/client';
 import { UserDto } from '@common';
-import { VacationBaseService } from '../base';
+import { CompanyBaseService, VacationBaseService } from '../base';
 
 
 @Injectable()
 export class UsersService {
 
-    constructor(private _prismaService: PrismaService, private _vacationBaseService: VacationBaseService) {
+    constructor(private _prismaService: PrismaService, private _vacationBaseService: VacationBaseService, private _companyBaseService: CompanyBaseService) {
     }
 
     async findOne(req: any): Promise<User> {
@@ -52,7 +52,8 @@ export class UsersService {
             try {
                 const user: User = await this._prismaService.user.findFirstOrThrow({
                     where: {
-                        id: id
+                        id: id,
+                        status: 'approved'
                     }
                 });
 
@@ -110,5 +111,48 @@ export class UsersService {
         const vacationBalance: number = accumulatedVacationDays * dailySalary;
 
         return {accumulatedVacationDays, vacationBalance}
+    }
+
+    async getPendingUsers(ceoId: number) {
+
+        const employeesId: number[] = await this._companyBaseService.getEmployeesByCeoId(ceoId);
+
+        const users: User[] = [];
+
+        console.log(employeesId);
+
+        await Promise.all(employeesId.map(async (id: number): Promise<void> => {
+            try {
+                const user: User = await this._prismaService.user.findFirstOrThrow({
+                    where: {
+                        id: id,
+                        status: 'pending'
+                    }
+                });
+
+                if (user) {
+                    delete user.password;
+                    users.push(user);
+                }
+            } catch (err) {
+                console.error(`Ошибка при поиске пользователя с id ${id}: ${err.message}`);
+            }
+
+        }));
+
+        console.log(users);
+
+        return users;
+    }
+
+    async updateStatus(dto: UserDto) {
+        return this._prismaService.user.update({
+            where: {
+                email: dto.email
+            },
+            data: {
+                status: dto.status
+            }
+        });
     }
 }

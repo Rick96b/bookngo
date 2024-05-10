@@ -1,4 +1,4 @@
-import { UserDto, VacationInDto } from '@common';
+import { UserDto, VacationInDto, VacationOutDto } from '@common';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { User, Vacation } from '@prisma/client';
@@ -13,7 +13,7 @@ export class VacationService {
         return this._prismaService.vacation.findMany({
             where: {
                 employee: userId,
-                status: 'accepted'
+                status: 'approved'
             }
         });
     }
@@ -60,5 +60,16 @@ export class VacationService {
         }));
 
         return vacations;
+    }
+
+    async updateStatus(dto: VacationOutDto): Promise<Vacation> {
+        return this._prismaService.vacation.update({
+            where: {
+                id: dto.id
+            },
+            data: {
+                status: dto.status
+            }
+        })
     }
 }

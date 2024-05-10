@@ -1,7 +1,7 @@
-import { Controller, Get, UseGuards, Param, Post, Body, Req, Res } from '@nestjs/common';
+import { Controller, Get, UseGuards, Param, Post, Body, Req, Res, Put } from '@nestjs/common';
 import { VacationService } from './vacation.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { VacationInDto } from '@common';
+import { VacationInDto, VacationOutDto } from '@common';
 import { RolesGuard } from '../auth/roles.guard';
 import { Vacation } from '@prisma/client';
 
@@ -27,6 +27,12 @@ export class VacationController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     getPendingVacations(@Req() req) {
         return  this.vacationService.getPendingVacations(req.user.id);
+    }
+
+    @Put('updateStatus')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    updateStatus(@Body() dto: VacationOutDto) {
+        return this.vacationService.updateStatus(dto);
     }
 
 }
