@@ -1,0 +1,23 @@
+.vacations-history {
+    font-family: var(--main-font);
+    font-size: 12px;
+    font-weight: 500;
+
+    h3 {
+        font-size: 16px;
+    }
+}
+
+.vacations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    margin-top: 15px;
+}
+
+.vacation {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}

@@ -7,14 +7,14 @@ import { FormatDateInterface } from '../interfaces/format-date.interface';
     standalone: true
 })
 export class FormatVacationDateDirective implements OnInit {
-
     private _vacationDuration: number;
-
+    private _year: number;
     private _startDate: FormatDateInterface
     private _endDate: FormatDateInterface
 
     @Input()
     set formatVacationDate({ startDate, endDate }: Vacation) {
+        this._year = new Date(startDate).getFullYear()
         this._vacationDuration = this.countDuration(new Date(startDate), new Date(endDate));
         this._startDate = this.formatDate(new Date(startDate));
         this._endDate = this.formatDate(new Date(endDate));
@@ -36,6 +36,7 @@ export class FormatVacationDateDirective implements OnInit {
 
     ngOnInit(): void {
         this.viewContainerRef.createEmbeddedView(this.templateRef, {
+            year: this._year,
             vacationDuration: this._vacationDuration,
             startDate: this._startDate,
             endDate: this._endDate

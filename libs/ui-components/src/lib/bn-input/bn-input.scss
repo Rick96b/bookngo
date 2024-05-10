@@ -2,10 +2,7 @@
 @import '../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local.scss';
 
 [appearance='bn-input'] {
-    --tui-primary: #{$activities-color};
-
     [tuiWrapper][data-appearance='textfield'] {
         box-shadow: none;
     }
-
 }
