@@ -36,4 +36,8 @@ export class NotificationsService {
               })
           )
     }
+
+    public sendStatusVacation(vacation: Vacation) {
+        return this._httpClient.put<Vacation>(`${this._baseUrl}/vacations/updateStatus`, vacation)
+    }
 }

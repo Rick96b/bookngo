@@ -1,7 +1,18 @@
-<div>
-    <ul *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications">
-        <li *ngFor="let notification of notifications" >
-                <app-notifications-item [notification]="notification"></app-notifications-item>
-        </li>
-    </ul>
-</div>
+<tui-root>
+<!--вот эту штуку я не осилил-->
+    <div>
+
+        <ul>
+
+            <ng-container *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications">
+                <li *ngFor="let notification of notifications" >
+                    <app-notifications-item [notification]="notification" notificationType="Заявление на отпуск"/>
+                </li>
+            </ng-container>
+
+        </ul>
+
+    </div>
+
+</tui-root>
+
