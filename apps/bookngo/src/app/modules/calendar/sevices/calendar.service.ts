@@ -61,7 +61,7 @@ export class CalendarService {
                 return vacations.filter(vacation => {
                     const startDate = dayjs(vacation.startDate);
                     const endDate = dayjs(vacation.endDate);
-                    const user = this._companyService.getUser(vacation.employee);
+                    const user = this._companyService.getActiveUser(vacation.employee);
                     if (date.isBetween(startDate, endDate, 'day', '[]') && user) {
                         return true;
                     }
@@ -70,7 +70,7 @@ export class CalendarService {
             }),
             map(vacations => {
                 return vacations.map(vacation => {
-                    const user = this._companyService.getUser(vacation.employee) as User;
+                    const user = this._companyService.getActiveUser(vacation.employee) as User;
                     return {
                         user: user,
                         vacationStatus: 'Отпуск'

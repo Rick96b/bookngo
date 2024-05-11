@@ -4,6 +4,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { VacationInDto, VacationOutDto } from '@common';
 import { RolesGuard } from '../auth/roles.guard';
 import { Vacation } from '@prisma/client';
+import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
 
 
 @Controller('vacations')
@@ -13,8 +14,8 @@ export class VacationController {
 
     @Get('user/:userId')
     @UseGuards(JwtAuthGuard)
-    getVacations(@Param() params: { userId: string }) {
-        return this.vacationService.getVacations(parseInt(params.userId));
+    getVacations(@Param() params: { userId: string }, @Req() req) {
+        return this.vacationService.getVacations(parseInt(params.userId), req.user);
     }
 
     @Post('postVacation')
@@ -31,7 +32,7 @@ export class VacationController {
 
     @Put('updateStatus')
     @UseGuards(JwtAuthGuard, RolesGuard)
-    updateStatus(@Body() dto: VacationOutDto) {
+    updateStatus(@Body() dto: NotificationPutStatusDto) {
         return this.vacationService.updateStatus(dto);
     }
 

@@ -35,9 +35,6 @@ export class VacationRequestComponent implements OnInit {
     ) {
         const  date: Date = new Date();
         this.nowDay = new TuiDay(date.getFullYear(), date.getMonth(), date.getDate());
-
-        date.setDate(date.getDate() + this._userService.getMeSnapshot().accumulatedVacationDays)
-        this.maxDay = new TuiDay(date.getFullYear(), date.getMonth(), date.getDate())
     }
 
     ngOnInit(): void {
@@ -45,6 +42,15 @@ export class VacationRequestComponent implements OnInit {
             start: null,
             end: null
         });
+
+        this.vacationForm.controls['start'].valueChanges
+            .pipe(
+                tap((value: TuiDay): void => {
+                    this.maxDay = value.append({ day: this._userService.getMeSnapshot().accumulatedVacationDays });
+                    this.nowDay = value
+                }),
+                takeUntil(this.destroy$)
+            ).subscribe()
     }
 
     public onSubmit(): void {

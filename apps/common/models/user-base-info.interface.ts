@@ -3,6 +3,7 @@ export interface UserBaseInfoDto {
     email: string,
     password: string,
 
+    createdAt: Date,
     status: 'pending' | 'rejected' | 'approved'
     companyName: string;
     employmentStatus: 'ceo' | 'employee'

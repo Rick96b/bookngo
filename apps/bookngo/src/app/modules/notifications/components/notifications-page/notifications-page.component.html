@@ -1,18 +1,19 @@
 <tui-root>
-<!--вот эту штуку я не осилил-->
+
     <div>
 
         <ul>
 
             <ng-container *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications">
                 <li *ngFor="let notification of notifications" >
-                    <app-notifications-item [notificationVacation]="notification" notificationLabel="Заявление на отпуск"/>
+                    <app-notifications-item [notification]="notification" notificationLabel="Заявление на отпуск" type="vacation"/>
                 </li>
             </ng-container>
 
+
             <ng-container *ngIf="notificationsService.getJoinRequestNotifications() | async as notifications">
                 <li *ngFor="let notification of notifications" >
-                    <app-notifications-item [notificationJoin]="notification" notificationLabel="Заявление на вступление в отдел"/>
+                    <app-notifications-item [notification]="notification" notificationLabel="Заявление на вступление в отдел" type="join"/>
                 </li>
             </ng-container>
 
