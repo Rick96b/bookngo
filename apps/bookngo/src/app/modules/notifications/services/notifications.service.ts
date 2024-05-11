@@ -57,7 +57,7 @@ export class NotificationsService {
         return this._httpClient.get<User[]>(`${this._baseUrl}/users/getPendingUsers`);
     }
 
-    public sendStatusVacation(dto: Vacation) {
+    public sendStatusVacation(dto: NotificationPutStatusDto) {
         return this._httpClient.put<Vacation>(`${this._baseUrl}/vacations/updateStatus`, dto);
     }
 

@@ -55,28 +55,11 @@ export class NotificationsDialogComponent {
 
 
     protected approve(): void {
-        this.updateStatus(this.notificationType, 'approved')
-
-        // if ('employee' in this.notification) {
-        //     this.notification.status = 'approved';
-        //     this.notificationsService.sendStatusVacation(this.notification)
-        //         .pipe(
-        //             tap(() => this.context.completeWith(null)),
-        //             takeUntil(this.destroy$)
-        //         ).subscribe();
-        // } else {
-        //     this.notification.status = 'approved';
-        //     this.notificationsService.sendStatusUser(this.notification)
-        //         .pipe(
-        //             tap(() => this.context.completeWith(null)),
-        //             takeUntil(this.destroy$)
-        //         ).subscribe();
-        // }
-
+        this.updateStatus(this.notificationType, 'approved');
     }
 
     protected reject(): void {
-        this.updateStatus(this.notificationType, 'rejected')
+        this.updateStatus(this.notificationType, 'rejected');
 
         // if ('employee' in this.notification) {
         //     this.notification.status = 'rejected';
@@ -97,18 +80,18 @@ export class NotificationsDialogComponent {
 
     private updateStatus(type: string, status: string) {
         if (type === 'join') {
-            this.notificationsService.sendStatusUser({id: this.notification.userId!, status: status})
+            this.notificationsService.sendStatusUser({ id: this.notification.userId!, status: status })
                 .pipe(
                     tap(() => this.context.completeWith(null)),
                     takeUntil(this.destroy$)
                 ).subscribe();
-            } else {
-                this.notificationsService.sendStatusUser({id: this.notification.employee!, status: status})
-                    .pipe(
-                        tap(() => this.context.completeWith(null)),
-                        takeUntil(this.destroy$)
-                    ).subscribe();
-            }
+        } else {
+            this.notificationsService.sendStatusVacation({ id: this.notification.vacationId!, status: status })
+                .pipe(
+                    tap(() => this.context.completeWith(null)),
+                    takeUntil(this.destroy$)
+                ).subscribe();
+        }
     }
 
 }

@@ -1,15 +1,20 @@
 import { UserDto, VacationInDto, VacationOutDto } from '@common';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { User, Vacation } from '@prisma/client';
 import { CompanyBaseService, UserBaseService } from '../base';
+import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
 
 @Injectable()
 export class VacationService {
     constructor(private _prismaService: PrismaService, private _userBaseService: UserBaseService, private _companyBaseService: CompanyBaseService) {
     }
 
-    async getVacations(userId: number) {
+    async getVacations(userId: number, userRequestDto: User): Promise<Vacation[]> {
+        const user: User = await this._userBaseService.getUser(userRequestDto.email)
+        if (user.status === 'pending' || user.status === 'rejected') {
+            return [];
+        }
         return this._prismaService.vacation.findMany({
             where: {
                 employee: userId,
@@ -62,7 +67,7 @@ export class VacationService {
         return vacations;
     }
 
-    async updateStatus(dto: VacationOutDto): Promise<Vacation> {
+    async updateStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
         return this._prismaService.vacation.update({
             where: {
                 id: dto.id

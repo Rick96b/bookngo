@@ -20,6 +20,7 @@ function notificationCreation(notification: User | Vacation): INotification {
             startDate: notification.startDate,
             endDate: notification.endDate,
             employee: notification.employee,
+            vacationId: notification.id
         }
     }
 

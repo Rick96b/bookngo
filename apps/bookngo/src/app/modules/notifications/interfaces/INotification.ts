@@ -3,6 +3,7 @@ export interface INotification {
     createdAt: Date;
     startDate?: string;
     endDate?: string;
+    vacationId?: number;
 
     employee?: number;
 
