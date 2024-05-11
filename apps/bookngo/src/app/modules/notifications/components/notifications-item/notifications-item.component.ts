@@ -15,7 +15,6 @@ import { NotificationsService } from '../../services/notifications.service';
 function notificationCreation(notification: User | Vacation): INotification {
     if ('employee' in notification) {
         return {
-            status: notification.status,
             createdAt: notification.createdAt,
             startDate: notification.startDate,
             endDate: notification.endDate,
@@ -25,10 +24,7 @@ function notificationCreation(notification: User | Vacation): INotification {
     }
 
     return {
-        status: 'pending',
         createdAt: notification.createdAt,
-        fullName: notification.fullName,
-        companyDepartment: notification.companyDepartment,
         userId: notification.id
     }
 }
@@ -52,7 +48,6 @@ export class NotificationsItemComponent implements OnInit{
     }
 
     ngOnInit(): void {
-        console.log(this.notification);
     }
 
 

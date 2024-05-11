@@ -1,5 +1,5 @@
 export interface INotification {
-    status: 'pending' | 'rejected' | 'approved';
+    //status?: 'pending' | 'rejected' | 'approved';
     createdAt: Date;
     startDate?: string;
     endDate?: string;
@@ -7,8 +7,6 @@ export interface INotification {
 
     employee?: number;
 
-    fullName?: string
     userId?: number;
-    companyDepartment?: string;
 
 }
