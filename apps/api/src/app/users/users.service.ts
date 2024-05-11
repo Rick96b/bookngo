@@ -41,19 +41,20 @@ export class UsersService {
         });
     }
 
-    async findUsersById(usersId: number[]): Promise<User[]> {
+    async findUsersById(usersId: number[], status: string = 'approved'): Promise<User[]> {
         const users: User[] = [];
 
         if (!usersId) {
             throw new BadRequestException({ message: 'Не переданы id пользователей' });
         }
 
+
         await Promise.all(usersId.map(async (id: number): Promise<void> => {
             try {
                 const user: User = await this._prismaService.user.findFirstOrThrow({
                     where: {
                         id: id,
-                        status: 'approved'
+                        status: status
                     }
                 });
 
@@ -117,32 +118,7 @@ export class UsersService {
 
         const employeesId: number[] = await this._companyBaseService.getEmployeesByCeoId(ceoId);
 
-        const users: User[] = [];
-
-        console.log(employeesId);
-
-        await Promise.all(employeesId.map(async (id: number): Promise<void> => {
-            try {
-                const user: User = await this._prismaService.user.findFirstOrThrow({
-                    where: {
-                        id: id,
-                        status: 'pending'
-                    }
-                });
-
-                if (user) {
-                    delete user.password;
-                    users.push(user);
-                }
-            } catch (err) {
-                console.error(`Ошибка при поиске пользователя с id ${id}: ${err.message}`);
-            }
-
-        }));
-
-        console.log(users);
-
-        return users;
+        return this.findUsersById(employeesId, 'pending')
     }
 
     async updateStatus(dto: UserDto) {

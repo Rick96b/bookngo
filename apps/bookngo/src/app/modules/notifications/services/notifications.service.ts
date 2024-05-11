@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { BASE_URL_TOKEN, CompanyService, User, Vacation } from '@bookngo/base';
-import { BehaviorSubject, concatMap, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, concatMap, Observable, of, tap, zip } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
@@ -30,27 +30,22 @@ export class NotificationsService {
         }
     }
 
-    // пока только заявки на отпуск
-    private fetchAllNotifications(): Observable<User[]> {
+    private fetchAllNotifications(): Observable<[Vacation[], User[]]> {
 
-        return this.fetchVacationsRequestNotifications()
+        return zip(this.fetchVacationsRequestNotifications(), this.fetchJoinRequestNotifications())
             .pipe(
-                tap((vacations: Vacation[]): void => {
+                tap(([vacations, users]): void => {
                     this._vacationsRequestNotifications$.next(vacations);
+                    this._joinRequestsNotifications$.next(users);
                     this.isLoaded = true;
-                }),
-                concatMap(() => this.fetchJoinRequestNotifications()
-                    .pipe(
-                        tap((users: User[]) => this._joinRequestsNotifications$.next(users))
-                    ))
-            );
+                })
+            )
 
     }
 
     private fetchVacationsRequestNotifications(): Observable<Vacation[]> {
         return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/getPendingVacations`);
     }
-
     private fetchJoinRequestNotifications(): Observable<User[]> {
         return this._httpClient.get<User[]>(`${this._baseUrl}/users/getPendingUsers`);
     }
