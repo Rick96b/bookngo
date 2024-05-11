@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TuiAccordionModule, TuiAvatarModule } from '@taiga-ui/kit';
-import { Company, CompanyService, User } from '@bookngo/base'
+import { Company, CompanyService, User, Vacation } from '@bookngo/base'
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FilterByDepartmentPipe } from '../pipes/filterByDepartment.pipe';
 import { TuiSvgModule } from '@taiga-ui/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormatEmployeesPipe } from '../pipes/formatEmployees.pipe';
 
 @Component({
     selector: 'app-tab-bar',
@@ -16,10 +17,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
         CommonModule,
         FilterByDepartmentPipe,
         TuiSvgModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormatEmployeesPipe
     ],
     templateUrl: './company.component.html',
-    styleUrl: './company.component.scss'
+    styleUrl: './company.component.scss',
 })
 export class CompanyComponent implements OnInit {
     company: Company | null = null
@@ -44,7 +46,8 @@ export class CompanyComponent implements OnInit {
     }
 
     addDepartment() {
-        console.log(this.addDepartmentForm.controls['departmentName'].value)
         this._companyService.addDepartment(this.addDepartmentForm.controls['departmentName'].value)
     }
+
+
 }
