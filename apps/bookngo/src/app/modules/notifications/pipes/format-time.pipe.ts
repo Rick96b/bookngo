@@ -2,19 +2,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
     name: 'formatTime',
-    standalone: true,
+    standalone: true
 })
 export class FormatTimePipe implements PipeTransform {
     transform(date: Date): string {
 
         const actualDate: Date = new Date(date);
+        const currentDate: Date = new Date();
 
-        let hours: number = actualDate.getHours();
-        let minutes: number = actualDate.getMinutes();
+        if (currentDate.toDateString() === actualDate.toDateString()) {
+            let formattedHours: string | number = actualDate.getHours() < 10 ? '0' + actualDate.getHours() : actualDate.getHours();
+            let formattedMinutes: string | number = actualDate.getMinutes() < 10 ? '0' + actualDate.getMinutes() : actualDate.getMinutes();
+            return `${formattedHours}:${formattedMinutes}`;
+        }
 
-        let formattedHours: string | number = hours < 10 ? '0' + hours : hours;
-        let formattedMinutes: string | number = minutes < 10 ? '0' + minutes : minutes;
-
-        return `${formattedHours}:${formattedMinutes}`;
+        return `${actualDate.getDate()} ${actualDate.toLocaleString('en-GB', {month: 'long'})}`;
     }
 }

@@ -1,4 +1,4 @@
-export interface INotification {
+export interface NotificationInterface {
     //status?: 'pending' | 'rejected' | 'approved';
     createdAt: Date;
     startDate?: string;

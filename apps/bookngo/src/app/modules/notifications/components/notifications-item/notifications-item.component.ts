@@ -7,12 +7,11 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { NotificationsDialogComponent } from '../notifications-dialog/notifications-dialog.component';
 import { Observable, takeUntil } from 'rxjs';
 import { UserDto } from '@common';
-import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
-import { INotification } from '../../interfaces/INotification';
+import { NotificationInterface } from '../../interfaces/notification.interface';
 import { NotificationsService } from '../../services/notifications.service';
+import { HighlightDirective } from '../../directives/highlight.directive';
 
-
-function notificationCreation(notification: User | Vacation): INotification {
+function notificationCreation(notification: User | Vacation): NotificationInterface {
     if ('employee' in notification) {
         return {
             createdAt: notification.createdAt,
@@ -20,53 +19,47 @@ function notificationCreation(notification: User | Vacation): INotification {
             endDate: notification.endDate,
             employee: notification.employee,
             vacationId: notification.id
-        }
+        };
     }
 
     return {
         createdAt: notification.createdAt,
         userId: notification.id
-    }
-}
+    };
+};
+
 @Component({
     selector: 'app-notifications-item',
     standalone: true,
-    imports: [CommonModule, FormatTimePipe, TuiDialogModule, TuiRootModule, NotificationsDialogComponent],
+    imports: [CommonModule, FormatTimePipe, TuiDialogModule, TuiRootModule, NotificationsDialogComponent, HighlightDirective],
     templateUrl: './notifications-item.component.html',
     styleUrl: './notifications-item.component.scss',
     providers: [DestroyService]
 })
-export class NotificationsItemComponent implements OnInit{
+export class NotificationsItemComponent {
+
+    @Input({ required: true, alias: 'type' }) public notificationType: string;
+    @Input({ alias: 'notification', transform: notificationCreation }) public notification: NotificationInterface;
+    @Input({ required: true, alias: 'notificationLabel' }) public notificationLabel: string;
 
     constructor(
-        protected _companyService: CompanyService,
-        protected _notificationsService : NotificationsService,
         @Inject(TuiDialogService) private readonly dialogs: TuiDialogService,
         @Inject(Injector) private readonly injector: Injector,
+        protected _companyService: CompanyService,
+        protected _notificationsService: NotificationsService,
         private destroy$: DestroyService
     ) {
     }
 
-    ngOnInit(): void {
-    }
-
-
-
-    @Input({required: true, alias: 'type'}) public notificationType: string
-    @Input({ alias: 'notification', transform: notificationCreation}) public notification: INotification;
-    @Input({ required: true, alias: 'notificationLabel' }) public notificationLabel: string;
-
-    private dialog: Observable<void>;
-
+    private dialog: Observable<null>;
 
     public showDialog(user: UserDto): void {
-
 
         const context = {
             user: user,
             notification: this.notification,
             type: this.notificationType
-        }
+        };
 
         this.dialog = this.dialogs.open(
             new PolymorpheusComponent(NotificationsDialogComponent, this.injector),
@@ -81,11 +74,6 @@ export class NotificationsItemComponent implements OnInit{
         this.dialog
             .pipe(
                 takeUntil(this.destroy$)
-            )
-            .subscribe({
-                complete: () => {
-                    console.info('Dialog closed');
-                }
-            });
+            ).subscribe();
     }
 }
