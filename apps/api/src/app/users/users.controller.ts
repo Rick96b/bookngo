@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserDto, VacationOutDto } from '@common';
 import { RolesGuard } from '../auth/roles.guard';
+import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
 
 
 @Controller('users')
@@ -43,7 +44,7 @@ export class UsersController {
 
     @Put('updateStatus')
     @UseGuards(JwtAuthGuard, RolesGuard)
-    async updateStatus(@Body() dto: UserDto) {
+    async updateStatus(@Body() dto: NotificationPutStatusDto) {
         return await this.usersService.updateStatus(dto);
     }
 }

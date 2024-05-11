@@ -3,6 +3,7 @@ import { PrismaService } from '../../prisma.service';
 import { User, Vacation } from '@prisma/client';
 import { UserDto } from '@common';
 import { CompanyBaseService, VacationBaseService } from '../base';
+import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
 
 
 @Injectable()
@@ -121,10 +122,10 @@ export class UsersService {
         return this.findUsersById(employeesId, 'pending')
     }
 
-    async updateStatus(dto: UserDto) {
+    async updateStatus(dto: NotificationPutStatusDto) {
         return this._prismaService.user.update({
             where: {
-                email: dto.email
+                id: dto.id
             },
             data: {
                 status: dto.status

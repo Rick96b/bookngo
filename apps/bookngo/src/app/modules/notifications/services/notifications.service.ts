@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { BASE_URL_TOKEN, CompanyService, User, Vacation } from '@bookngo/base';
 import { BehaviorSubject, catchError, concatMap, Observable, of, tap, zip } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { NotificationPutStatusDto } from '../../../../../../common/models/notification-put-status-dto.interface';
 
 @Injectable()
 export class NotificationsService {
@@ -10,11 +11,16 @@ export class NotificationsService {
     protected _joinRequestsNotifications$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
     public isLoaded = false;
 
-    public getVacationsRequestNotifications() {
+    public getVacationsRequestNotifications(): Observable<Vacation[]> {
         return this._vacationsRequestNotifications$.asObservable();
     }
-    public getJoinRequestNotifications() {
+
+    public getJoinRequestNotifications(): Observable<User[]> {
         return this._joinRequestsNotifications$.asObservable();
+    }
+
+    public getPendingUser(userId: number): User | undefined {
+        return this._joinRequestsNotifications$.getValue().find((user: User): boolean => user.id === userId);
     }
 
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient,
@@ -39,22 +45,23 @@ export class NotificationsService {
                     this._joinRequestsNotifications$.next(users);
                     this.isLoaded = true;
                 })
-            )
+            );
 
     }
 
     private fetchVacationsRequestNotifications(): Observable<Vacation[]> {
         return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/getPendingVacations`);
     }
+
     private fetchJoinRequestNotifications(): Observable<User[]> {
         return this._httpClient.get<User[]>(`${this._baseUrl}/users/getPendingUsers`);
     }
 
-    public sendStatusVacation(vacation: Vacation) {
-        return this._httpClient.put<Vacation>(`${this._baseUrl}/vacations/updateStatus`, vacation);
+    public sendStatusVacation(dto: Vacation) {
+        return this._httpClient.put<Vacation>(`${this._baseUrl}/vacations/updateStatus`, dto);
     }
 
-    public sendStatusUser(user: User) {
-        return this._httpClient.put<Vacation>(`${this._baseUrl}/users/updateStatus`, user);
+    public sendStatusUser(dto: NotificationPutStatusDto) {
+        return this._httpClient.put<User>(`${this._baseUrl}/users/updateStatus`, dto);
     }
 }

@@ -7,7 +7,30 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { NotificationsDialogComponent } from '../notifications-dialog/notifications-dialog.component';
 import { Observable, takeUntil } from 'rxjs';
 import { UserDto } from '@common';
+import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import { INotification } from '../../interfaces/INotification';
+import { NotificationsService } from '../../services/notifications.service';
 
+
+function notificationCreation(notification: User | Vacation): INotification {
+    if ('employee' in notification) {
+        return {
+            status: notification.status,
+            createdAt: notification.createdAt,
+            startDate: notification.startDate,
+            endDate: notification.endDate,
+            employee: notification.employee,
+        }
+    }
+
+    return {
+        status: 'pending',
+        createdAt: notification.createdAt,
+        fullName: notification.fullName,
+        companyDepartment: notification.companyDepartment,
+        userId: notification.id
+    }
+}
 @Component({
     selector: 'app-notifications-item',
     standalone: true,
@@ -16,21 +39,25 @@ import { UserDto } from '@common';
     styleUrl: './notifications-item.component.scss',
     providers: [DestroyService]
 })
-export class NotificationsItemComponent  {
+export class NotificationsItemComponent implements OnInit{
 
     constructor(
         protected _companyService: CompanyService,
+        protected _notificationsService : NotificationsService,
         @Inject(TuiDialogService) private readonly dialogs: TuiDialogService,
         @Inject(Injector) private readonly injector: Injector,
         private destroy$: DestroyService
     ) {
+    }
 
+    ngOnInit(): void {
+        console.log(this.notification);
     }
 
 
 
-    @Input('notificationVacation') public notificationVacation?: Vacation;
-    @Input('notificationJoin') public notificationJoin?: UserDto;
+    @Input({required: true, alias: 'type'}) public notificationType: string
+    @Input({ alias: 'notification', transform: notificationCreation}) public notification: INotification;
     @Input({ required: true, alias: 'notificationLabel' }) public notificationLabel: string;
 
     private dialog: Observable<void>;
@@ -38,11 +65,11 @@ export class NotificationsItemComponent  {
 
     public showDialog(user: UserDto): void {
 
-        const notification = this.notificationVacation ? this.notificationVacation : this.notificationJoin
 
         const context = {
             user: user,
-            notification: notification
+            notification: this.notification,
+            type: this.notificationType
         }
 
         this.dialog = this.dialogs.open(

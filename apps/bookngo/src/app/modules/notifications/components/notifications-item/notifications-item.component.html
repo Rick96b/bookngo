@@ -1,21 +1,30 @@
-<ng-container *ngIf="notificationVacation">
+<ng-container *ngIf="notification">
 
-    <div *ngIf="_companyService.getUser(notificationVacation.employee) as user" (click)="showDialog(user)">
-        <p>{{ user.fullName }}</p>
-        <span>Заявление об отпуске</span>
-        <span>{{ notificationVacation.createdAt | formatTime }}</span>
-    </div>
+    <ng-container *ngIf="notification.employee as userId; else notificationJoin">
+        <div *ngIf="_companyService.getActiveUser(userId) as user" (click)="showDialog(user)">
+
+            <p>{{ user.fullName }}</p>
+            <span>{{ notificationLabel }}</span>
+            <span>{{ notification.createdAt | formatTime }}</span>
+
+        </div>
+    </ng-container>
+
+    <ng-template #notificationJoin>
+        <ng-container *ngIf="notification.userId as userId">
+            <div *ngIf="_notificationsService.getPendingUser(userId) as user" (click)="showDialog(user)">
+
+                <p>{{ user.fullName }}</p>
+                <span>{{ notificationLabel }} </span>
+                <span>{{ notification.createdAt | formatTime }}</span>
+
+            </div>
+        </ng-container>
+    </ng-template>
 
 </ng-container>
 
 
-<ng-container *ngIf="notificationJoin">
-    <div (click)="showDialog(notificationJoin)">
-        <p>{{ notificationJoin.fullName }}</p>
-        <span>Заявление на вступление в отдел</span>
-        <span>{{ notificationJoin.companyDepartment }}</span>
-    </div>
-</ng-container>
 
 
 

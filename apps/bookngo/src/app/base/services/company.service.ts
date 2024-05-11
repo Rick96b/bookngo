@@ -35,7 +35,7 @@ export class CompanyService {
     }
 
     private postDepartment(department: string) {
-        return this._httpClient.put<AddDepartmentDto>(`${this._baseUrl}/company/addDepartment`, 
+        return this._httpClient.put<AddDepartmentDto>(`${this._baseUrl}/company/addDepartment`,
         {companyId: this._company$.getValue()?.id, department: department})
     }
 
@@ -44,7 +44,7 @@ export class CompanyService {
     }
 
 
-    public getUser(userId: number): User | undefined {
+    public getActiveUser(userId: number): User | undefined {
         return this._companyUsers$.getValue().find((user: User): boolean => user.id === userId);
     }
 
