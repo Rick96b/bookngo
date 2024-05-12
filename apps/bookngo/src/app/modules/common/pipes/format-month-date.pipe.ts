@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormatDateInterface } from '../interfaces/format-date.interface';
+import { FormatDateInterface } from '../../vacation-list/interfaces/format-date.interface';
 
 @Pipe({
     name: 'formatMonthDate',

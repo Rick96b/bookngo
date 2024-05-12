@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TuiAccordionModule, TuiAvatarModule, TuiInputModule } from '@taiga-ui/kit';
-import { Company, CompanyService, User, Vacation } from '@bookngo/base'
+import { Company, CompanyService, User } from '@bookngo/base'
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FilterByDepartmentPipe } from '../pipes/filterByDepartment.pipe';
@@ -29,7 +29,7 @@ import { FormatEmployeesPipe } from '../pipes/formatEmployees.pipe';
 })
 export class CompanyComponent implements OnInit {
     company: Company | null = null
-    ceo: User 
+    ceo: User
     users: User[] = []
     addDepartmentForm: FormGroup
     constructor(private _companyService: CompanyService, private _fb: FormBuilder) {}
@@ -50,8 +50,7 @@ export class CompanyComponent implements OnInit {
     }
 
     addDepartment() {
+        console.log(this.addDepartmentForm.controls['departmentName'].value)
         this._companyService.addDepartment(this.addDepartmentForm.controls['departmentName'].value)
     }
-
-
 }

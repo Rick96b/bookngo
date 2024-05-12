@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { cabinetRoutes } from './cabinet-routes';
 import { CabinetComponent } from './components/cabinet.component';
 import { TabBarComponent } from '../tab-bar';
-import { CompanyService, UserService } from '@bookngo/base';
+import { CompanyService, DestroyService, UserService } from '@bookngo/base';
 import { NotificationsService } from '../notifications/services/notifications.service';
 
 @NgModule({
@@ -12,6 +12,6 @@ import { NotificationsService } from '../notifications/services/notifications.se
     exports: [RouterModule],
     declarations: [CabinetComponent],
     bootstrap: [CabinetComponent],
-    providers: [UserService, CompanyService, NotificationsService]
+    providers: [UserService, CompanyService, NotificationsService, DestroyService]
 })
 export class CabinetRoutingModule {}

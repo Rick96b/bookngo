@@ -16,16 +16,7 @@ import { IContextDialog } from '../../interfaces/context-dialog.interface';
     templateUrl: './notifications-dialog.component.html',
     styleUrls: ['./notifications-dialog.component.html'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        TuiButtonModule,
-        CommonModule,
-        FormsModule,
-        TuiButtonModule,
-        TuiDataListModule,
-        TuiDataListWrapperModule,
-        TuiAutoFocusModule,
-        TuiAvatarModule
-    ],
+    imports: [TuiButtonModule, CommonModule, TuiAvatarModule],
     standalone: true,
     providers: [
         tuiAvatarOptionsProvider({

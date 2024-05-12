@@ -4,12 +4,18 @@
         <div class="profile__avatar-wrapper">
             <tui-avatar [text]="user.fullName"></tui-avatar>
         </div>
-        <div>
-            <p>{{user.fullName}}</p>
-            <p>{{user.companyDepartment}} отдел</p>
-        </div>
 
-        <p>{{context.label}} {{notification.startDate}} по {{notification.endDate}}</p>
+        <p>{{ user.fullName }}</p>
+
+
+        <p>
+            {{ context.label }}
+            <ng-container *ngIf="notificationType === 'vacation'">
+                {{ notification.startDate }} по {{ notification.endDate }}
+            </ng-container>
+        </p>
+
+
     </div>
 
 
