@@ -3,7 +3,7 @@ import { TUI_SANITIZER, TuiRootModule } from '@taiga-ui/core';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, DestroyService } from '@bookngo/base';
-import { tap } from 'rxjs';
+import { takeUntil, tap } from 'rxjs';
 
 @Component({
     standalone: true,
@@ -17,15 +17,15 @@ export class AppComponent {
 
     title = 'bookngo';
 
-    constructor(private authService: AuthService, private router: Router) {
-        // подписка на глобальный сервис событий, без отписки, чтобы всегда срабатывал
+    constructor(private authService: AuthService, private router: Router, private destroy$: DestroyService) {
 
         this.authService.getAuthState()
             .pipe(
-                tap((state: boolean) : void => {
-                    const path: string = state ? 'cabinet' : '';
-                    this.router.navigate([path])
-                })
+                tap((authState: boolean): void => {
+                    const path: string = authState ? 'cabinet' : '';
+                    this.router.navigate([path]);
+                }),
+                takeUntil(this.destroy$)
             ).subscribe();
     }
 }

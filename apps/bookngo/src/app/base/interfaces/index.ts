@@ -1,3 +1,3 @@
-export * from './User.interface'
-export * from './Company.interface'
-export * from './Vacation.interface'
+export * from './user.interface'
+export * from './company.interface'
+export * from './vacation.interface'

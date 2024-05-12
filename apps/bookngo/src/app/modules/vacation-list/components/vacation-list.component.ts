@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '@bookngo/base';
 import { FormatDayDatePipe } from '../pipes/format-day-date.pipe';
-import { FormatMonthDatePipe } from '../pipes/format-month-date.pipe';
+import { FormatMonthDatePipe } from '../../common/pipes/format-month-date.pipe';
 import { FormatVacationDateDirective } from '../directives/format-vacation-date.directive';
 import { SortDate } from '../pipes/sort-date.pipe';
 

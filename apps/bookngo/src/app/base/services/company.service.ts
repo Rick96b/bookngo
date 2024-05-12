@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL_TOKEN, Company, User } from '@bookngo/base';
-import { BehaviorSubject, map, mergeMap, Observable, tap } from 'rxjs';
+import { BASE_URL_TOKEN, Company, DestroyService, User } from '@bookngo/base';
+import { BehaviorSubject, map, mergeMap, Observable, takeUntil, tap } from 'rxjs';
 import { AddDepartmentDto } from '@common';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class CompanyService {
     private _companyUsers$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
     public isFetched = false;
 
-    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient, private destroy$: DestroyService) {
     }
 
     public fetchCompanyData(companyName: string): Observable<User[]> {
@@ -34,7 +34,7 @@ export class CompanyService {
         );
     }
 
-    private postDepartment(department: string) {
+    private postDepartment(department: string): Observable<AddDepartmentDto> {
         return this._httpClient.put<AddDepartmentDto>(`${this._baseUrl}/company/addDepartment`,
         {companyId: this._company$.getValue()?.id, department: department})
     }
@@ -58,15 +58,16 @@ export class CompanyService {
         );
     }
 
-    public getUsers() {
+    public getUsers(): Observable<User[]> {
         return this._companyUsers$.asObservable()
     }
 
-    public addDepartment(department: string) {
+    public addDepartment(department: string): void {
         const oldCompany = this._company$.getValue() as Company
         console.log(oldCompany)
         this.postDepartment(department).pipe(
-            tap(() => this._company$.next({...oldCompany, departments: [...oldCompany.departments, department]}))
+            tap(() => this._company$.next({...oldCompany, departments: [...oldCompany.departments, department]})),
+            takeUntil(this.destroy$)
         ).subscribe()
     }
 }

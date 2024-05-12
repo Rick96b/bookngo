@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TuiAccordionModule, TuiAvatarModule } from '@taiga-ui/kit';
-import { Company, CompanyService, User } from '@bookngo/base'
+import { Company, CompanyService, DestroyService, User } from '@bookngo/base';
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FilterByDepartmentPipe } from '../pipes/filterByDepartment.pipe';
@@ -19,11 +19,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
         ReactiveFormsModule
     ],
     templateUrl: './company.component.html',
-    styleUrl: './company.component.scss'
+    styleUrl: './company.component.scss',
+    providers: [DestroyService]
 })
 export class CompanyComponent implements OnInit {
     company: Company | null = null
-    ceo: User 
+    ceo: User
     users: User[] = []
     addDepartmentForm: FormGroup
     constructor(private _companyService: CompanyService, private _fb: FormBuilder) {}
