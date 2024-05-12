@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FilterByDepartmentPipe } from '../pipes/filterByDepartment.pipe';
 import { TuiSvgModule } from '@taiga-ui/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormatEmployeesPipe } from '../pipes/formatEmployees.pipe';
 
 @Component({
     selector: 'app-tab-bar',
@@ -16,7 +17,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
         CommonModule,
         FilterByDepartmentPipe,
         TuiSvgModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormatEmployeesPipe
     ],
     templateUrl: './company.component.html',
     styleUrl: './company.component.scss'

@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, mergeMap, Observable, tap } from 'rxjs';
 import { BASE_URL_TOKEN, User, Vacation } from '@bookngo/base';
 import { HttpClient } from '@angular/common/http';
+import { zip } from 'rxjs/internal/operators/zip';
 
 @Injectable()
 export class UserService {

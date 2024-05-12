@@ -36,7 +36,7 @@ export class CompanyService {
 
     private postDepartment(department: string): Observable<AddDepartmentDto> {
         return this._httpClient.put<AddDepartmentDto>(`${this._baseUrl}/company/addDepartment`,
-        {companyId: this._company$.getValue()?.id, department: department})
+            { companyId: this._company$.getValue()?.id, department: department });
     }
 
     public getCompany(): Observable<Company | null> {
@@ -59,15 +59,15 @@ export class CompanyService {
     }
 
     public getUsers(): Observable<User[]> {
-        return this._companyUsers$.asObservable()
+        return this._companyUsers$.asObservable();
     }
 
     public addDepartment(department: string): void {
-        const oldCompany = this._company$.getValue() as Company
+        const oldCompany: Company = this._company$.getValue()!;
         this.postDepartment(department).pipe(
-            tap(() => this._company$.next({...oldCompany, departments: [...oldCompany.departments, department]})),
+            tap(() => this._company$.next({ ...oldCompany, departments: [...oldCompany.departments, department] })),
             takeUntil(this.destroy$)
-        ).subscribe()
+        ).subscribe();
     }
 }
 
