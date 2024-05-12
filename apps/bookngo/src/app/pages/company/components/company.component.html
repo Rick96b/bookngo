@@ -1,18 +1,21 @@
 <section class="company" *ngIf="company">
-    <header>
+    <header class="company__header">
         {{company.name}}
     </header>
-    <main>
+    <main class="base-container">
         <div class="company__ceo">
-            <tui-avatar [rounded]="true" text="{{ceo.fullName}}"/>
+            <tui-avatar [rounded]="true" text="{{ceo.fullName}}" class="ceo__avatar" size="l"/>
             <div class="company__ceo-info">
                 <p>{{ceo.fullName}}</p>
                 <span>CEO</span>
             </div>
         </div>
-        <tui-accordion>
-                <tui-accordion-item class="container" *ngFor="let department of company.departments">
-                    Taiga UI cdk
+        <tui-accordion appearance="bn-accordion" class="company__departments">
+                <tui-accordion-item [borders]='null' *ngFor="let department of company.departments">
+                    <div class="company__department-info">
+                        <p>{{department}} отдел</p>
+                        <span>{{(users | filterByDepartment:department).length | formatEmployees}}</span>
+                    </div>
                     <ng-template tuiAccordionItemContent>
                         <div *ngFor="let user of users | filterByDepartment:department">
                             {{user.fullName}}

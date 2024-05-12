@@ -34,19 +34,14 @@ export class CompanyService {
 
 
     async addDepartment(dto: AddDepartmentDto) {
-        const company = await this._prismaService.company.findUnique({
-            where: {
-                id: dto.companyId
-            }
-        })
-        company.departments.push(dto.department)
-        console.log(company)
         await this._prismaService.company.update({
             where: {
               id: dto.companyId,
             },
             data: {
-              departments: company.departments,
+              departments: {
+                push: dto.department
+              },
             },
           })
     }

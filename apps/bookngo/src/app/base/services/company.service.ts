@@ -64,7 +64,6 @@ export class CompanyService {
 
     public addDepartment(department: string): void {
         const oldCompany = this._company$.getValue() as Company
-        console.log(oldCompany)
         this.postDepartment(department).pipe(
             tap(() => this._company$.next({...oldCompany, departments: [...oldCompany.departments, department]})),
             takeUntil(this.destroy$)
