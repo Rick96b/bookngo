@@ -17,21 +17,30 @@
                         <span>{{(users | filterByDepartment:department).length | formatEmployees}}</span>
                     </div>
                     <ng-template tuiAccordionItemContent>
-                        <div *ngFor="let user of users | filterByDepartment:department">
+                        <div *ngFor="let user of users | filterByDepartment:department" class="company__employee">
+                            <tui-avatar [rounded]="true" text="{{user.fullName}}" size="m"/>
                             {{user.fullName}}
                         </div>
                     </ng-template>
                 </tui-accordion-item>   
         </tui-accordion>
+        <tui-accordion-item [borders]='null' >
+            <div class="company__add-department">
+                <tui-svg src="tuiIconPlusLarge"></tui-svg>
+                Добавить отдел
+            </div>
+            <ng-template tuiAccordionItemContent>
+                <form [formGroup]="addDepartmentForm" class="company__add-department-form">
+                    <tui-input class="company__add-department-input" appearance="bn-input" [tuiTextfieldLabelOutside]="true" formControlName="departmentName">
+                        Название отдела
+                        <input
+                            type="text"
+                            tuiTextfield
+                        />
+                    </tui-input>
+                    <button tuiButton appearance="bn-button" (click)="addDepartment()" class="company__add-department-button">Добавить</button>
+                </form>
+            </ng-template>
+        </tui-accordion-item> 
     </main>
-    <tui-accordion-item class="container">
-        <tui-svg src="tuiIconPlusLarge"></tui-svg>
-        Добавить отдел
-        <ng-template tuiAccordionItemContent>
-            <form [formGroup]="addDepartmentForm">
-                <input type="text" formControlName="departmentName">
-                <button (click)="addDepartment()">Добавить</button>
-            </form>
-        </ng-template>
-    </tui-accordion-item> 
 </section> 

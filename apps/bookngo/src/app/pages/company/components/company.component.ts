@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { TuiAccordionModule, TuiAvatarModule } from '@taiga-ui/kit';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { TuiAccordionModule, TuiAvatarModule, TuiInputModule } from '@taiga-ui/kit';
 import { Company, CompanyService, User, Vacation } from '@bookngo/base'
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FilterByDepartmentPipe } from '../pipes/filterByDepartment.pipe';
-import { TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormatEmployeesPipe } from '../pipes/formatEmployees.pipe';
 
@@ -18,10 +18,14 @@ import { FormatEmployeesPipe } from '../pipes/formatEmployees.pipe';
         FilterByDepartmentPipe,
         TuiSvgModule,
         ReactiveFormsModule,
-        FormatEmployeesPipe
+        FormatEmployeesPipe,
+        TuiInputModule,
+        TuiButtonModule,
+        TuiTextfieldControllerModule
     ],
     templateUrl: './company.component.html',
     styleUrl: './company.component.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class CompanyComponent implements OnInit {
     company: Company | null = null
