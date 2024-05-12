@@ -19,6 +19,7 @@ model User {
     phoneNumber      String @default("") @map("phone-number")
 
     status                  String? @default("pending")
+    reviewStatus            Boolean @default(false) @map("rewiew-status")
     salary                  Int?    @default(0)
     companyName             String  @map("company-name")
     companyDepartment       String? @map("company-department")
@@ -43,8 +44,9 @@ model Vacation {
     id        Int      @id @default(autoincrement())
     createdAt DateTime @default(now()) @map("created_at")
 
-    status    String?  @default("pending")
-    employee  Int      @default(0) @map("employee-id")
-    startDate DateTime @map("start")
-    endDate   DateTime @map("end")
+    status       String?  @default("pending")
+    reviewStatus Boolean  @default(false) @map("rewiew-status")
+    employee     Int      @default(0) @map("employee-id")
+    startDate    DateTime @map("start")
+    endDate      DateTime @map("end")
 }

@@ -24,10 +24,9 @@ import { takeUntil } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
     protected authForm: FormGroup;
-    error: {message: string} = {message: ''}
+    protected error: {message: string} = {message: ''}
     constructor(
         private fb: FormBuilder,
-        private router: Router,
         private loginService: LoginService,
         private destroy$: DestroyService
     ) {

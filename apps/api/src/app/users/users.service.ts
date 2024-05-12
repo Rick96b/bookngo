@@ -99,8 +99,6 @@ export class UsersService {
         let workDaysCount: number = Math.floor((endDate.getTime() - startDate.getTime()) / (24 * 3600 * 1000));
 
 
-
-
         if (workDaysCount < 0) {
             return {
                 accumulatedVacationDays: 0,
@@ -123,12 +121,32 @@ export class UsersService {
     }
 
     async updateStatus(dto: NotificationPutStatusDto) {
+        if (dto.status == 'rejected') {
+            return  this._prismaService.user.delete({
+                where: {
+                    id: dto.id
+                }
+            })
+        }
+
         return this._prismaService.user.update({
             where: {
                 id: dto.id
             },
             data: {
-                status: dto.status
+                status: dto.status,
+                reviewStatus: true
+            }
+        });
+    }
+
+    async updateReviewStatus(id: number) {
+        return this._prismaService.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                reviewStatus: false
             }
         });
     }

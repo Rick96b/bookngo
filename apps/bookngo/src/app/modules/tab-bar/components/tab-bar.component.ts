@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { TuiButtonModule, TuiDropdownModule } from '@taiga-ui/core';
 import { VacationRequestComponent } from '../../vacation-request';
 import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
-import { DestroyService, UserService } from '@bookngo/base';
+import { UserService } from '@bookngo/base';
 
 @Component({
     selector: 'app-tab-bar',
@@ -75,7 +75,7 @@ export class TabBarComponent {
             this.open = false;
         }
     }
- 
+
     onActiveZone(active: boolean): void {
         this.open = active && this.open;
     }

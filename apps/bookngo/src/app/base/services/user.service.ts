@@ -2,12 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, mergeMap, Observable, tap } from 'rxjs';
 import { BASE_URL_TOKEN, User, Vacation } from '@bookngo/base';
 import { HttpClient } from '@angular/common/http';
-import { zip } from 'rxjs/internal/operators/zip';
 
 @Injectable()
 export class UserService {
 
-    private _me$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+    private _me$: BehaviorSubject<User> = new BehaviorSubject<User>({} as User);
     private _vacations$: BehaviorSubject<Vacation[]> = new BehaviorSubject<Vacation[]>([]);
     public isFetched = false;
 
@@ -18,7 +17,7 @@ export class UserService {
         this._vacations$.next([...this._vacations$.value, vacation]);
     }
 
-    public getMe(): Observable<User | null> {
+    public getMe(): Observable<User> {
         return this._me$.asObservable()!;
     }
 
@@ -26,11 +25,15 @@ export class UserService {
         return this._vacations$.asObservable();
     }
 
+    public getVacationById(vacationId: number): Vacation | undefined {
+        return this._vacations$.value.find((vacation: Vacation): boolean => vacation.id === vacationId)
+    }
+
     public getMeSnapshot(): User {
         return this._me$.getValue()!;
     }
 
-    public fetchMe(): Observable<User | null> {
+    public fetchMe(): Observable<User> {
         return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`)
             .pipe(
                 tap((user: User): void => {

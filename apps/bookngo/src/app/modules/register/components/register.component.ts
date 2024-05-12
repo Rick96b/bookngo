@@ -14,7 +14,6 @@ import { AsyncPipe } from '@angular/common';
 import { EmployeeStatuses } from '../models/UserModel';
 import { catchError, of, takeUntil } from 'rxjs';
 import { DestroyService } from '@bookngo/base';
-import { BaseValidatorService } from '../../common/services/baseValidator.service';
 import { RegistrationValidationService } from '../services/RegistrationValidator.service';
 import { HttpErrorResponse } from '@angular/common/http';
 

@@ -1,6 +1,6 @@
 import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CompanyService, DestroyService, User, Vacation } from '@bookngo/base';
+import { CompanyService, DestroyService, User, UserService, Vacation } from '@bookngo/base';
 import { FormatTimePipe } from '../../pipes/format-time.pipe';
 import { TuiDialogModule, TuiDialogService, TuiRootModule } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -47,7 +47,8 @@ export class NotificationsItemComponent {
         @Inject(Injector) private readonly injector: Injector,
         protected _companyService: CompanyService,
         protected _notificationsService: NotificationsService,
-        private destroy$: DestroyService
+        private destroy$: DestroyService,
+        protected _userService: UserService
     ) {
     }
 

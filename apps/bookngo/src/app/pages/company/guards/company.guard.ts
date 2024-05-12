@@ -1,8 +1,8 @@
-import { CanActivateFn } from "@angular/router";
-import { Observable, mergeMap, of } from "rxjs";
-import { CompanyService, UserService } from "../../../base/services";
-import { inject } from "@angular/core";
-import { User } from "../../../base/interfaces/user.model";
+import { CanActivateFn } from '@angular/router';
+import { mergeMap, Observable, of } from 'rxjs';
+import { CompanyService, UserService } from '../../../base/services';
+import { inject } from '@angular/core';
+import { User } from '../../../base/interfaces/user.model';
 
 export const companyGuard: CanActivateFn = (): Observable<boolean> => {
     const companyService: CompanyService = inject(CompanyService);

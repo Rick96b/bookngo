@@ -3,7 +3,7 @@
         <!--        уведомления об отпуске        -->
         <ng-container *ngIf="notification.employee as userId; else notificationJoin">
             <div *ngIf="_companyService.getActiveUser(userId) as user" (click)="showDialog(user)" highlight>
-                <p>{{ user.fullName.split(' ')[1] }}</p>
+                <p>{{ user.fullName }}</p>
                 <p>{{ notificationLabel }} </p>
                 <span>{{ notification.createdAt | formatTime }}</span>
             </div>
@@ -13,7 +13,7 @@
         <ng-template #notificationJoin>
             <ng-container *ngIf="notification.userId as userId">
                 <div *ngIf="_notificationsService.getPendingUser(userId) as user" (click)="showDialog(user)" highlight>
-                    <p>{{ user.fullName.split(' ')[1] }}</p>
+                    <p>{{ user.fullName }}</p>
                     <p>{{ notificationLabel }} </p>
                     <span>{{ user.createdAt | formatTime }}</span>
                 </div>

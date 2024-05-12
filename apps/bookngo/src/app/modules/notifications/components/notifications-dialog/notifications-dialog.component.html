@@ -9,7 +9,11 @@
 
 
         <p>
-            {{ context.label }}
+            @if (notification.userId === _userService.getMeSnapshot().id || notification.employee === _userService.getMeSnapshot().id) {
+                {{ context.label | formatStatus: notification.vacationId}}
+            } @else {
+                {{ context.label }}
+            }
             <ng-container *ngIf="notificationType === 'vacation'">
                 {{ notification.startDate }} по {{ notification.endDate }}
             </ng-container>
@@ -18,15 +22,16 @@
 
     </div>
 
-
-    <button size="m" tuiButton type="button" (click)="reject()">
-        Отказать
-    </button>
-    <button size="m" tuiButton type="button" (click)="approve()">
-        Одобрить
-    </button>
-
-
+    @if (notification.userId === _userService.getMeSnapshot().id || notification.employee === _userService.getMeSnapshot().id) {
+        <button size="m" tuiButton type="button" (click)="confirm()">Прочитано</button>
+    } @else {
+        <button size="m" tuiButton type="button" (click)="reject()">
+            Отказать
+        </button>
+        <button size="m" tuiButton type="button" (click)="approve()">
+            Одобрить
+        </button>
+    }
 </section>
 
 

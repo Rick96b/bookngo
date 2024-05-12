@@ -5,18 +5,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 import { TuiAvatarModule, tuiAvatarOptionsProvider, TuiDataListWrapperModule } from '@taiga-ui/kit';
-import { DestroyService, User, Vacation } from '@bookngo/base';
+import { DestroyService, User, UserService, Vacation } from '@bookngo/base';
 import { NotificationsService } from '../../services/notifications.service';
 import { takeUntil, tap } from 'rxjs';
 import { NotificationInterface } from '../../interfaces/notification.interface';
 import { IContextDialog } from '../../interfaces/context-dialog.interface';
+import { FormatStatusPipe } from '../../pipes/format-status.pipe';
 
 @Component({
     selector: 'dialog-example',
     templateUrl: './notifications-dialog.component.html',
     styleUrls: ['./notifications-dialog.component.html'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TuiButtonModule, CommonModule, TuiAvatarModule],
+    imports: [TuiButtonModule, CommonModule, TuiAvatarModule, FormatStatusPipe],
     standalone: true,
     providers: [
         tuiAvatarOptionsProvider({
@@ -35,7 +36,8 @@ export class NotificationsDialogComponent {
 
     constructor(@Inject(POLYMORPHEUS_CONTEXT) protected readonly context: TuiDialogContext<void, IContextDialog>,
                 protected notificationsService: NotificationsService,
-                private destroy$: DestroyService
+                private destroy$: DestroyService,
+                protected _userService: UserService
     ) {
         this.user = this.context.data.user;
         this.notification = this.context.data.notification;
@@ -67,4 +69,10 @@ export class NotificationsDialogComponent {
         }
     }
 
+    protected confirm(): void {
+        this.notificationsService.sendReviewJoin().pipe(
+            tap(() => this.context.completeWith()),
+            takeUntil(this.destroy$)
+        ).subscribe();
+    }
 }

@@ -55,7 +55,7 @@ export class AuthService {
     }
 
     const user: User = await this._prismaService.user.create({
-      data: { ...dto, password: await argon2.hash(dto.password) }
+      data: { ...dto, password: await argon2.hash(dto.password), reviewStatus: true }
     });
     await this.companyBaseService.postCompany({
       name: dto.companyName,

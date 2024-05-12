@@ -42,6 +42,12 @@ export class UsersController {
         return  this.usersService.getPendingUsers(req.user.id);
     }
 
+    @Get('updateReviewStatus')
+    @UseGuards(JwtAuthGuard)
+    updateReviewStatus(@Req() req) {
+        return  this.usersService.updateReviewStatus(req.user.id);
+    }
+
     @Put('updateStatus')
     @UseGuards(JwtAuthGuard, RolesGuard)
     async updateStatus(@Body() dto: NotificationPutStatusDto) {

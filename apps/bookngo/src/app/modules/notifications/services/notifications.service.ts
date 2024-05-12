@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { BASE_URL_TOKEN, CompanyService, User, Vacation } from '@bookngo/base';
-import { BehaviorSubject, catchError, concatMap, Observable, of, tap, zip } from 'rxjs';
+import { BASE_URL_TOKEN, CompanyService, User, UserService, Vacation } from '@bookngo/base';
+import { BehaviorSubject, catchError, concatMap, map, Observable, of, tap, zip } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { NotificationPutStatusDto } from '../../../../../../common/models/notification-put-status-dto.interface';
 
@@ -24,20 +24,35 @@ export class NotificationsService {
     }
 
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient,
-                protected _companyService: CompanyService) {
+                protected _companyService: CompanyService, private userService: UserService) {
 
     }
 
-    public fetchNotifications(user: User) {
+    public updateNotifications(user: User): Observable<boolean> {
         if (user.employmentStatus === 'ceo') {
-            return this.fetchAllNotifications();
+            return this.getAllNotifications().pipe(map(() => true));
         } else {
-            return this.fetchAllNotifications();
+            return this.getSomeNotifications().pipe(map(() => true))
         }
     }
 
-    private fetchAllNotifications(): Observable<[Vacation[], User[]]> {
+    private getSomeNotifications(): Observable<[User, Vacation[]]> {
+        // для обычного пользователя
 
+        return zip(this.userService.getMe(), this.userService.getVacations())
+            .pipe(
+                tap(([user, vacations]): void => {
+                    this._vacationsRequestNotifications$.next(vacations.filter(vacation => vacation.reviewStatus));
+                    if (user.reviewStatus) {
+                        this._joinRequestsNotifications$.next([user]);
+                    }
+                    this.isLoaded = true;
+                })
+            );
+    }
+
+    private getAllNotifications(): Observable<[Vacation[], User[]]> {
+        // для ceo
         return zip(this.fetchVacationsRequestNotifications(), this.fetchJoinRequestNotifications())
             .pipe(
                 tap(([vacations, users]): void => {
@@ -63,5 +78,9 @@ export class NotificationsService {
 
     public sendStatusUser(dto: NotificationPutStatusDto) {
         return this._httpClient.put<User>(`${this._baseUrl}/users/updateStatus`, dto);
+    }
+
+    public sendReviewJoin() {
+        return this._httpClient.get<User>(`${this._baseUrl}/users/updateReviewStatus`)
     }
 }

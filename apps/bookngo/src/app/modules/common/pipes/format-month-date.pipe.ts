@@ -3,14 +3,14 @@ import { FormatDateInterface } from '../../vacation-list/interfaces/format-date.
 
 @Pipe({
     name: 'formatMonthDate',
-    standalone: true,
+    standalone: true
 })
 export class FormatMonthDatePipe implements PipeTransform {
     transform(value: FormatDateInterface): string {
-        return this.formatDate(value.day, value.monthName)
+        return this.formatDate(value.day, value.monthName);
     }
 
-    formatDate(day: number, month: string) {
+    formatDate(day: number, month: string): string {
 
         const monthsFormats: { [key: string]: string } = {
             'январь': 'января',

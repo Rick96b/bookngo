@@ -73,7 +73,8 @@ export class VacationService {
                 id: dto.id
             },
             data: {
-                status: dto.status
+                status: dto.status,
+                reviewStatus: true
             }
         })
     }

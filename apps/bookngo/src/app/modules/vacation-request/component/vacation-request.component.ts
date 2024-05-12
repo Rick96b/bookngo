@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputDateModule } from '@taiga-ui/kit';
-import { UserService } from '../../../base/services/user.service';
 import { VacationRequestApiService } from '../data/services/vacations-request-api.service';
-import { DestroyService, User, Vacation } from '@bookngo/base';
+import { DestroyService, User, UserService, Vacation } from '@bookngo/base';
 import { takeUntil, tap } from 'rxjs';
 
 @Component({
@@ -65,6 +64,5 @@ export class VacationRequestComponent implements OnInit {
             tap((vacation: Vacation) => this._userService.setVacations(vacation)),
             takeUntil(this.destroy$)
         ).subscribe();
-        //временно
     }
 }
