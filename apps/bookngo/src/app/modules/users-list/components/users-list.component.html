@@ -18,7 +18,7 @@
     </header>
     <ul class="users__list users-list" *ngIf="_departmentService.getActiveUsers() | async as users">
         @for(user of users; track user.id) {
-            <li class="users-list__user">
+            <li class="users-list__user" (click)="navigateToProfile(user.id)">
                 <tui-avatar
                     [text]="user.fullName"
                     class="users-list__user"

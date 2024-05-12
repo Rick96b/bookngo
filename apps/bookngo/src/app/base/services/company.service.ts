@@ -44,8 +44,8 @@ export class CompanyService {
     }
 
 
-    public getActiveUser(userId: number): User | undefined {
-        return this._companyUsers$.getValue().find((user: User): boolean => user.id === userId);
+    public getActiveUser(id: number): User | undefined {
+       return this._companyUsers$.value.find((user: User): boolean => user.id == id);
     }
 
     public getUsersByDepartment(department: string): Observable<User[]> {

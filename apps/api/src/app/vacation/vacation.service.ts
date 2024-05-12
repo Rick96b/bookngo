@@ -12,6 +12,8 @@ export class VacationService {
 
     async getVacations(userId: number, userRequestDto: User): Promise<Vacation[]> {
         const user: User = await this._userBaseService.getUser(userRequestDto.email)
+        console.log(user);
+        console.log(userId);
         if (user.status === 'pending' || user.status === 'rejected') {
             return [];
         }

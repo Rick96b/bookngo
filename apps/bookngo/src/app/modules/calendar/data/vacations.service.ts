@@ -11,13 +11,13 @@ export class VacationsService {
 
     public getVacationsByUser(users: User[]): Observable<Vacation[]> {
         return forkJoin(
-            users.map((user: User) => this.fetchVacations(user))
+            users.map((user: User) => this.fetchVacations(user.id))
         ).pipe(
             map((vacations: Vacation[][]) => vacations.flat())
         )
     }
 
-    private fetchVacations(user: User): Observable<Vacation[]> {
-        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/user/${user.id}`)
+    public fetchVacations(userId: number): Observable<Vacation[]> {
+        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/user/${userId}`)
     }
 }

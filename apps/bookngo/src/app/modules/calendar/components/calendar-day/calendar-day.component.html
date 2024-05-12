@@ -1,6 +1,6 @@
 <div class="calendar-day">
-    <button 
-        class="calendar-day__button" 
+    <button
+        class="calendar-day__button"
         [class.active]="vacations.length"
         [tuiDropdown]="dropdownContent"
         [tuiDropdownManual]="open"
@@ -20,7 +20,7 @@
 <ng-template #dropdownContent>
     <ul class="users-dropdown">
         @for(vacation of vacations; track vacation.user) {
-            <li>
+            <li (click)="navigateToProfile(vacation.user.id)">
                 <span [style.backgroundColor]="generateColorForUser(vacation.user.id)" class="user-color"></span>
                 <span class="user-name">{{vacation.user.fullName}}</span>
                 <span class="user-vacation">{{vacation.vacationStatus}}</span>

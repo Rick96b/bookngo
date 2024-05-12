@@ -1,4 +1,4 @@
-<div class="vacations-history" *ngIf="_userService.getVacations() | async as vacations">
+<div class="vacations-history">
     <h3>История отпусков</h3>
 
     <ng-container *ngIf="vacations.length; else vacationsNotFound">

@@ -7,6 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { DepartmentService } from '../../../pages/home/services/department.service';
 import { generateColorForUser } from '../../common/utils/generateColorForUser';
+import { Router } from '@angular/router';
 
 @Component({
     standalone: true,
@@ -26,8 +27,7 @@ import { generateColorForUser } from '../../common/utils/generateColorForUser';
 export class UsersListComponent implements OnInit {
     protected filterForm: FormGroup
 	generateColorForUser = generateColorForUser
-    constructor(protected _departmentService: DepartmentService, private destroy$: DestroyService
-    ) {
+    constructor(protected _departmentService: DepartmentService, private destroy$: DestroyService, private _router: Router) {
         this.filterForm = new FormGroup({
             department: new FormControl(this._departmentService.getActiveDepartmentSnapshot())
         })
@@ -38,5 +38,9 @@ export class UsersListComponent implements OnInit {
             tap((value: string) => this._departmentService.setActiveDepartment(value)),
             takeUntil(this.destroy$)
         ).subscribe()
+    }
+
+    protected navigateToProfile(userId: number): void {
+        this._router.navigate(['cabinet', 'profile', userId])
     }
 }

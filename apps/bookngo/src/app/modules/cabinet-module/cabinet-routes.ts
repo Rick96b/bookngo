@@ -38,7 +38,12 @@ export const cabinetRoutes: Routes = [
                         loadComponent: () => import('../notifications')
                             .then((component: any) => component.NotificationsPageComponent),
                         canActivate: [notificationsGuard]
-                    }
+                    },
+                    {
+                        path: ':id',
+                        loadComponent: () => import('../../pages/profile')
+                            .then((component: any) => component.ProfileComponent)
+                    },
                 ]
             },
             {

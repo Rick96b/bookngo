@@ -6,6 +6,7 @@ import { User } from '@bookngo/base';
 import { TuiButtonModule, TuiDropdownModule } from '@taiga-ui/core';
 import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
 import { generateColorForUser } from '../../../common/utils/generateColorForUser';
+import { Router } from '@angular/router';
 
 @Component({
     standalone: true,
@@ -33,13 +34,13 @@ export class CalendarDayComponent implements OnInit {
             this.open = false;
         }
     }
- 
+
     onActiveZone(active: boolean): void {
         this.open = active && this.open;
     }
 
     vacations: {user: User, vacationStatus: string}[] = []
-    constructor(private _calendarService: CalendarService) { }
+    constructor(private _calendarService: CalendarService, private _routerRouter: Router) { }
 
     ngOnInit(): void {
         this.getVacations()
@@ -49,5 +50,9 @@ export class CalendarDayComponent implements OnInit {
         this._calendarService.getVacationsByDate(this.day.year, this.day.month, this.day.day).pipe(
             tap(val => this.vacations = val),
         ).subscribe()
+    }
+
+    protected navigateToProfile(userId: number) {
+        this._routerRouter.navigate(['cabinet', 'profile', userId])
     }
 }

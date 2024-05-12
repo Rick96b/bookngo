@@ -1,8 +1,9 @@
-<div class="profile container-for-tabbar" *ngIf="_userService.getMe() | async as user">
+<div class="profile container-for-tabbar" *ngIf="user">
     <header class="profile__header base-container">
-        <a tuiIconButton class="profile__edit-button" icon="tuiIconEdit2Large" routerLink="edit" appearance="bn-icon-button"></a>
+        <a tuiIconButton *ngIf="isActive" class="profile__edit-button" icon="tuiIconEdit2Large" routerLink="edit" appearance="bn-icon-button"></a>
+        <a tuiIconButton *ngIf="!isActive" class="profile__edit-button" icon="tuiIconArrowLeftLarge" routerLink="../.." appearance="bn-icon-button"></a>
         <span>Профиль</span>
-        <a tuiIconButton class="profile__edit-button" icon="tuiIconBellLarge" routerLink="notifications" appearance="bn-icon-button"></a>
+        <a tuiIconButton *ngIf="isActive" class="profile__edit-button" icon="tuiIconBellLarge" routerLink="notifications" appearance="bn-icon-button"></a>
     </header>
 
     <main class="profile__main base-container">
@@ -38,8 +39,7 @@
             <p>{{ user.compensationDays }} отгулов в этом году</p>
         </div>
 
-        <app-vacation-list></app-vacation-list>
-
+        <app-vacation-list [userId]="userId"></app-vacation-list>
     </main>
 </div>
 
