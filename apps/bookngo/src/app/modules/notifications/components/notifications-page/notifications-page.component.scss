@@ -1,0 +1,12 @@
+.notifications {
+    font: var(--main-font)
+}
+
+.notifications__header {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    font-size: 18px;
+    line-height: 32px;
+    font-weight: 500;
+}

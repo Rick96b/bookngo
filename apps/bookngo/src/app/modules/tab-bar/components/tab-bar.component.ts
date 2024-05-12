@@ -37,7 +37,7 @@ export class TabBarComponent {
         this.user.employmentStatus === 'ceo' ?
         {
             title: 'Company',
-            icon: 'assets/tabbar-icons/calendar.svg',
+            icon: 'assets/tabbar-icons/users_group.svg',
             isActive: false,
             path: '../cabinet/company'
         }

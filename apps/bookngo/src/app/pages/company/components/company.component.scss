@@ -5,12 +5,72 @@
 .company__header {
     display: flex;
     justify-content: center;
-    padding: 20px 0;
+    padding: 18px 0;
     font-size: 18px;
     font-weight: 500;
     line-height: 32px;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.company__ceo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 0;
+    font-weight: 500;
+
+    p {
+        font-size: 18px;
+        line-height: 27px;
+    }
+
+    span {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 14px;
+        line-height: 21px;
+    }
 }
 
 .ceo__avatar {
-    
+    width: 75px;
+    height: 75px;
+}
+
+.company__employee {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.company__add-department {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    color: #0584BE
+}
+
+[automation-id="tui-accordion__item-header"] {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+[automation-id="tui-accordion__item-content"] {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+.company__add-department-form {
+    display: flex;
+    gap: 10px;
+}
+
+.company__add-department-button {
+    height: 56px !important;
+}
+
+.company__add-department-input {
+    flex-grow: 1;
 }
