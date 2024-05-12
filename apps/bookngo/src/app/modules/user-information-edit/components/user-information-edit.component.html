@@ -1,5 +1,7 @@
 <section class="form-section base-container container-for-tabbar" *ngIf="_user">
     <h2 class="form-section__title">Редактирование информации пользователя</h2>
+    <a tuiIconButton class="profile__edit-button" icon="tuiIconLogOutLarge" (click)="authService.logout()" appearance="bn-icon-button"></a>
+    <a tuiIconButton class="profile__edit-button" icon="tuiIconArrowLeftLarge" routerLink=".." appearance="bn-icon-button"></a>
     <form class="user-edit-form" [formGroup]="_userEditForm">
         <tui-input formControlName="fullName">
             ФИО

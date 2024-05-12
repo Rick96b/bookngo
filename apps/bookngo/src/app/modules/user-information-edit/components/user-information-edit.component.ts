@@ -1,26 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { takeUntil, tap } from 'rxjs';
-import { DestroyService, User, UserService } from '@bookngo/base';
+import { AuthService, DestroyService, User, UserService } from '@bookngo/base';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiInputModule, TuiInputPhoneModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiHintModule, TuiRootModule } from '@taiga-ui/core';
 
 @Component({
     selector: 'app-user-information-edit',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, TuiInputModule, TuiHintModule, TuiInputPhoneModule, TuiButtonModule],
+    imports: [CommonModule, ReactiveFormsModule, TuiInputModule, TuiHintModule, TuiInputPhoneModule, TuiButtonModule, RouterLink, TuiRootModule],
     templateUrl: './user-information-edit.component.html',
     styleUrl: './user-information-edit.component.scss',
-    providers: [DestroyService]
+    providers: [DestroyService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserInformationEditComponent implements OnInit {
     protected _user: User;
     protected _userEditForm: FormGroup;
 
     constructor(private _userService: UserService, private _fb: FormBuilder,
-                private _router: Router, private destroy$: DestroyService) {
+                private _router: Router, private destroy$: DestroyService,
+                protected authService: AuthService) {
     }
 
     ngOnInit(): void {
@@ -57,7 +59,7 @@ export class UserInformationEditComponent implements OnInit {
             salary: Number(userNewData.salary),
             employmentStatus: this._user.employmentStatus
         }).pipe(
-                tap(() => this._router.navigate(['cabinet/profile']))
-            ).subscribe();
+            tap(() => this._router.navigate(['cabinet/profile']))
+        ).subscribe();
     }
 }

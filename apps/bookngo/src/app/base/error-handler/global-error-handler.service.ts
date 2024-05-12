@@ -20,6 +20,7 @@ export class GlobalErrorHandler implements ErrorHandler {
             console.log(this._router.url);
 
             if (error.statusText === 'Unauthorized') {
+                localStorage.removeItem('token')
                 this._router.navigate(['']);
             } else {
                 this._router.navigate(['error']);
