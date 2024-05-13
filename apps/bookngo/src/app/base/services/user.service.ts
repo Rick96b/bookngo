@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class UserService {
 
-    private _me$: BehaviorSubject<User> = new BehaviorSubject<User>({} as User);
+    private _me$: BehaviorSubject<User>;
     private _vacations$: BehaviorSubject<Vacation[]> = new BehaviorSubject<Vacation[]>([]);
     public isFetched = false;
 
@@ -37,7 +37,7 @@ export class UserService {
         return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`)
             .pipe(
                 tap((user: User): void => {
-                    this._me$.next(user);
+                    this._me$ = new BehaviorSubject<User>(user);
                     this.isFetched = true;
                 }),
                 mergeMap( (user: User) => this.fetchVacations(user.id)),
