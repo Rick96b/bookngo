@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiInputDateModule } from '@taiga-ui/kit';
+import { TuiDataListWrapperModule, TuiInputDateModule, TuiSelectModule } from '@taiga-ui/kit';
 import { VacationRequestApiService } from '../data/services/vacations-request-api.service';
 import { DestroyService, User, UserService, Vacation } from '@bookngo/base';
 import { takeUntil, tap } from 'rxjs';
@@ -15,7 +15,9 @@ import { NgIf } from '@angular/common';
         TuiInputDateModule,
         TuiButtonModule,
         TuiTextfieldControllerModule,
-        NgIf
+        NgIf,
+        TuiDataListWrapperModule,
+        TuiSelectModule
     ],
     selector: 'app-vacation-request',
     templateUrl: './vacation-request.component.html',
@@ -23,9 +25,13 @@ import { NgIf } from '@angular/common';
     providers: [DestroyService]
 })
 export class VacationRequestComponent implements OnInit {
-    vacationForm: FormGroup;
+    protected vacationForm: FormGroup;
     protected nowDay: TuiDay;
     protected maxDay: TuiDay;
+    protected items: string[] = [
+        'Отпуск',
+        'Отгул'
+    ];
 
 
     constructor(
@@ -34,37 +40,54 @@ export class VacationRequestComponent implements OnInit {
         protected _userService: UserService,
         private destroy$: DestroyService
     ) {
-        const  date: Date = new Date();
+        const date: Date = new Date();
         this.nowDay = new TuiDay(date.getFullYear(), date.getMonth(), date.getDate());
     }
 
     ngOnInit(): void {
-        this.vacationForm = this._fb.group<{ start: TuiDay | null, end: TuiDay | null }>({
+        this.vacationForm = this._fb.group<{
+            start: TuiDay | null,
+            end: TuiDay | null,
+            missType: string,
+            date: TuiDay | null
+        }>({
+            missType: this.items[1],
             start: null,
-            end: null
+            end: null,
+            date: null
         });
 
         this.vacationForm.controls['start'].valueChanges
             .pipe(
                 tap((value: TuiDay): void => {
                     this.maxDay = value.append({ day: this._userService.getMeSnapshot().accumulatedVacationDays - 1 });
-                    this.nowDay = value
+                    this.nowDay = value;
                 }),
                 takeUntil(this.destroy$)
-            ).subscribe()
+            ).subscribe();
     }
 
     public onSubmit(): void {
         const me: User = this._userService.getMeSnapshot();
-        const start = this.vacationForm.controls['start'].value;
-        const end = this.vacationForm.controls['end'].value;
-        this._vacationRequestApiService.sendRequest({
-            employee: me.id,
-            startDate: new Date(start.year, start.month, start.day + 1).toISOString(),
-            endDate: new Date(end.year, end.month, end.day + 1).toISOString()
-        }).pipe(
-            tap((vacation: Vacation) => this._userService.setVacations(vacation)),
-            takeUntil(this.destroy$)
-        ).subscribe();
+
+        if (this.vacationForm.controls['missType'].value === 'Отпуск') {
+            const start = this.vacationForm.controls['start'].value;
+            const end = this.vacationForm.controls['end'].value;
+            this._vacationRequestApiService.sendVacationRequest({
+                employee: me.id,
+                startDate: new Date(start.year, start.month, start.day + 1).toISOString(),
+                endDate: new Date(end.year, end.month, end.day + 1).toISOString()
+            }).pipe(
+                takeUntil(this.destroy$)
+            ).subscribe();
+        } else {
+            const date = this.vacationForm.controls['date'].value;
+            this._vacationRequestApiService.sendCompensationRequest({
+                employee: me.id,
+                date: new Date(date.year, date.month, date.day + 1).toISOString()
+            }).pipe(
+                takeUntil(this.destroy$)
+            ).subscribe();
+        }
     }
 }

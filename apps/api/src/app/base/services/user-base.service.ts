@@ -14,4 +14,11 @@ export class UserBaseService {
             }
         });
     }
+
+    async updateUserMissDays(id: number) {
+        await this._prismaService.user.update({
+            where: { id: id },
+            data: { compensationDays: { increment: 1 } }
+        });
+    }
 }

@@ -14,6 +14,12 @@
                     <app-notifications-item [notification]="notification" notificationLabel="Заявление на вступление в отдел" type="join"/>
                 </li>
             </ng-container>
+
+            <ng-container *ngIf="notificationsService.getCompensationsRequestNotifications() | async as notifications">
+                <li *ngFor="let notification of notifications" >
+                    <app-notifications-item [notification]="notification" notificationLabel="Заявление на вступление в отдел" type="join"/>
+                </li>
+            </ng-container>
         </ul>
     </div>
 </section>

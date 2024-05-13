@@ -1,9 +1,9 @@
-import { UserDto, VacationInDto, VacationOutDto } from '@common';
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { VacationInDto } from '@common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { User, Vacation } from '@prisma/client';
 import { CompanyBaseService, UserBaseService } from '../base';
-import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
+import { NotificationPutStatusDto } from '@common';
 
 @Injectable()
 export class VacationService {
@@ -24,7 +24,6 @@ export class VacationService {
     }
 
     async postVacation(dto: VacationInDto) {
-
         const oldVacation: Vacation = await this._prismaService.vacation.findFirst({
             where: {
                 employee: dto.employee,

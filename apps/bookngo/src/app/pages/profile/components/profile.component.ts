@@ -37,8 +37,6 @@ export class ProfileComponent {
         private destroy$: DestroyService,
         private _companyService: CompanyService
     ) {
-        effect(() => console.log(`The current user is`, this.user()))
-
         this._activatedRoute.params.pipe(
             tap((params: Params): void => {
                 this.userId = params['id'];
@@ -49,7 +47,6 @@ export class ProfileComponent {
     }
 
     private updateUser(): void {
-
         if (!this.userId) {
             this.user = toSignal(this._userService.getMe(), {requireSync: true})
         } else {

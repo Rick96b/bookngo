@@ -1,9 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { User, Vacation } from '@prisma/client';
-import { UserDto } from '@common';
+import { NotificationPutStatusDto, UserDto } from '@common';
 import { CompanyBaseService, VacationBaseService } from '../base';
-import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
 
 
 @Injectable()

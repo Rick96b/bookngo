@@ -7,10 +7,16 @@ import { PrismaService } from '../prisma.service';
 import { UsersModule } from './users/users.module';
 import { CompanyModule } from './company/company.module';
 import { VacationModule } from './vacation/vacation.module';
-import { UserBaseService } from './base/services/user-base.service';
+import { CompensationModule } from './compensation/compensation.module';
 
 @Module({
-    imports: [AuthModule, UsersModule, CompanyModule, VacationModule],
+    imports: [
+        AuthModule,
+        UsersModule,
+        CompanyModule,
+        VacationModule,
+        CompensationModule,
+    ],
     controllers: [AppController],
     providers: [AppService, PrismaService],
 })

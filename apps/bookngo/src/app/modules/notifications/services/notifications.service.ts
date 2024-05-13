@@ -1,18 +1,22 @@
 import { Inject, Injectable } from '@angular/core';
-import { BASE_URL_TOKEN, CompanyService, User, UserService, Vacation } from '@bookngo/base';
-import { BehaviorSubject, catchError, concatMap, map, Observable, of, tap, zip } from 'rxjs';
+import { BASE_URL_TOKEN, User, UserService, Vacation } from '@bookngo/base';
+import { BehaviorSubject, map, Observable, tap, zip } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { NotificationPutStatusDto } from '../../../../../../common/models/notification-put-status-dto.interface';
+import { CompensationDto, NotificationPutStatusDto } from '@common';
 
 @Injectable()
 export class NotificationsService {
 
     protected _vacationsRequestNotifications$: BehaviorSubject<Vacation[]> = new BehaviorSubject<Vacation[]>([]);
     protected _joinRequestsNotifications$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+    protected _compensationRequestsNotifications$: BehaviorSubject<CompensationDto[]> = new BehaviorSubject<CompensationDto[]>([]);
     public isLoaded = false;
 
     public getVacationsRequestNotifications(): Observable<Vacation[]> {
         return this._vacationsRequestNotifications$.asObservable();
+    }
+    public getCompensationsRequestNotifications(): Observable<CompensationDto[]> {
+        return this._compensationRequestsNotifications$.asObservable();
     }
 
     public getJoinRequestNotifications(): Observable<User[]> {
@@ -49,13 +53,14 @@ export class NotificationsService {
             );
     }
 
-    private getAllNotifications(): Observable<[Vacation[], User[]]> {
+    private getAllNotifications(): Observable<[Vacation[], User[], CompensationDto[]]> {
         // для ceo
-        return zip(this.fetchVacationsRequestNotifications(), this.fetchJoinRequestNotifications())
+        return zip(this.fetchVacationsRequestNotifications(), this.fetchJoinRequestNotifications(), this.fetchCompensationsRequestNotifications())
             .pipe(
-                tap(([vacations, users]): void => {
+                tap(([vacations, users, compensations]): void => {
                     this._vacationsRequestNotifications$.next(vacations);
                     this._joinRequestsNotifications$.next(users);
+                    this._compensationRequestsNotifications$.next(compensations);
                     this.isLoaded = true;
                 })
             );
@@ -66,6 +71,9 @@ export class NotificationsService {
     private fetchVacationsRequestNotifications(): Observable<Vacation[]> {
         return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/getPendingVacations`);
     }
+    private fetchCompensationsRequestNotifications(): Observable<CompensationDto[]> {
+        return this._httpClient.get<CompensationDto[]>(`${this._baseUrl}/compensation/getPendingCompensations`);
+    }
 
     private fetchJoinRequestNotifications(): Observable<User[]> {
         return this._httpClient.get<User[]>(`${this._baseUrl}/users/getPendingUsers`);
@@ -74,20 +82,22 @@ export class NotificationsService {
     public sendStatusVacation(dto: NotificationPutStatusDto) {
         return this._httpClient.put<Vacation>(`${this._baseUrl}/vacations/updateStatus`, dto);
     }
+    public sendStatusCompensation(dto: NotificationPutStatusDto) {
+        return this._httpClient.put<CompensationDto>(`${this._baseUrl}/compensation/updateStatus`, dto);
+    }
 
     public sendStatusUser(dto: NotificationPutStatusDto) {
         return this._httpClient.put<User>(`${this._baseUrl}/users/updateStatus`, dto);
     }
-
-
-
-
 
     public updateReviewStatusJoin(): Observable<User> {
         return this._httpClient.get<User>(`${this._baseUrl}/users/updateReviewStatus`);
     }
 
     public updateReviewStatusVacation(id: number): Observable<Vacation> {
-        return this._httpClient.post<Vacation>(`${this._baseUrl}/vacations/updateReviewStatus`, {id});
+        return this._httpClient.post<Vacation>(`${this._baseUrl}/vacations/updateReviewStatus`, { id });
+    }
+    public updateReviewStatusCompensation(id: number): Observable<CompensationDto> {
+        return this._httpClient.post<CompensationDto>(`${this._baseUrl}/compensation/updateReviewStatus`, { id });
     }
 }
