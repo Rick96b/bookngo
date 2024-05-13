@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TuiButtonModule } from '@taiga-ui/core';
@@ -8,11 +8,17 @@ import { TuiButtonModule } from '@taiga-ui/core';
     standalone: true,
     imports: [CommonModule, TuiButtonModule],
     templateUrl: './error.component.html',
-    styleUrl: './error.component.scss',
+    styleUrl: './error.component.scss'
 })
-export class ErrorComponent {
+export class ErrorComponent implements AfterViewInit {
+
+    @ViewChild('errorText') protected _headerElement: ElementRef<HTMLHeadingElement>;
 
     constructor(private _router: Router) {
+    }
+
+    ngAfterViewInit(): void {
+        this._headerElement.nativeElement.style.color = 'red';
     }
 
     protected navigateToHome(): void {
