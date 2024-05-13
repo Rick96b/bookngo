@@ -28,7 +28,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class ProfileComponent {
     protected userId: number;
-    protected user: Signal<User | undefined>;
+    protected user: Signal<User>;
     protected isActive: boolean = true;
 
     constructor(
@@ -51,9 +51,9 @@ export class ProfileComponent {
     private updateUser(): void {
 
         if (!this.userId) {
-            this.user = toSignal(this._userService.getMe())
+            this.user = toSignal(this._userService.getMe(), {requireSync: true})
         } else {
-            this.user = computed(() => this._companyService.getActiveUser(this.userId))
+            this.user = computed(() => this._companyService.getActiveUser(this.userId)!)
             this.isActive = false;
         }
     }
