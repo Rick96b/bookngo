@@ -1,4 +1,4 @@
-import { Component, computed, Signal } from '@angular/core';
+import { Component, computed, effect, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiAvatarModule, tuiAvatarOptionsProvider } from '@taiga-ui/kit';
 import { TabBarComponent } from '../../../modules/tab-bar';
@@ -37,6 +37,8 @@ export class ProfileComponent {
         private destroy$: DestroyService,
         private _companyService: CompanyService
     ) {
+        effect(() => console.log(`The current user is`, this.user()))
+
         this._activatedRoute.params.pipe(
             tap((params: Params): void => {
                 this.userId = params['id'];

@@ -26,8 +26,8 @@ import { Router } from '@angular/router';
 })
 export class UsersListComponent implements OnInit {
     protected filterForm: FormGroup
-	generateColorForUser = generateColorForUser
-    constructor(protected _departmentService: DepartmentService, private destroy$: DestroyService, private _router: Router) {
+	protected generateColorForUser = generateColorForUser
+    constructor(protected _departmentService: DepartmentService, private destroy$: DestroyService, private _router: Router ) {
         this.filterForm = new FormGroup({
             department: new FormControl(this._departmentService.getActiveDepartmentSnapshot())
         })
@@ -41,6 +41,6 @@ export class UsersListComponent implements OnInit {
     }
 
     protected navigateToProfile(userId: number): void {
-        this._router.navigate(['cabinet', 'profile', userId])
+        this._router.navigate(['profile', userId])
     }
 }
