@@ -47,7 +47,7 @@ export class VacationRequestComponent implements OnInit {
         this.vacationForm.controls['start'].valueChanges
             .pipe(
                 tap((value: TuiDay): void => {
-                    this.maxDay = value.append({ day: this._userService.getMeSnapshot().accumulatedVacationDays });
+                    this.maxDay = value.append({ day: this._userService.getMeSnapshot().accumulatedVacationDays - 1 });
                     this.nowDay = value
                 }),
                 takeUntil(this.destroy$)

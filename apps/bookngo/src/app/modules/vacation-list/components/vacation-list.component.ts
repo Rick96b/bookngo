@@ -18,25 +18,26 @@ import { VacationsService } from '../../calendar/data/vacations.service';
 })
 export class VacationListComponent implements OnInit {
 
-    @Input({alias: 'userId'}) userId: number;
+    @Input({ alias: 'userId' }) userId: number;
     protected vacations: Vacation[] = [];
+
     constructor(protected _userService: UserService, private destroy$: DestroyService, private _companyService: CompanyService, private _vacationService: VacationsService) {
     }
 
     ngOnInit(): void {
-        if (!this.userId || this.userId == this._userService.getMeSnapshot().id) {
+        if (!this.userId || this.userId === this._userService.getMeSnapshot().id) {
             this._userService.getVacations()
                 .pipe(
                     tap((vacation: Vacation[]) => this.vacations = vacation),
                     takeUntil(this.destroy$)
-                )
+                ).subscribe();
         } else {
 
             this._vacationService.fetchVacations(this.userId)
                 .pipe(
                     tap((vacations: Vacation[]) => this.vacations = vacations),
                     takeUntil(this.destroy$)
-                ).subscribe()
+                ).subscribe();
         }
     }
 }
