@@ -36,4 +36,10 @@ export class VacationController {
         return this.vacationService.updateStatus(dto);
     }
 
+    @Post('updateReviewStatus')
+    @UseGuards(JwtAuthGuard)
+    updateReviewStatus(@Body() dto: NotificationPutStatusDto) {
+        return  this.vacationService.updateReviewStatus(dto);
+    }
+
 }

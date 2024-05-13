@@ -80,4 +80,15 @@ export class VacationService {
             }
         })
     }
+
+    async updateReviewStatus(dto: NotificationPutStatusDto) {
+        return this._prismaService.vacation.update({
+            where: {
+                id: dto.id
+            },
+            data: {
+                reviewStatus: false
+            }
+        })
+    }
 }

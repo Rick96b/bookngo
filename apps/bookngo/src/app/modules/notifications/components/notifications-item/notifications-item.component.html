@@ -1,28 +1,29 @@
-<section>
-    <ng-container *ngIf="notification">
-        <!--        уведомления об отпуске        -->
-        <ng-container *ngIf="notification.employee as userId; else notificationJoin">
-            <div *ngIf="_companyService.getActiveUser(userId) as user" (click)="showDialog(user)" highlight>
-                <p>{{ user.fullName }}</p>
-                <p>{{ notificationLabel }} </p>
-                <span>{{ notification.createdAt | formatTime }}</span>
-            </div>
-        </ng-container>
-
-        <!--        уведомления об вступлении в отдел        -->
-        <ng-template #notificationJoin>
-            <ng-container *ngIf="notification.userId as userId">
-                <div *ngIf="_notificationsService.getPendingUser(userId) as user" (click)="showDialog(user)" highlight>
+<tui-root>
+    <section>
+        <ng-container *ngIf="notification">
+            <!--        уведомления об отпуске        -->
+            <ng-container *ngIf="notification.employee as userId; else notificationJoin">
+                <div *ngIf="_companyService.getActiveUser(userId) as user" (click)="showDialog(user)" highlight>
                     <p>{{ user.fullName }}</p>
                     <p>{{ notificationLabel }} </p>
-                    <span>{{ user.createdAt | formatTime }}</span>
+                    <span>{{ notification.createdAt | formatTime }}</span>
                 </div>
             </ng-container>
-        </ng-template>
-    </ng-container>
-</section>
 
-
+            <!--        уведомления об вступлении в отдел        -->
+            <ng-template #notificationJoin>
+                <ng-container *ngIf="notification.userId as userId">
+                    <div *ngIf="_notificationsService.getPendingUser(userId) as user" (click)="showDialog(user)"
+                         highlight>
+                        <p>{{ user.fullName }}</p>
+                        <p>{{ notificationLabel }} </p>
+                        <span>{{ user.createdAt | formatTime }}</span>
+                    </div>
+                </ng-container>
+            </ng-template>
+        </ng-container>
+    </section>
+</tui-root>
 
 
 

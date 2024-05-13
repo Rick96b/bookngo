@@ -1,4 +1,4 @@
-import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
+import { Component, Inject, Injector, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CompanyService, DestroyService, User, UserService, Vacation } from '@bookngo/base';
 import { FormatTimePipe } from '../../pipes/format-time.pipe';
@@ -10,24 +10,8 @@ import { UserDto } from '@common';
 import { NotificationInterface } from '../../interfaces/notification.interface';
 import { NotificationsService } from '../../services/notifications.service';
 import { HighlightDirective } from '../../directives/highlight.directive';
-
-function notificationCreation(notification: User | Vacation): NotificationInterface {
-    if ('employee' in notification) {
-        return {
-            createdAt: notification.createdAt,
-            startDate: notification.startDate,
-            endDate: notification.endDate,
-            employee: notification.employee,
-            vacationId: notification.id
-        };
-    }
-
-    return {
-        createdAt: notification.createdAt,
-        userId: notification.id
-    };
-};
-
+import { IContextDialog } from '../../interfaces/context-dialog.interface';
+import { notificationCreation } from '../../utills/notification-creation';
 @Component({
     selector: 'app-notifications-item',
     standalone: true,
@@ -56,7 +40,7 @@ export class NotificationsItemComponent {
 
     public showDialog(user: UserDto): void {
 
-        const context = {
+        const context: IContextDialog = {
             user: user,
             notification: this.notification,
             type: this.notificationType
@@ -72,9 +56,6 @@ export class NotificationsItemComponent {
             }
         );
 
-        this.dialog
-            .pipe(
-                takeUntil(this.destroy$)
-            ).subscribe();
+        this.dialog.pipe(takeUntil(this.destroy$)).subscribe();
     }
 }

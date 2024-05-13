@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { TuiButtonModule, TuiDataListModule, TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { TuiButtonModule, TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { TuiAutoFocusModule } from '@taiga-ui/cdk';
-import { TuiAvatarModule, tuiAvatarOptionsProvider, TuiDataListWrapperModule } from '@taiga-ui/kit';
-import { DestroyService, User, UserService, Vacation } from '@bookngo/base';
+import { TuiAvatarModule, tuiAvatarOptionsProvider } from '@taiga-ui/kit';
+import { DestroyService, User, UserService } from '@bookngo/base';
 import { NotificationsService } from '../../services/notifications.service';
 import { takeUntil, tap } from 'rxjs';
 import { NotificationInterface } from '../../interfaces/notification.interface';
@@ -16,7 +14,6 @@ import { FormatStatusPipe } from '../../pipes/format-status.pipe';
     selector: 'dialog-example',
     templateUrl: './notifications-dialog.component.html',
     styleUrls: ['./notifications-dialog.component.html'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [TuiButtonModule, CommonModule, TuiAvatarModule, FormatStatusPipe],
     standalone: true,
     providers: [
@@ -55,13 +52,13 @@ export class NotificationsDialogComponent {
 
     private updateStatus(type: string, status: string): void {
         if (type === 'join') {
-            this.notificationsService.sendStatusUser({ id: this.notification.userId!, status: status })
+            this.notificationsService.sendStatusUser({ id: this.notification.userId!, status })
                 .pipe(
                     tap(() => this.context.completeWith()),
                     takeUntil(this.destroy$)
                 ).subscribe();
         } else {
-            this.notificationsService.sendStatusVacation({ id: this.notification.vacationId!, status: status })
+            this.notificationsService.sendStatusVacation({ id: this.notification.vacationId!, status })
                 .pipe(
                     tap(() => this.context.completeWith()),
                     takeUntil(this.destroy$)
@@ -70,9 +67,17 @@ export class NotificationsDialogComponent {
     }
 
     protected confirm(): void {
-        this.notificationsService.sendReviewJoin().pipe(
-            tap(() => this.context.completeWith()),
-            takeUntil(this.destroy$)
-        ).subscribe();
+        if (this.notificationType === 'join') {
+            this.notificationsService.updateReviewStatusJoin().pipe(
+                tap(() => this.context.completeWith()),
+                takeUntil(this.destroy$)
+            ).subscribe();
+
+        } else {
+            this.notificationsService.updateReviewStatusVacation(this.notification.vacationId!).pipe(
+                tap(() => this.context.completeWith()),
+                takeUntil(this.destroy$)
+            ).subscribe();
+        }
     }
 }

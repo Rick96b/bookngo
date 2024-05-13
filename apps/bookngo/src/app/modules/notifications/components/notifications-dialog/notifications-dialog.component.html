@@ -4,9 +4,7 @@
         <div class="profile__avatar-wrapper">
             <tui-avatar [text]="user.fullName"></tui-avatar>
         </div>
-
         <p>{{ user.fullName }}</p>
-
 
         <p>
             @if (notification.userId === _userService.getMeSnapshot().id || notification.employee === _userService.getMeSnapshot().id) {

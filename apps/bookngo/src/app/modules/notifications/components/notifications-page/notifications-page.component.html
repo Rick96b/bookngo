@@ -1,39 +1,20 @@
 <section class="notifications">
-    <header class="notifications__header"> 
+    <header class="notifications__header">
         <p>Уведомления</p>
     </header>
     <div class="base-container">
-
-        <ul *ngIf="_userService.getMeSnapshot().employmentStatus === 'ceo'; else notificationForEmployee">
+        <ul>
             <ng-container *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications">
                 <li *ngFor="let notification of notifications" >
                     <app-notifications-item [notification]="notification" notificationLabel="Заявление на отпуск" type="vacation"/>
                 </li>
             </ng-container>
-
             <ng-container *ngIf="notificationsService.getJoinRequestNotifications() | async as notifications">
                 <li *ngFor="let notification of notifications" >
                     <app-notifications-item [notification]="notification" notificationLabel="Заявление на вступление в отдел" type="join"/>
                 </li>
             </ng-container>
         </ul>
-
-        <ng-template #notificationForEmployee>
-            <ng-container *ngIf="notificationsService.getJoinRequestNotifications() | async as notifications">
-                <li *ngFor="let notification of notifications" >
-                    <app-notifications-item [notification]="notification" notificationLabel="Заявление на вступление в отдел" type="join"/>
-                </li>
-            </ng-container>
-
-            <ng-container *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications">
-                <li *ngFor="let notification of notifications" >
-
-                    <app-notifications-item [notification]="notification" notificationLabel="Заявление на отпуск" type="vacation"/>
-                </li>
-            </ng-container>
-
-        </ng-template>
-
     </div>
 </section>
 

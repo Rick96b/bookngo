@@ -23,16 +23,14 @@ export class NotificationsService {
         return this._joinRequestsNotifications$.getValue().find((user: User): boolean => user.id === userId);
     }
 
-    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient,
-                protected _companyService: CompanyService, private userService: UserService) {
-
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient, private userService: UserService) {
     }
 
     public updateNotifications(user: User): Observable<boolean> {
         if (user.employmentStatus === 'ceo') {
             return this.getAllNotifications().pipe(map(() => true));
         } else {
-            return this.getSomeNotifications().pipe(map(() => true))
+            return this.getSomeNotifications().pipe(map(() => true));
         }
     }
 
@@ -64,6 +62,7 @@ export class NotificationsService {
 
     }
 
+
     private fetchVacationsRequestNotifications(): Observable<Vacation[]> {
         return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/getPendingVacations`);
     }
@@ -80,7 +79,15 @@ export class NotificationsService {
         return this._httpClient.put<User>(`${this._baseUrl}/users/updateStatus`, dto);
     }
 
-    public sendReviewJoin() {
-        return this._httpClient.get<User>(`${this._baseUrl}/users/updateReviewStatus`)
+
+
+
+
+    public updateReviewStatusJoin(): Observable<User> {
+        return this._httpClient.get<User>(`${this._baseUrl}/users/updateReviewStatus`);
+    }
+
+    public updateReviewStatusVacation(id: number): Observable<Vacation> {
+        return this._httpClient.post<Vacation>(`${this._baseUrl}/vacations/updateReviewStatus`, {id});
     }
 }

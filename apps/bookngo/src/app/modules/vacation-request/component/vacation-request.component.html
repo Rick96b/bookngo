@@ -1,6 +1,6 @@
 <section class="vacation-request">
     <h2>Запланировать отпуск</h2>
-    <form [formGroup]="vacationForm" class="vacation-request__form">
+    <form [formGroup]="vacationForm" class="vacation-request__form" *ngIf="_userService.getMeSnapshot().status === 'approved'; else errorMessage">
         <tui-input-date
             [tuiTextfieldLabelOutside]="true"
             formControlName="start"
@@ -16,4 +16,8 @@
             Запланировать отпуск
         </button>
     </form>
+
+    <ng-template #errorMessage>
+        <p>Дождитесь рассмотрения заявления</p>
+    </ng-template>
 </section>

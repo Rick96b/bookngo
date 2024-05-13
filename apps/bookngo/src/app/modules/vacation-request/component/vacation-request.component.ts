@@ -6,6 +6,7 @@ import { TuiInputDateModule } from '@taiga-ui/kit';
 import { VacationRequestApiService } from '../data/services/vacations-request-api.service';
 import { DestroyService, User, UserService, Vacation } from '@bookngo/base';
 import { takeUntil, tap } from 'rxjs';
+import { NgIf } from '@angular/common';
 
 @Component({
     standalone: true,
@@ -13,7 +14,8 @@ import { takeUntil, tap } from 'rxjs';
         ReactiveFormsModule,
         TuiInputDateModule,
         TuiButtonModule,
-        TuiTextfieldControllerModule
+        TuiTextfieldControllerModule,
+        NgIf
     ],
     selector: 'app-vacation-request',
     templateUrl: './vacation-request.component.html',
@@ -29,7 +31,7 @@ export class VacationRequestComponent implements OnInit {
     constructor(
         private _fb: FormBuilder,
         private _vacationRequestApiService: VacationRequestApiService,
-        private _userService: UserService,
+        protected _userService: UserService,
         private destroy$: DestroyService
     ) {
         const  date: Date = new Date();
