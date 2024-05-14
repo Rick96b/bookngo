@@ -1,29 +1,41 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
+import { BASE_URL_TOKEN, User } from '@bookngo/base'
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+    private _authState = new BehaviorSubject<'Undefined' | 'Pending' | 'Approved'>('Undefined');
 
-    private _authState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-    constructor() {
-        if (localStorage.getItem('token')) {
-            this.setAuthState(true);
-        }
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
+        this.getUser().pipe(
+            tap(user => {
+                if(user.status === 'approved') {
+                    this._authState.next('Approved')
+                }
+                if(user.status === 'pending') {
+                    this._authState.next('Pending')
+                }
+            }),
+            catchError(() => {
+                this._authState.next('Undefined')
+                return of(null)
+            })
+        )
     }
 
-    public getAuthStateSnapshot(): boolean {
+    public getAuthStateSnapshot(): 'Undefined' | 'Pending' | 'Approved' {
         return this._authState.getValue();
     }
 
-    public getAuthState(): Observable<boolean> {
+    public getAuthState(): Observable<'Undefined' | 'Pending' | 'Approved'> {
         return this._authState.asObservable();
     }
 
 
-    public setAuthState(state: boolean): void {
+    public setAuthState(state: 'Undefined' | 'Pending' | 'Approved'): void {
         this._authState.next(state);
     }
 
@@ -33,11 +45,10 @@ export class AuthService {
 
     public logout(): void {
         localStorage.removeItem('token');
-        this.setAuthState(false);
+        this.setAuthState('Undefined');
     }
 
-    public loginByToken(token: string): void {
-        localStorage.setItem('token', token);
-        this.setAuthState(true);
+    private getUser(): Observable<User> {
+        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`)
     }
 }

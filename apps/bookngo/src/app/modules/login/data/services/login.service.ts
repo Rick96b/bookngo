@@ -14,7 +14,7 @@ export class LoginService {
             .pipe(
                 tap((res: { token: string }): void => {
                     localStorage.setItem('token', res.token);
-                    this._authService.setAuthState(true);
+                    this._authService.setAuthState('Approved');
                 })
             );
     }

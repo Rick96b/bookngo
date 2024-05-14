@@ -21,8 +21,8 @@ export class AppComponent {
 
         this.authService.getAuthState()
             .pipe(
-                tap((authState: boolean): void => {
-                    const path: string = authState ? 'cabinet' : '';
+                tap((authState: 'Approved' | 'Pending' | 'Undefined'): void => {
+                    const path: string = authState === 'Approved' ? 'cabinet' : '';
                     this.router.navigate([path]);
                 }),
                 takeUntil(this.destroy$)
