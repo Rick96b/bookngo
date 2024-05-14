@@ -6,8 +6,9 @@ import { AuthModule } from '../auth/auth.module';
 import { CompanyBaseService, UserBaseService } from '../base';
 
 @Module({
-  controllers: [VacationController],
-  providers: [VacationService, PrismaService, UserBaseService,CompanyBaseService],
-  imports: [AuthModule]
+    controllers: [VacationController],
+    providers: [VacationService, PrismaService, UserBaseService, CompanyBaseService],
+    imports: [AuthModule]
 })
-export class VacationModule {}
+export class VacationModule {
+}

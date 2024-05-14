@@ -1,9 +1,9 @@
-import { UserDto, VacationInDto, VacationOutDto } from '@common';
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { VacationInDto } from '@common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { User, Vacation } from '@prisma/client';
 import { CompanyBaseService, UserBaseService } from '../base';
-import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
+import { NotificationPutStatusDto } from '@common';
 
 @Injectable()
 export class VacationService {
@@ -11,9 +11,7 @@ export class VacationService {
     }
 
     async getVacations(userId: number, userRequestDto: User): Promise<Vacation[]> {
-        const user: User = await this._userBaseService.getUser(userRequestDto.email)
-        console.log(user);
-        console.log(userId);
+        const user: User = await this._userBaseService.getUser(userRequestDto.email);
         if (user.status === 'pending' || user.status === 'rejected') {
             return [];
         }
@@ -22,25 +20,6 @@ export class VacationService {
                 employee: userId,
                 status: 'approved'
             }
-        });
-    }
-
-    async postVacation(dto: VacationInDto) {
-
-        const oldVacation: Vacation = await this._prismaService.vacation.findFirst({
-            where: {
-                employee: dto.employee,
-                startDate: dto.startDate,
-                endDate: dto.endDate
-            }
-        });
-
-        if (oldVacation) {
-            throw new BadRequestException('Vacation already exist');
-        }
-
-        return this._prismaService.vacation.create({
-            data: dto
         });
     }
 
@@ -69,15 +48,33 @@ export class VacationService {
         return vacations;
     }
 
+    async postVacation(dto: VacationInDto): Promise<Vacation> {
+        const oldVacation: Vacation = await this._prismaService.vacation.findFirst({
+            where: { employee: dto.employee, startDate: dto.startDate, endDate: dto.endDate }
+        });
+
+        if (oldVacation) {
+            throw new BadRequestException('Vacation already exist');
+        }
+
+        return this._prismaService.vacation.create({ data: dto });
+    }
+
     async updateStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
+        if (dto.status === 'approved') {
+            return this._prismaService.vacation.delete({ where: { id: dto.id } });
+        } else {
+            return this._prismaService.vacation.update({
+                where: { id: dto.id },
+                data: { status: dto.status, reviewStatus: true }
+            });
+        }
+    }
+
+    async updateReviewStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
         return this._prismaService.vacation.update({
-            where: {
-                id: dto.id
-            },
-            data: {
-                status: dto.status,
-                reviewStatus: true
-            }
-        })
+            where: { id: dto.id },
+            data: { reviewStatus: false }
+        });
     }
 }

@@ -3,7 +3,7 @@ export interface NotificationInterface {
     createdAt: Date;
     startDate?: string;
     endDate?: string;
-    vacationId?: number;
+    missId?: number;
 
     employee?: number;
 

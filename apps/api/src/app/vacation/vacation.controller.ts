@@ -1,10 +1,8 @@
-import { Controller, Get, UseGuards, Param, Post, Body, Req, Res, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { VacationService } from './vacation.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { VacationInDto, VacationOutDto } from '@common';
+import { NotificationPutStatusDto, VacationInDto } from '@common';
 import { RolesGuard } from '../auth/roles.guard';
-import { Vacation } from '@prisma/client';
-import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
 
 
 @Controller('vacations')
@@ -34,6 +32,12 @@ export class VacationController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     updateStatus(@Body() dto: NotificationPutStatusDto) {
         return this.vacationService.updateStatus(dto);
+    }
+
+    @Post('updateReviewStatus')
+    @UseGuards(JwtAuthGuard)
+    updateReviewStatus(@Body() dto: NotificationPutStatusDto) {
+        return  this.vacationService.updateReviewStatus(dto);
     }
 
 }

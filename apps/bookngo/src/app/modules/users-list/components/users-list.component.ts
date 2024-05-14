@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
 })
 export class UsersListComponent implements OnInit {
     protected filterForm: FormGroup
-	generateColorForUser = generateColorForUser
+	protected generateColorForUser = generateColorForUser
     constructor(protected _departmentService: DepartmentService, private destroy$: DestroyService, private _router: Router) {
         this.filterForm = new FormGroup({
             department: new FormControl(this._departmentService.getActiveDepartmentSnapshot())

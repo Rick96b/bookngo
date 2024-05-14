@@ -1,6 +1,6 @@
-import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
+import { Component, Inject, Injector, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CompanyService, DestroyService, User, UserService, Vacation } from '@bookngo/base';
+import { CompanyService, DestroyService, UserService } from '@bookngo/base';
 import { FormatTimePipe } from '../../pipes/format-time.pipe';
 import { TuiDialogModule, TuiDialogService, TuiRootModule } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -10,23 +10,8 @@ import { UserDto } from '@common';
 import { NotificationInterface } from '../../interfaces/notification.interface';
 import { NotificationsService } from '../../services/notifications.service';
 import { HighlightDirective } from '../../directives/highlight.directive';
-
-function notificationCreation(notification: User | Vacation): NotificationInterface {
-    if ('employee' in notification) {
-        return {
-            createdAt: notification.createdAt,
-            startDate: notification.startDate,
-            endDate: notification.endDate,
-            employee: notification.employee,
-            vacationId: notification.id
-        };
-    }
-
-    return {
-        createdAt: notification.createdAt,
-        userId: notification.id
-    };
-};
+import { IContextDialog } from '../../interfaces/context-dialog.interface';
+import { notificationCreation } from '../../utills/notification-creation';
 
 @Component({
     selector: 'app-notifications-item',
@@ -38,8 +23,12 @@ function notificationCreation(notification: User | Vacation): NotificationInterf
 })
 export class NotificationsItemComponent {
 
-    @Input({ required: true, alias: 'type' }) public notificationType: string;
-    @Input({ alias: 'notification', transform: notificationCreation }) public notification: NotificationInterface;
+    @Input({ required: true, alias: 'type' }) public notificationType: 'join' | 'vacation' | 'compensation';
+    @Input({
+        required: true,
+        alias: 'notification',
+        transform: notificationCreation
+    }) public notification: NotificationInterface;
     @Input({ required: true, alias: 'notificationLabel' }) public notificationLabel: string;
 
     constructor(
@@ -56,7 +45,7 @@ export class NotificationsItemComponent {
 
     public showDialog(user: UserDto): void {
 
-        const context = {
+        const context: IContextDialog = {
             user: user,
             notification: this.notification,
             type: this.notificationType
@@ -72,9 +61,6 @@ export class NotificationsItemComponent {
             }
         );
 
-        this.dialog
-            .pipe(
-                takeUntil(this.destroy$)
-            ).subscribe();
+        this.dialog.pipe(takeUntil(this.destroy$)).subscribe();
     }
 }

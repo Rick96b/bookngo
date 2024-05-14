@@ -1,9 +1,8 @@
 import { Body, Controller, Get, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { UserDto, VacationOutDto } from '@common';
+import { NotificationPutStatusDto, UserDto } from '@common';
 import { RolesGuard } from '../auth/roles.guard';
-import { NotificationPutStatusDto } from '../../../../common/models/notification-put-status-dto.interface';
 
 
 @Controller('users')
@@ -13,9 +12,8 @@ export class UsersController {
 
     @Get('getOne')
     @UseGuards(JwtAuthGuard)
-    getUser(@Req() req: Request) {
-        //
-        return this.usersService.findOne(req);
+    getUser(@Req() req) {
+        return this.usersService.findOne(req.user);
     }
 
     @Get('getAll')
@@ -39,13 +37,13 @@ export class UsersController {
     @Get('getPendingUsers')
     @UseGuards(JwtAuthGuard, RolesGuard)
     getPendingUsers(@Req() req) {
-        return  this.usersService.getPendingUsers(req.user.id);
+        return this.usersService.getPendingUsers(req.user.id);
     }
 
     @Get('updateReviewStatus')
     @UseGuards(JwtAuthGuard)
     updateReviewStatus(@Req() req) {
-        return  this.usersService.updateReviewStatus(req.user.id);
+        return this.usersService.updateReviewStatus(req.user.id);
     }
 
     @Put('updateStatus')

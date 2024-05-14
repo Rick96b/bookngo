@@ -9,13 +9,17 @@ export class FormatStatusPipe implements PipeTransform {
 
     constructor(private _userService: UserService) {
     }
-    transform(type: string, vacationId: number = 0): string {
-        if (type.includes('отпуск')) {
-            return `${type} одобрено`
-        }
-        if (this._userService.getVacationById(vacationId)?.status === 'approved') {
+    transform(type: string, missId: number = 0): string {
+        if (type.includes('отдел')) {
             return `${type} одобрена`
         }
-        return `${type} отклонена`
+
+        if (type.includes('отгул')) {
+            const compensationStatus = this._userService.getCompensationById(missId)?.status;
+            return compensationStatus === 'approved' ?  `${type} одобрена`: `${type} отклонена`
+        }
+
+        const vacationStatus = this._userService.getVacationById(missId)?.status;
+        return vacationStatus === 'approved' ? `${type} одобрена` : `${type} отклонена`
     }
 }

@@ -50,3 +50,14 @@ model Vacation {
     startDate    DateTime @map("start")
     endDate      DateTime @map("end")
 }
+
+model Compensation {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+
+    status       String? @default("pending")
+    reviewStatus Boolean @default(false) @map("rewiew-status")
+    employee     Int     @default(0) @map("employee-id")
+
+    date DateTime
+}
