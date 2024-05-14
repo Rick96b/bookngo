@@ -68,7 +68,10 @@ export class UserService {
 
     private fetchCompensations(id: number): Observable<CompensationDto[]> {
         return this._httpClient.get<CompensationDto[]>(`${this._baseUrl}/compensation/user/${id}`).pipe(
-            tap((compensation: CompensationDto[]) => this._compensations$.next(compensation))
+            tap((compensation: CompensationDto[]) => {
+                this._compensations$.next(compensation);
+                console.log(compensation);
+            })
         );
     }
 

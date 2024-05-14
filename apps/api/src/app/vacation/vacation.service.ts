@@ -12,13 +12,12 @@ export class VacationService {
 
     async getVacations(userId: number, userRequestDto: User): Promise<Vacation[]> {
         const user: User = await this._userBaseService.getUser(userRequestDto.email);
-        if (user.status === 'pending' || user.status === 'rejected') {
+        if (user.status === 'pending') {
             return [];
         }
         return this._prismaService.vacation.findMany({
             where: {
-                employee: userId,
-                status: 'approved'
+                employee: userId
             }
         });
     }
@@ -61,20 +60,21 @@ export class VacationService {
     }
 
     async updateStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
-        if (dto.status === 'approved') {
+        return this._prismaService.vacation.update({
+            where: { id: dto.id },
+            data: { status: dto.status, reviewStatus: true }
+        });
+    }
+
+    async updateReviewStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
+        const vacation: Vacation = await this._prismaService.vacation.findFirst({where: {id: dto.id}})
+        if (vacation.status === 'rejected') {
             return this._prismaService.vacation.delete({ where: { id: dto.id } });
         } else {
             return this._prismaService.vacation.update({
                 where: { id: dto.id },
-                data: { status: dto.status, reviewStatus: true }
+                data: { reviewStatus: false }
             });
         }
-    }
-
-    async updateReviewStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
-        return this._prismaService.vacation.update({
-            where: { id: dto.id },
-            data: { reviewStatus: false }
-        });
     }
 }

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { User, Vacation } from '@prisma/client';
 import { NotificationPutStatusDto, UserDto } from '@common';
@@ -64,12 +64,17 @@ export class UsersService {
     }
 
     async getActualUser(dto: UserDto): Promise<User> {
-        const oldUser: User = await this._prismaService.user.findUnique({ where: { email: dto.email } });
+        try {
+            const oldUser: User = await this._prismaService.user.findUnique({ where: { email: dto.email } });
+            console.log(oldUser);
+            return this._prismaService.user.update({
+                where: { email: dto.email },
+                data: { ...await this.calculateVacationInfo(oldUser) }
+            });
+        } catch (e) {
+            throw new UnauthorizedException({ message: 'Пользователь не авторизован' });
+        }
 
-        return this._prismaService.user.update({
-            where: { email: dto.email },
-            data: { ...await this.calculateVacationInfo(oldUser) }
-        });
     }
 
     async calculateVacationInfo(userDto: User, endDate: Date = new Date()): Promise<{

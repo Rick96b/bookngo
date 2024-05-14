@@ -5,7 +5,7 @@ import { FormatDayDatePipe } from '../pipes/format-day-date.pipe';
 import { FormatMonthDatePipe } from '../../common/pipes/format-month-date.pipe';
 import { FormatVacationDateDirective } from '../directives/format-vacation-date.directive';
 import { SortDate } from '../pipes/sort-date.pipe';
-import { takeUntil, tap } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs';
 import { VacationsService } from '../../calendar/data/vacations.service';
 
 @Component({
@@ -28,13 +28,14 @@ export class VacationListComponent implements OnInit {
         if (!this.userId || this.userId === this._userService.getMeSnapshot().id) {
             this._userService.getVacations()
                 .pipe(
+                    map((vacations: Vacation[]) => vacations.filter((vacation: Vacation): boolean => vacation.status === 'approved')),
                     tap((vacation: Vacation[]) => this.vacations = vacation),
                     takeUntil(this.destroy$)
                 ).subscribe();
         } else {
-
             this._vacationService.fetchVacations(this.userId)
                 .pipe(
+                    map((vacations: Vacation[]) => vacations.filter((vacation: Vacation): boolean => vacation.status === 'approved')),
                     tap((vacations: Vacation[]) => this.vacations = vacations),
                     takeUntil(this.destroy$)
                 ).subscribe();

@@ -18,8 +18,10 @@ export class FormatStatusPipe implements PipeTransform {
             const compensationStatus = this._userService.getCompensationById(missId)?.status;
             return compensationStatus === 'approved' ?  `${type} одобрена`: `${type} отклонена`
         }
-
+        console.log(type, missId);
         const vacationStatus = this._userService.getVacationById(missId)?.status;
+        console.log(vacationStatus);
+
         return vacationStatus === 'approved' ? `${type} одобрена` : `${type} отклонена`
     }
 }

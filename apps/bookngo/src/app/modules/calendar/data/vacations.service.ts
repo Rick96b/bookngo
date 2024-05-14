@@ -10,14 +10,15 @@ export class VacationsService {
     }
 
     public getVacationsByUser(users: User[]): Observable<Vacation[]> {
-        return forkJoin(
-            users.map((user: User) => this.fetchVacations(user.id))
-        ).pipe(
-            map((vacations: Vacation[][]) => vacations.flat())
-        )
+        return forkJoin(users.map((user: User) => this.fetchVacations(user.id)))
+            .pipe(
+                map((vacations: Vacation[][]) => {
+                    return vacations.flat().filter((vacation: Vacation): boolean => vacation.status === 'approved')
+                }),
+            );
     }
 
     public fetchVacations(userId: number): Observable<Vacation[]> {
-        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/user/${userId}`)
+        return this._httpClient.get<Vacation[]>(`${this._baseUrl}/vacations/user/${userId}`);
     }
 }

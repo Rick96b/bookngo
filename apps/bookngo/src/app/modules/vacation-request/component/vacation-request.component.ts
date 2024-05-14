@@ -5,7 +5,7 @@ import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiInputDateModule, TuiSelectModule } from '@taiga-ui/kit';
 import { VacationRequestApiService } from '../data/services/vacations-request-api.service';
 import { DestroyService, User, UserService, Vacation } from '@bookngo/base';
-import { takeUntil, tap } from 'rxjs';
+import { catchError, of, takeUntil, tap } from 'rxjs';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -51,7 +51,7 @@ export class VacationRequestComponent implements OnInit {
             missType: string,
             date: TuiDay | null
         }>({
-            missType: this.items[1],
+            missType: this.items[0],
             start: null,
             end: null,
             date: null
@@ -73,21 +73,27 @@ export class VacationRequestComponent implements OnInit {
         if (this.vacationForm.controls['missType'].value === 'Отпуск') {
             const start = this.vacationForm.controls['start'].value;
             const end = this.vacationForm.controls['end'].value;
-            this._vacationRequestApiService.sendVacationRequest({
-                employee: me.id,
-                startDate: new Date(start.year, start.month, start.day + 1).toISOString(),
-                endDate: new Date(end.year, end.month, end.day + 1).toISOString()
-            }).pipe(
-                takeUntil(this.destroy$)
-            ).subscribe();
+            if (start && end) {
+                this._vacationRequestApiService.sendVacationRequest({
+                    employee: me.id,
+                    startDate: new Date(start.year, start.month, start.day + 1).toISOString(),
+                    endDate: new Date(end.year, end.month, end.day + 1).toISOString()
+                }).pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe();
+            }
+
         } else {
             const date = this.vacationForm.controls['date'].value;
-            this._vacationRequestApiService.sendCompensationRequest({
-                employee: me.id,
-                date: new Date(date.year, date.month, date.day + 1).toISOString()
-            }).pipe(
-                takeUntil(this.destroy$)
-            ).subscribe();
+            if (date) {
+                this._vacationRequestApiService.sendCompensationRequest({
+                    employee: me.id,
+                    date: new Date(date.year, date.month, date.day + 1).toISOString()
+                }).pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe();
+            }
+
         }
     }
 }
