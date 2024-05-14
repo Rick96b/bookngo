@@ -4,9 +4,8 @@ import { ApplicationConfig, ErrorHandler, importProvidersFrom } from '@angular/c
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor, GlobalErrorHandler } from '@bookngo/base';
-
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor, AuthService, GlobalErrorHandler } from '@bookngo/base';
 export const appConfig: ApplicationConfig = {
   providers: [
       provideAnimations(),
@@ -17,6 +16,6 @@ export const appConfig: ApplicationConfig = {
       {
           provide: ErrorHandler,
           useClass: GlobalErrorHandler
-      }
+      },
   ]
 };

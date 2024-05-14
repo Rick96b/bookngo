@@ -3,6 +3,7 @@ import { PrismaService } from '../../prisma.service';
 import { CompanyBaseService, UserBaseService } from '../base';
 import { CompensationDto, NotificationPutStatusDto, UserDto } from '@common';
 import { Compensation, User } from '@prisma/client';
+import { addWarning } from '@angular-devkit/build-angular/src/utils/webpack-diagnostics';
 
 @Injectable()
 export class CompensationService {
@@ -15,7 +16,7 @@ export class CompensationService {
             .findFirst({ where: { employee: dto.employee, date: dto.date } });
 
         if (oldCompensation) {
-            throw new BadRequestException('CompensationDto already exist');
+            throw new BadRequestException('Compensation already exist');
         }
 
         return this._prismaService.compensation.create({ data: dto });
@@ -23,11 +24,11 @@ export class CompensationService {
 
     async getCompensation(id: number, userDto: UserDto) {
         const user: User = await this._userBaseService.getUser(userDto.email);
-        if (user.status === 'rejected' || user.status === 'pending') {
+        if (user.status === 'pending') {
             return [];
         }
 
-        return this._prismaService.compensation.findMany({ where: { employee: id, status: 'approved' } });
+        return this._prismaService.compensation.findMany({ where: { employee: id } });
     }
 
     async getPendingCompensation(ceoId: number): Promise<Compensation[]> {
@@ -57,15 +58,20 @@ export class CompensationService {
 
     async updateStatus(dto: NotificationPutStatusDto): Promise<Compensation> {
         if (dto.status === 'approved') {
-            const compensation: Compensation = await this._prismaService.compensation.findFirst({where: {id: dto.id}})
-            await this._userBaseService.updateUserMissDays(compensation.employee)
+            const compensation: Compensation = await this._prismaService.compensation.findFirst({ where: { id: dto.id } });
+            await this._userBaseService.updateUserMissDays(compensation.employee);
             return this._prismaService.compensation.update({ where: { id: dto.id }, data: { status: dto.status } });
         } else {
-            return this._prismaService.compensation.delete({where: {id: dto.id}})
+            return this._prismaService.compensation.delete({ where: { id: dto.id } });
         }
     }
 
-    updateReviewStatus(dto: NotificationPutStatusDto): Promise<Compensation> {
-        return this._prismaService.compensation.update({ where: { id: dto.id }, data: { reviewStatus: false } });
+    async updateReviewStatus(dto: NotificationPutStatusDto): Promise<Compensation> {
+        const compensation: Compensation = await this._prismaService.compensation.findFirst({ where: { id: dto.id } });
+        if (compensation.status === 'rejected') {
+            return this._prismaService.compensation.delete({ where: { id: dto.id } });
+        } else {
+            return this._prismaService.compensation.update({ where: { id: dto.id }, data: { reviewStatus: false } });
+        }
     }
 }

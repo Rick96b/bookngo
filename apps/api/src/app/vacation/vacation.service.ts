@@ -71,10 +71,7 @@ export class VacationService {
         if (vacation.status === 'rejected') {
             return this._prismaService.vacation.delete({ where: { id: dto.id } });
         } else {
-            return this._prismaService.vacation.update({
-                where: { id: dto.id },
-                data: { reviewStatus: false }
-            });
+            return this._prismaService.vacation.update({ where: { id: dto.id }, data: { reviewStatus: false } });
         }
     }
 }
