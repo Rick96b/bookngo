@@ -4,5 +4,5 @@ import { NotificationInterface } from './notification.interface';
 export interface IContextDialog {
     user: User;
     notification: NotificationInterface,
-    type: string
+    type: 'join' | 'vacation' | 'compensation';
 }

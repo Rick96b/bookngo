@@ -1,5 +1,6 @@
 <tui-root>
     <section>
+
         <ng-container *ngIf="notification">
             <!--        уведомления об отпуске        -->
             <ng-container *ngIf="notificationType === 'vacation'">
@@ -26,8 +27,6 @@
                     <span>{{ notification.createdAt | formatTime }}</span>
                 </div>
             </ng-container>
-
-
 
         </ng-container>
     </section>

@@ -1,6 +1,6 @@
 import { Component, Inject, Injector, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CompanyService, DestroyService, User, UserService, Vacation } from '@bookngo/base';
+import { CompanyService, DestroyService, UserService } from '@bookngo/base';
 import { FormatTimePipe } from '../../pipes/format-time.pipe';
 import { TuiDialogModule, TuiDialogService, TuiRootModule } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -12,6 +12,7 @@ import { NotificationsService } from '../../services/notifications.service';
 import { HighlightDirective } from '../../directives/highlight.directive';
 import { IContextDialog } from '../../interfaces/context-dialog.interface';
 import { notificationCreation } from '../../utills/notification-creation';
+
 @Component({
     selector: 'app-notifications-item',
     standalone: true,
@@ -22,8 +23,12 @@ import { notificationCreation } from '../../utills/notification-creation';
 })
 export class NotificationsItemComponent {
 
-    @Input({ required: true, alias: 'type' }) public notificationType: string;
-    @Input({ required: true, alias: 'notification', transform: notificationCreation }) public notification: NotificationInterface;
+    @Input({ required: true, alias: 'type' }) public notificationType: 'join' | 'vacation' | 'compensation';
+    @Input({
+        required: true,
+        alias: 'notification',
+        transform: notificationCreation
+    }) public notification: NotificationInterface;
     @Input({ required: true, alias: 'notificationLabel' }) public notificationLabel: string;
 
     constructor(

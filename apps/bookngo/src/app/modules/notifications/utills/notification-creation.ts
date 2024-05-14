@@ -9,14 +9,14 @@ export function notificationCreation(notification: User | Vacation | Compensatio
             startDate: notification.startDate,
             endDate: notification.endDate,
             employee: notification.employee,
-            vacationId: notification.id
+            missId: notification.id
         };
     } else if ('date' in notification) {
         return {
             createdAt: notification.createdAt!,
             startDate: notification.date,
             employee: notification.employee,
-            vacationId: notification.id
+            missId: notification.id
         }
     }
 

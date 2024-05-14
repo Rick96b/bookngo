@@ -38,13 +38,15 @@ export class NotificationsService {
         }
     }
 
-    private getSomeNotifications(): Observable<[User, Vacation[]]> {
+    private getSomeNotifications(): Observable<[User, Vacation[], CompensationDto[]]> {
         // для обычного пользователя
 
-        return zip(this.userService.getMe(), this.userService.getVacations())
+        return zip(this.userService.getMe(), this.userService.getVacations(), this.userService.getCompensation())
             .pipe(
-                tap(([user, vacations]): void => {
+                tap(([user, vacations, compensation]): void => {
                     this._vacationsRequestNotifications$.next(vacations.filter(vacation => vacation.reviewStatus));
+                    this._compensationRequestsNotifications$.next(compensation.filter(compensation => compensation.reviewStatus))
+
                     if (user.reviewStatus) {
                         this._joinRequestsNotifications$.next([user]);
                     }

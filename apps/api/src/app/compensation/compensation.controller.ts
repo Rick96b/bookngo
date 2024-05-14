@@ -13,6 +13,7 @@ export class CompensationController {
     @Post('postCompensation')
     @UseGuards(JwtAuthGuard)
     createCompensation(@Body() dto: CompensationDto) {
+        console.log(dto);
         return this.compensationService.postCompensation(dto);
     }
 
