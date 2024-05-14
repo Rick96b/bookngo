@@ -12,9 +12,8 @@ export class UsersController {
 
     @Get('getOne')
     @UseGuards(JwtAuthGuard)
-    getUser(@Req() req: Request) {
-        //
-        return this.usersService.findOne(req);
+    getUser(@Req() req) {
+        return this.usersService.findOne(req.user);
     }
 
     @Get('getAll')
@@ -38,13 +37,13 @@ export class UsersController {
     @Get('getPendingUsers')
     @UseGuards(JwtAuthGuard, RolesGuard)
     getPendingUsers(@Req() req) {
-        return  this.usersService.getPendingUsers(req.user.id);
+        return this.usersService.getPendingUsers(req.user.id);
     }
 
     @Get('updateReviewStatus')
     @UseGuards(JwtAuthGuard)
     updateReviewStatus(@Req() req) {
-        return  this.usersService.updateReviewStatus(req.user.id);
+        return this.usersService.updateReviewStatus(req.user.id);
     }
 
     @Put('updateStatus')

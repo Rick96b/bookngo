@@ -11,7 +11,7 @@ export class VacationService {
     }
 
     async getVacations(userId: number, userRequestDto: User): Promise<Vacation[]> {
-        const user: User = await this._userBaseService.getUser(userRequestDto.email)
+        const user: User = await this._userBaseService.getUser(userRequestDto.email);
         if (user.status === 'pending' || user.status === 'rejected') {
             return [];
         }
@@ -20,24 +20,6 @@ export class VacationService {
                 employee: userId,
                 status: 'approved'
             }
-        });
-    }
-
-    async postVacation(dto: VacationInDto) {
-        const oldVacation: Vacation = await this._prismaService.vacation.findFirst({
-            where: {
-                employee: dto.employee,
-                startDate: dto.startDate,
-                endDate: dto.endDate
-            }
-        });
-
-        if (oldVacation) {
-            throw new BadRequestException('Vacation already exist');
-        }
-
-        return this._prismaService.vacation.create({
-            data: dto
         });
     }
 
@@ -66,26 +48,33 @@ export class VacationService {
         return vacations;
     }
 
-    async updateStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
-        return this._prismaService.vacation.update({
-            where: {
-                id: dto.id
-            },
-            data: {
-                status: dto.status,
-                reviewStatus: true
-            }
-        })
+    async postVacation(dto: VacationInDto): Promise<Vacation> {
+        const oldVacation: Vacation = await this._prismaService.vacation.findFirst({
+            where: { employee: dto.employee, startDate: dto.startDate, endDate: dto.endDate }
+        });
+
+        if (oldVacation) {
+            throw new BadRequestException('Vacation already exist');
+        }
+
+        return this._prismaService.vacation.create({ data: dto });
     }
 
-    async updateReviewStatus(dto: NotificationPutStatusDto) {
+    async updateStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
+        if (dto.status === 'approved') {
+            return this._prismaService.vacation.delete({ where: { id: dto.id } });
+        } else {
+            return this._prismaService.vacation.update({
+                where: { id: dto.id },
+                data: { status: dto.status, reviewStatus: true }
+            });
+        }
+    }
+
+    async updateReviewStatus(dto: NotificationPutStatusDto): Promise<Vacation> {
         return this._prismaService.vacation.update({
-            where: {
-                id: dto.id
-            },
-            data: {
-                reviewStatus: false
-            }
-        })
+            where: { id: dto.id },
+            data: { reviewStatus: false }
+        });
     }
 }

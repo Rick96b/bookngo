@@ -58,8 +58,7 @@ export class CompensationService {
     async updateStatus(dto: NotificationPutStatusDto): Promise<Compensation> {
         if (dto.status === 'approved') {
             const compensation: Compensation = await this._prismaService.compensation.findFirst({where: {id: dto.id}})
-            const user = await this._userBaseService.updateUserMissDays(compensation.employee)
-            console.log(user);
+            await this._userBaseService.updateUserMissDays(compensation.employee)
             return this._prismaService.compensation.update({ where: { id: dto.id }, data: { status: dto.status } });
         } else {
             return this._prismaService.compensation.delete({where: {id: dto.id}})

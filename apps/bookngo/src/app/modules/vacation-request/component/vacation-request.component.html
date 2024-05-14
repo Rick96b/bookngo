@@ -1,7 +1,7 @@
 <section class="vacation-request">
-    <h2>Запланировать отпуск</h2>
+    <h2>Запланировать {{vacationForm.controls['missType'].value}}</h2>
     <form [formGroup]="vacationForm" class="vacation-request__form" *ngIf="_userService.getMeSnapshot().status === 'approved'; else errorMessage">
-        <div class="auth-form__input-container">
+        <div class="auth-form__select-container">
             <tui-select
                 tuiTextfieldSize="l"
                 appearance="bn-input-select"
@@ -18,7 +18,7 @@
                 ></tui-data-list-wrapper>
             </tui-select>
         </div>
-        
+
         @if (vacationForm.controls['missType'].value === 'Отпуск') {
             <tui-input-date
                 [tuiTextfieldLabelOutside]="true"
