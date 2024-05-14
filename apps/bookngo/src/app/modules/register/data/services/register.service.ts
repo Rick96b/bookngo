@@ -2,14 +2,15 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserBaseInfoDto } from '@common';
 import { Observable, tap } from 'rxjs';
-import { AuthService, BASE_URL_TOKEN } from '@bookngo/base';
+import { BASE_URL_TOKEN } from '@bookngo/base';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class RegisterService {
 
     constructor(
-        @Inject(BASE_URL_TOKEN) private _baseUrl: string, private httpClient: HttpClient, private authService: AuthService) {
+        @Inject(BASE_URL_TOKEN) private _baseUrl: string, private httpClient: HttpClient, private _router: Router) {
     }
 
     public registerUser(registerData: UserBaseInfoDto): Observable<{ token: string }> {
@@ -18,10 +19,10 @@ export class RegisterService {
             ...registerData,
             status: registerData.employmentStatus === 'ceo' ? 'approved' : 'pending'
         })
-            .pipe(
-                tap(({ token }: { token: string }): void => {
-                    this.authService.loginByToken(token);
-                })
-            );
+        .pipe(
+            tap((): void => {
+                this._router.navigate(['registration-pending'])
+            })
+        );
     }
 }
