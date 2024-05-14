@@ -66,7 +66,6 @@ export class UsersService {
     async getActualUser(dto: UserDto): Promise<User> {
         try {
             const oldUser: User = await this._prismaService.user.findUnique({ where: { email: dto.email } });
-            console.log(oldUser);
             return this._prismaService.user.update({
                 where: { email: dto.email },
                 data: { ...await this.calculateVacationInfo(oldUser) }
