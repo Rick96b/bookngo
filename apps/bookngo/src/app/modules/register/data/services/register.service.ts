@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserBaseInfoDto } from '@common';
 import { Observable, tap } from 'rxjs';
-import { BASE_URL_TOKEN } from '@bookngo/base';
+import { AuthService, BASE_URL_TOKEN } from '@bookngo/base';
 import { Router } from '@angular/router';
 
 
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class RegisterService {
 
     constructor(
-        @Inject(BASE_URL_TOKEN) private _baseUrl: string, private httpClient: HttpClient, private _router: Router) {
+        @Inject(BASE_URL_TOKEN) private _baseUrl: string, private httpClient: HttpClient,  private _authService: AuthService) {
     }
 
     public registerUser(registerData: UserBaseInfoDto): Observable<{ token: string }> {
@@ -23,9 +23,9 @@ export class RegisterService {
             tap((token): void => {
                 localStorage.setItem('token', token.token)
                 if(registerData.employmentStatus === 'ceo') {
-                    this._router.navigate(['cabinet'])
+                    this._authService.setAuthState('Approved')
                 } else {
-                    this._router.navigate(['registration-pending'])
+                    this._authService.setAuthState('Pending')
                 }
             })
         );
