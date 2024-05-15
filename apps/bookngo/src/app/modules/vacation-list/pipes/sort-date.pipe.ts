@@ -16,7 +16,7 @@ export class SortDate implements PipeTransform {
                 return -1
             }
             return 1
-        }) 
+        })
         return vacations
     }
 }

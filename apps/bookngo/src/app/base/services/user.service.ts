@@ -70,7 +70,6 @@ export class UserService {
         return this._httpClient.get<CompensationDto[]>(`${this._baseUrl}/compensation/user/${id}`).pipe(
             tap((compensation: CompensationDto[]) => {
                 this._compensations$.next(compensation);
-                console.log(compensation);
             })
         );
     }

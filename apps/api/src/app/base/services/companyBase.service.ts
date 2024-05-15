@@ -40,11 +40,11 @@ export class CompanyBaseService {
     }
 
     async getEmployeesByCeoId(ceoId: number): Promise<number[]> {
-        const company: Company =  await this._prismaService.company.findFirst({
+        const company: Company = await this._prismaService.company.findFirst({
             where: {
                 ceo: ceoId
             }
-        })
+        });
 
         return company.employees;
     }

@@ -79,17 +79,28 @@ export class NotificationsDialogComponent {
     }
 
     protected confirm(): void {
-        if (this.notificationType === 'join') {
-            this.notificationsService.updateReviewStatusJoin().pipe(
-                tap(() => this.context.completeWith()),
-                takeUntil(this.destroy$)
-            ).subscribe();
-
-        } else {
-            this.notificationsService.updateReviewStatusVacation(this.notification.missId!).pipe(
-                tap(() => this.context.completeWith()),
-                takeUntil(this.destroy$)
-            ).subscribe();
+        switch (this.notificationType) {
+            case 'join': {
+                this.notificationsService.updateReviewStatusJoin().pipe(
+                    tap(() => this.context.completeWith()),
+                    takeUntil(this.destroy$)
+                ).subscribe();
+                break;
+            }
+            case 'vacation': {
+                this.notificationsService.updateReviewStatusVacation(this.notification.missId!).pipe(
+                    tap(() => this.context.completeWith()),
+                    takeUntil(this.destroy$)
+                ).subscribe();
+                break;
+            }
+            case 'compensation': {
+                this.notificationsService.updateReviewStatusCompensation(this.notification.missId!).pipe(
+                    tap(() => this.context.completeWith()),
+                    takeUntil(this.destroy$)
+                ).subscribe();
+                break;
+            }
         }
     }
 }

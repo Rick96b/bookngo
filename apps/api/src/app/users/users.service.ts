@@ -66,7 +66,6 @@ export class UsersService {
     async getActualUser(dto: UserDto): Promise<User> {
         try {
             const oldUser: User = await this._prismaService.user.findUnique({ where: { email: dto.email } });
-            console.log(oldUser);
             return this._prismaService.user.update({
                 where: { email: dto.email },
                 data: { ...await this.calculateVacationInfo(oldUser) }
@@ -77,25 +76,16 @@ export class UsersService {
 
     }
 
-    async calculateVacationInfo(userDto: User, endDate: Date = new Date()): Promise<{
-        accumulatedVacationDays: number,
-        vacationBalance: number
-    }> {
+    async calculateVacationInfo(userDto: User, currentDate: Date = new Date()): Promise<{ accumulatedVacationDays: number, vacationBalance: number }> {
         const vacationHistory: Vacation[] = await this._vacationBaseService.getVacationsById(userDto.id);
 
-        const startDate: Date = vacationHistory.length ? vacationHistory[vacationHistory.length - 1].endDate : new Date(userDto.createdAt);
-        const dailySalary: number = userDto.salary / 30;
-        let workDaysCount: number = Math.floor((endDate.getTime() - startDate.getTime()) / (24 * 3600 * 1000));
-
-        if (workDaysCount < 0) {
-            return {
-                accumulatedVacationDays: 0,
-                vacationBalance: 0
-            };
-        }
-
-        const accumulatedVacationDays: number = (workDaysCount / 365 * 28);
-        const vacationBalance: number = accumulatedVacationDays * dailySalary;
+        const vacationDurationDays: number = vacationHistory.reduce(
+            (prev: number, curr: Vacation) =>
+                prev + Math.floor((curr.endDate.getTime() - curr.startDate.getTime()) / (1000*60*60*24)), 0) + vacationHistory.length;
+        const maxVacationDuration: number = Math.floor((currentDate.getTime() - userDto.createdAt.getTime()) / (1000*60*60*24));
+        const accumDays: number = (maxVacationDuration / 365 * 28) - vacationDurationDays;
+        const accumulatedVacationDays: number = Math.floor(accumDays);
+        const vacationBalance: number = accumDays / 30 * userDto.salary;
         return { accumulatedVacationDays, vacationBalance };
     }
 
