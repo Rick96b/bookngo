@@ -76,25 +76,21 @@ export class UsersService {
 
     }
 
-    async calculateVacationInfo(userDto: User, endDate: Date = new Date()): Promise<{
-        accumulatedVacationDays: number,
-        vacationBalance: number
-    }> {
+    async calculateVacationInfo(userDto: User, currentDate: Date = new Date()): Promise<{ accumulatedVacationDays: number, vacationBalance: number }> {
         const vacationHistory: Vacation[] = await this._vacationBaseService.getVacationsById(userDto.id);
 
-        const startDate: Date = vacationHistory.length ? vacationHistory[vacationHistory.length - 1].endDate : new Date(userDto.createdAt);
-        const dailySalary: number = userDto.salary / 30;
-        let workDaysCount: number = Math.floor((endDate.getTime() - startDate.getTime()) / (24 * 3600 * 1000));
+        const vacationDurationDays: number = vacationHistory.reduce(
+            (prev: number, curr: Vacation) =>
+                prev + Math.floor((curr.endDate.getTime() - curr.startDate.getTime()) / (1000*60*60*24)), 0)
 
-        if (workDaysCount < 0) {
-            return {
-                accumulatedVacationDays: 0,
-                vacationBalance: 0
-            };
+        const maxVacationDuration: number = Math.floor((currentDate.getTime() - userDto.createdAt.getTime()) / (1000*60*60*24))
+
+        if (maxVacationDuration - vacationDurationDays < 0) {
+            return { accumulatedVacationDays: 0, vacationBalance: 0 };
         }
 
-        const accumulatedVacationDays: number = (workDaysCount / 365 * 28);
-        const vacationBalance: number = accumulatedVacationDays * dailySalary;
+        const accumulatedVacationDays: number = (maxVacationDuration / 365 * 28) - vacationDurationDays - 1;
+        const vacationBalance: number = accumulatedVacationDays / 30 * userDto.salary;
         return { accumulatedVacationDays, vacationBalance };
     }
 
