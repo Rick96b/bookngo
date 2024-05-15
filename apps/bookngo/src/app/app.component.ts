@@ -1,36 +1,41 @@
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
-import { TUI_SANITIZER, TuiRootModule } from '@taiga-ui/core';
-import { Component, Inject, OnInit } from '@angular/core';
+import { TUI_SANITIZER, TuiLoaderModule, TuiRootModule } from '@taiga-ui/core';
+import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService, BASE_URL_TOKEN, DestroyService } from '@bookngo/base';
-import { HttpClient } from '@angular/common/http';
-import { takeUntil, tap } from 'rxjs';
-import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import { AuthService, DestroyService } from '@bookngo/base';
+import { switchMap, takeUntil, tap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
     standalone: true,
-    imports: [RouterModule, TuiRootModule],
+    imports: [RouterModule, TuiRootModule, CommonModule, TuiLoaderModule],
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }, DestroyService]
 })
 export class AppComponent   {
-
+    loading = true;
     title = 'bookngo';
 
     constructor(private authService: AuthService, private router: Router, private destroy: DestroyService) {
 
         this.authService.updateAuthState()
-            .pipe(takeUntil(destroy))
-            .subscribe();
-        this.authService.getAuthState()
+            .pipe(switchMap(() => this.authService.getAuthState()
             .pipe(
                 tap((authState: 'Approved' | 'Pending' | 'Undefined'): void => {
-                    const path: string = authState === 'Approved' ? 'cabinet' : '';
-                    this.router.navigate([path]);
+                    if(authState === 'Approved') {
+                        this.router.navigate(['cabinet'])
+                    } else if(authState === 'Pending') {
+                        this.router.navigate(['registration-pending'])
+                    } else {
+                        this.router.navigate([''])
+                    }
+                    this.loading = false
                 }),
-            ).subscribe()
+                takeUntil(destroy)
+            ))).subscribe()
+        
     }
 
 

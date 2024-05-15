@@ -20,7 +20,8 @@ export class RegisterService {
             status: registerData.employmentStatus === 'ceo' ? 'approved' : 'pending'
         })
         .pipe(
-            tap((): void => {
+            tap((token): void => {
+                localStorage.setItem('token', token.token)
                 this._router.navigate(['registration-pending'])
             })
         );
