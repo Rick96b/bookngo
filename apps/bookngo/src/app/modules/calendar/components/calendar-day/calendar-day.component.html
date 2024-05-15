@@ -14,6 +14,9 @@
         @for(vacation of vacations; track vacation.user) {
             <li class="user-undercolor" [style.backgroundColor]="generateColorForUser(vacation.user.id)"></li>
         }
+        @for(compensation of compensations; track compensation.user) {
+            <li class="user-undercolor" [style.backgroundColor]="generateColorForUser(compensation.user.id)"></li>
+        }
     </ul>
 </div>
 
@@ -24,6 +27,13 @@
                 <span [style.backgroundColor]="generateColorForUser(vacation.user.id)" class="user-color"></span>
                 <span class="user-name">{{vacation.user.fullName}}</span>
                 <span class="user-vacation">{{vacation.vacationStatus}}</span>
+            </li>
+        }
+        @for(compensation of compensations; track compensation.user) {
+            <li (click)="navigateToProfile(compensation.user.id)">
+                <span [style.backgroundColor]="generateColorForUser(compensation.user.id)" class="user-color"></span>
+                <span class="user-name">{{compensation.user.fullName}}</span>
+                <span class="user-vacation">{{compensation.vacationStatus}}</span>
             </li>
         }
     </ul>

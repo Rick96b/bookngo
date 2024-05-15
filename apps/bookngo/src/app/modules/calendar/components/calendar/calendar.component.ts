@@ -8,6 +8,7 @@ import { takeUntil, tap } from 'rxjs';
 import { CalendarDayComponent } from '../calendar-day/calendar-day.component';
 import { DestroyService } from '@bookngo/base';
 import { VacationsService } from '../../data/vacations.service';
+import { CompensationsService } from '../../data/compensations.service';
 
 @Component({
     standalone: true,
@@ -19,7 +20,7 @@ import { VacationsService } from '../../data/vacations.service';
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
     styleUrl: './calendar.component.scss',
-    providers: [CalendarService, VacationsService, DestroyService]
+    providers: [CalendarService, VacationsService, DestroyService, CompensationsService]
 })
 export class CalendarComponent implements OnInit {
     protected days: Day[] = [];

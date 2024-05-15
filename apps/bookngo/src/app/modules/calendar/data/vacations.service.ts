@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 export class VacationsService {
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
     }
-
     public getVacationsByUser(users: User[]): Observable<Vacation[]> {
         return forkJoin(users.map((user: User) => this.fetchVacations(user.id)))
             .pipe(
