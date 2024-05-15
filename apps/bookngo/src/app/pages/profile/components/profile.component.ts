@@ -18,11 +18,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
     templateUrl: './profile.component.html',
     styleUrl: './profile.component.scss',
     providers: [
-        tuiAvatarOptionsProvider({
-            size: 'xl',
-            autoColor: true,
-            rounded: true
-        }),
         DestroyService
     ]
 })
