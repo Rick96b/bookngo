@@ -50,7 +50,6 @@ export const cabinetRoutes: Routes = [
                 path: 'company',
                 loadComponent: () => import('../../pages/company')
                     .then((component: any) => component.CompanyComponent),
-                canActivate: [companyGuard]
             }
         ]
 

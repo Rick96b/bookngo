@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL_TOKEN, Company, DestroyService, User } from '@bookngo/base';
-import { BehaviorSubject, map, mergeMap, Observable, takeUntil, tap } from 'rxjs';
+import { BASE_URL_TOKEN, Company, DestroyService, User, UserService } from '@bookngo/base';
+import { BehaviorSubject, map, mergeMap, Observable, of, takeUntil, tap } from 'rxjs';
 import { AddDepartmentDto } from '@common';
 
 @Injectable()
@@ -10,7 +10,10 @@ export class CompanyService {
     private _companyUsers$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
     public isFetched = false;
 
-    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient, private destroy$: DestroyService) {
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient, private destroy$: DestroyService, private userService: UserService) {
+        this.userService.fetchMe().pipe(
+            mergeMap((user: User | null) => this.fetchCompanyData(user!.companyName))
+        );
     }
 
     public fetchCompanyData(companyName: string): Observable<User[]> {

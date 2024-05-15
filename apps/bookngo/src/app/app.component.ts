@@ -18,7 +18,7 @@ export class AppComponent   {
     loading = true;
     title = 'bookngo';
 
-    constructor(private authService: AuthService, private router: Router, private destroy: DestroyService) {
+    constructor(private authService: AuthService, private router: Router) {
 
         this.authService.updateAuthState()
             .pipe(switchMap(() => this.authService.getAuthState()
@@ -32,10 +32,9 @@ export class AppComponent   {
                         this.router.navigate([''])
                     }
                     this.loading = false
-                }),
-                takeUntil(destroy)
+                })
             ))).subscribe()
-        
+
     }
 
 
