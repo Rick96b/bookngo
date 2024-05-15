@@ -10,7 +10,11 @@
 
         <div class="profile__details">
             <div class="profile__avatar-wrapper">
-                <tui-avatar [text]="user.fullName"></tui-avatar>
+                <tui-avatar
+                    [text]="user.fullName"
+                    [ngStyle]="{'--tui-avatar-background': user.color}"
+                    [rounded]="true"
+                    [size]="'xl'"></tui-avatar>
             </div>
 
             <div class="profile__info">

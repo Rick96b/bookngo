@@ -1,6 +1,6 @@
 <section class="vacation-request">
     <h2>Запланировать {{vacationForm.controls['missType'].value}}</h2>
-    <form [formGroup]="vacationForm" class="vacation-request__form" *ngIf="_userService.getMeSnapshot().status === 'approved'; else errorMessage">
+    <form [formGroup]="vacationForm" class="vacation-request__form">
         <div class="auth-form__select-container">
             <tui-select
                 tuiTextfieldSize="l"
@@ -46,8 +46,4 @@
         }
 
     </form>
-
-    <ng-template #errorMessage>
-        <p>Дождитесь рассмотрения заявления</p>
-    </ng-template>
 </section>
