@@ -22,7 +22,11 @@ export class RegisterService {
         .pipe(
             tap((token): void => {
                 localStorage.setItem('token', token.token)
-                this._router.navigate(['registration-pending'])
+                if(registerData.employmentStatus === 'ceo') {
+                    this._router.navigate(['cabinet'])
+                } else {
+                    this._router.navigate(['registration-pending'])
+                }
             })
         );
     }
