@@ -14,14 +14,17 @@ export class FormatVacationDateDirective implements OnInit {
 
     @Input()
     set formatVacationDate({ startDate, endDate }: Vacation) {
-        this._year = new Date(startDate).getFullYear()
-        this._vacationDuration = this.countDuration(new Date(startDate), new Date(endDate));
-        this._startDate = this.formatDate(new Date(startDate));
-        this._endDate = this.formatDate(new Date(endDate));
+        const _startDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() - 1))
+        const _endDate = new Date(new Date(endDate).setDate(new Date(endDate).getDate() - 1))
+
+        this._year = new Date(_startDate).getFullYear()
+        this._vacationDuration = this.countDuration(new Date(_startDate), new Date(_endDate));
+        this._startDate = this.formatDate(_startDate);
+        this._endDate = this.formatDate(_endDate);
     }
 
     private countDuration(startDate: Date, endDate: Date): number {
-        return Math.floor((endDate.getTime() - startDate.getTime()) / (24 * 3600 * 1000));
+        return Math.floor((endDate.getTime() - startDate.getTime()) / (24 * 3600 * 1000)) + 1;
     }
 
     private formatDate(date: Date): FormatDateInterface {

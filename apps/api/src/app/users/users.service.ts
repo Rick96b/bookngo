@@ -81,16 +81,11 @@ export class UsersService {
 
         const vacationDurationDays: number = vacationHistory.reduce(
             (prev: number, curr: Vacation) =>
-                prev + Math.floor((curr.endDate.getTime() - curr.startDate.getTime()) / (1000*60*60*24)), 0)
-
-        const maxVacationDuration: number = Math.floor((currentDate.getTime() - userDto.createdAt.getTime()) / (1000*60*60*24))
-
-        if (maxVacationDuration - vacationDurationDays < 0) {
-            return { accumulatedVacationDays: 0, vacationBalance: 0 };
-        }
-
-        const accumulatedVacationDays: number = (maxVacationDuration / 365 * 28) - vacationDurationDays - 1;
-        const vacationBalance: number = accumulatedVacationDays / 30 * userDto.salary;
+                prev + Math.floor((curr.endDate.getTime() - curr.startDate.getTime()) / (1000*60*60*24)), 0) + vacationHistory.length;
+        const maxVacationDuration: number = Math.floor((currentDate.getTime() - userDto.createdAt.getTime()) / (1000*60*60*24));
+        const accumDays: number = (maxVacationDuration / 365 * 28) - vacationDurationDays;
+        const accumulatedVacationDays: number = Math.floor(accumDays);
+        const vacationBalance: number = accumDays / 30 * userDto.salary;
         return { accumulatedVacationDays, vacationBalance };
     }
 

@@ -57,7 +57,7 @@ export class CalendarService {
     public getVacationsByDate(year: number, month: number, day: number) {
         return this._vacations$.pipe(
             map(vacations => {
-                const date = dayjs(new Date(year, month, day));
+                const date = dayjs(new Date(year, month, day + 1));
                 return vacations.filter(vacation => {
                     const startDate = dayjs(vacation.startDate);
                     const endDate = dayjs(vacation.endDate);
