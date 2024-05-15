@@ -7,6 +7,7 @@ import { TuiButtonModule, TuiDropdownModule } from '@taiga-ui/core';
 import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
 import { generateColorForUser } from '../../../common/utils/generateColorForUser';
 import { Router } from '@angular/router';
+import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
     standalone: true,
@@ -25,7 +26,7 @@ export class CalendarDayComponent implements OnInit {
     open = false;
 	generateColorForUser = generateColorForUser
     onClick(): void {
-        if(this.vacations.length) {
+        if(this.vacations.length || this.compensations.length) {
             this.open = !this.open;
         }
     }
@@ -39,16 +40,26 @@ export class CalendarDayComponent implements OnInit {
         this.open = active && this.open;
     }
 
-    vacations: {user: User, vacationStatus: string}[] = []
+    protected vacations: {user: User, vacationStatus: string}[] = []
+    protected compensations: {user: User, vacationStatus: string}[] = []
     constructor(private _calendarService: CalendarService, private _routerRouter: Router) { }
 
     ngOnInit(): void {
         this.getVacations()
+        this.getCompensations();
     }
 
     private getVacations() {
         this._calendarService.getVacationsByDate(this.day.year, this.day.month, this.day.day).pipe(
             tap(val => this.vacations = val),
+        ).subscribe()
+    }
+
+    private getCompensations() {
+        this._calendarService.getCompensationsByDate(this.day.year, this.day.month, this.day.day).pipe(
+            tap(val => {
+                this.compensations = val;
+            }),
         ).subscribe()
     }
 
