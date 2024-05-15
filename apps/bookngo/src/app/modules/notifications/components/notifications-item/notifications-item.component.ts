@@ -24,10 +24,7 @@ import { notificationCreation } from '../../utills/notification-creation';
 export class NotificationsItemComponent {
 
     @Input({ required: true, alias: 'type' }) public notificationType: 'join' | 'vacation' | 'compensation';
-    @Input({
-        required: true,
-        alias: 'notification',
-        transform: notificationCreation
+    @Input({ required: true, alias: 'notification', transform: notificationCreation
     }) public notification: NotificationInterface;
     @Input({ required: true, alias: 'notificationLabel' }) public notificationLabel: string;
 

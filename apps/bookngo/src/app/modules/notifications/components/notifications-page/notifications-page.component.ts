@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationsService } from '../../services/notifications.service';
-import { UserService } from '@bookngo/base';
+import { User, UserService, Vacation } from '@bookngo/base';
 import { NotificationsItemComponent } from '../notifications-item/notifications-item.component';
 import { TuiButtonModule, TuiRootModule } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
+import { CompensationDto } from '@common';
 
 @Component({
     selector: 'app-notifications',
@@ -18,4 +19,7 @@ export class NotificationsPageComponent {
     constructor(protected notificationsService: NotificationsService, protected _userService: UserService) {
     }
 
+    protected trackByFn(index: number, item: User | Vacation | CompensationDto) {
+        return item.id;
+    }
 }

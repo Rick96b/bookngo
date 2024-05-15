@@ -34,7 +34,7 @@ export class NotificationsDialogComponent {
     constructor(@Inject(POLYMORPHEUS_CONTEXT) protected readonly context: TuiDialogContext<void, IContextDialog>,
                 protected notificationsService: NotificationsService,
                 private destroy$: DestroyService,
-                protected _userService: UserService
+                protected _userService: UserService,
     ) {
         this.user = this.context.data.user;
         this.notification = this.context.data.notification;
@@ -43,34 +43,43 @@ export class NotificationsDialogComponent {
 
 
     protected approve(): void {
-        this.updateStatus(this.notificationType, 'approved');
+        this.updateStatus(this.notificationType, 'approved')
     }
 
     protected reject(): void {
         this.updateStatus(this.notificationType, 'rejected');
     }
 
-    private updateStatus(type: 'join' | 'vacation' | 'compensation', status: string): void {
+    private updateStatus(type: 'join' | 'vacation' | 'compensation', status: string) {
         switch (type) {
             case 'join': {
-                this.notificationsService.sendStatusUser({ id: this.notification.userId!, status })
+                 this.notificationsService.sendStatusUser({ id: this.notification.userId!, status })
                     .pipe(
-                        tap(() => this.context.completeWith()),
+                        tap(() => {
+                            this.context.completeWith();
+                            this.notificationsService.deleteNotification(this.notificationType, this.notification.userId!)
+                        }),
                         takeUntil(this.destroy$)
                     ).subscribe();
-                break;
+                 break;
             }
             case 'vacation': {
-                this.notificationsService.sendStatusVacation({ id: this.notification.missId!, status })
+                 this.notificationsService.sendStatusVacation({ id: this.notification.missId!, status })
                     .pipe(
-                        tap(() => this.context.completeWith()),
+                        tap(() => {
+                            this.context.completeWith();
+                            this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!)
+                        }),
                         takeUntil(this.destroy$)
                     ).subscribe();
                 break;
             }
             case 'compensation': {
-                this.notificationsService.sendStatusCompensation({id: this.notification.missId!, status}).pipe(
-                    tap(() => this.context.completeWith()),
+                 this.notificationsService.sendStatusCompensation({id: this.notification.missId!, status}).pipe(
+                    tap(() => {
+                        this.context.completeWith();
+                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!)
+                    }),
                     takeUntil(this.destroy$)
                 ).subscribe();
                 break;
@@ -78,28 +87,34 @@ export class NotificationsDialogComponent {
         }
     }
 
-    protected confirm(): void {
+    protected confirm() {
         switch (this.notificationType) {
             case 'join': {
-                this.notificationsService.updateReviewStatusJoin().pipe(
-                    tap(() => this.context.completeWith()),
+                return this.notificationsService.updateReviewStatusJoin().pipe(
+                    tap(() => {
+                        this.context.completeWith();
+                        this.notificationsService.deleteNotification(this.notificationType, this.notification.userId!)
+                    }),
                     takeUntil(this.destroy$)
-                ).subscribe();
-                break;
+                ).subscribe()
             }
             case 'vacation': {
-                this.notificationsService.updateReviewStatusVacation(this.notification.missId!).pipe(
-                    tap(() => this.context.completeWith()),
+                return this.notificationsService.updateReviewStatusVacation(this.notification.missId!).pipe(
+                    tap(() => {
+                        this.context.completeWith();
+                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!)
+                    }),
                     takeUntil(this.destroy$)
-                ).subscribe();
-                break;
+                ).subscribe()
             }
             case 'compensation': {
-                this.notificationsService.updateReviewStatusCompensation(this.notification.missId!).pipe(
-                    tap(() => this.context.completeWith()),
+                return this.notificationsService.updateReviewStatusCompensation(this.notification.missId!).pipe(
+                    tap(() => {
+                        this.context.completeWith();
+                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!)
+                    }),
                     takeUntil(this.destroy$)
-                ).subscribe();
-                break;
+                ).subscribe()
             }
         }
     }

@@ -8,10 +8,5 @@ export const notificationsGuard: CanActivateFn = (): boolean | Observable<boolea
 
     const userService: UserService = inject(UserService);
     const notificationsService: NotificationsService = inject(NotificationsService);
-
-    if (notificationsService.isLoaded) {
-        return true;
-    }
-
     return notificationsService.updateNotifications(userService.getMeSnapshot());
 };

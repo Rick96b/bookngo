@@ -23,6 +23,32 @@ export class NotificationsService {
         return this._joinRequestsNotifications$.asObservable();
     }
 
+    public deleteNotification(type : 'join' | 'vacation' | 'compensation', id: number) {
+        switch (type) {
+            case 'join': {
+                this._joinRequestsNotifications$
+                    .next([...this._joinRequestsNotifications$.getValue()
+                        .filter((user: User): boolean => user.id !== id)])
+                break;
+            }
+            case 'vacation': {
+                this._vacationsRequestNotifications$
+                    .next([...this._vacationsRequestNotifications$.getValue()
+                        .filter((vacation: Vacation): boolean => vacation.id !== id)])
+                break;
+            }
+            case 'compensation': {
+                this._compensationRequestsNotifications$
+                    .next([...this._compensationRequestsNotifications$.getValue()
+                        .filter((compensation: CompensationDto): boolean => compensation.id !== id)])
+                break;
+            }
+
+        }
+    }
+
+
+
     public getPendingUser(userId: number): User | undefined {
         return this._joinRequestsNotifications$.getValue().find((user: User): boolean => user.id === userId);
     }

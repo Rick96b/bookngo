@@ -3,7 +3,7 @@
 
     <ng-container *ngIf="vacations.length; else vacationsNotFound">
         <ul class="vacations-list">
-            <ng-container *ngFor="let vacation of vacations.reverse() | sortDate">
+            <ng-container *ngFor="let vacation of vacations.reverse() | sortDate; trackBy: trackByFn">
                 <li class="vacation" *formatVacationDate="vacation; let year = year; let duration = vacationDuration; let startDate = startDate; let endDate = endDate">
                     <span class="vacation-duration">{{ duration | formatDayDate }}</span>
                     <div>

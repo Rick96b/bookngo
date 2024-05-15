@@ -41,4 +41,8 @@ export class VacationListComponent implements OnInit {
                 ).subscribe();
         }
     }
+
+    protected trackByFn(index: number, item: Vacation) {
+        return item.id;
+    }
 }
