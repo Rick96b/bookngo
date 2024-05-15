@@ -24,14 +24,13 @@ export class AppComponent   {
             .pipe(switchMap(() => this.authService.getAuthState()
             .pipe(
                 tap((authState: 'Approved' | 'Pending' | 'Undefined'): void => {
+                    let path = ''
                     if(authState === 'Approved') {
-                        this.router.navigate(['cabinet'])
+                        path = 'cabinet/home'
                     } else if(authState === 'Pending') {
-                        this.router.navigate(['registration-pending'])
-                    } else {
-                        this.router.navigate([''])
+                        path = 'registration-pending'
                     }
-                    this.loading = false
+                    this.router.navigate([path]).then(() => this.loading = false)
                 })
             ))).subscribe()
 
