@@ -51,7 +51,7 @@ export class VacationRequestComponent implements OnInit {
             missType: string,
             date: TuiDay | null
         }>({
-            missType: this.items[1],
+            missType: this.items[0],
             start: null,
             end: null,
             date: null
