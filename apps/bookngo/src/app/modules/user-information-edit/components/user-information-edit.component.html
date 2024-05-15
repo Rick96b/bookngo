@@ -1,8 +1,11 @@
-<section class="form-section base-container container-for-tabbar" *ngIf="_user">
-    <h2 class="form-section__title">Редактирование информации пользователя</h2>
-    <a tuiIconButton class="profile__edit-button" icon="tuiIconLogOutLarge" (click)="authService.logout()" appearance="bn-icon-button"></a>
-    <a tuiIconButton class="profile__edit-button" icon="tuiIconArrowLeftLarge" routerLink=".." appearance="bn-icon-button"></a>
-    <form class="user-edit-form" [formGroup]="_userEditForm">
+<section class="form-section container-for-tabbar" *ngIf="_user">
+    <header class="form-section__header">
+        <a tuiIconButton class="profile__edit-button" icon="tuiIconArrowLeftLarge" routerLink=".." appearance="bn-icon-button"></a>
+        <h2 class="form-section__title">Редактирование информации пользователя</h2>
+        <a tuiIconButton class="profile__edit-button" icon="tuiIconLogOutLarge" (click)="authService.logout()" appearance="bn-icon-button"></a>
+    </header>
+    
+    <form class="user-edit-form base-container" [formGroup]="_userEditForm">
         <tui-input formControlName="fullName">
             ФИО
         </tui-input>
@@ -26,7 +29,7 @@
         <tui-input
             formControlName="telegramUsername"
             tuiHintContent="Имя пользователя телеграм"
-            appearence="bn-input"
+            appearance="bn-input"
         >
             Телеграм
             <input
@@ -34,13 +37,14 @@
             />
         </tui-input>
 
-        <tui-input-phone appearence="bn-input" formControlName="phoneNumber">
+        <tui-input-phone appearance="bn-input" formControlName="phoneNumber">
             Номер телефона
         </tui-input-phone>
 
         <tui-input
             formControlName="salary"
             tuiHintContent="Средняя ЗП за месяц"
+            appearance="bn-input"
         >
             Средняя заработная плата
             <input

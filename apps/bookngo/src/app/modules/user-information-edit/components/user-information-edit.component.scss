@@ -6,6 +6,14 @@
     font-family: var(--main-font);
     font-weight: 500;
 
+    .form-section__header {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+
+        width: 100%;
+    }
+
     h2 {
         font-size: 18px;
         margin-top: 20px;
