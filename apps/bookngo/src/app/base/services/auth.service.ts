@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
     private _authState = new BehaviorSubject<'Undefined' | 'Pending' | 'Approved'>('Undefined');
-    public rnd = Math.random();
 
     constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
     }

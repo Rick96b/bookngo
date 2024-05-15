@@ -1,3 +1,9 @@
-<tui-root>
-    <router-outlet></router-outlet>
+<tui-root>        
+
+        <tui-loader *ngIf="loading" size="xxl" class="loader">
+
+        </tui-loader>
+
+
+    <router-outlet *ngIf="!loading"></router-outlet>
 </tui-root>

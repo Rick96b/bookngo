@@ -4,7 +4,6 @@ import { AuthService } from '@bookngo/base';
 
 export const authGuard = (): boolean | UrlTree => {
     const authService: AuthService = inject(AuthService);
-    console.log(authService.rnd);
 
     const router = inject(Router)
 
@@ -12,7 +11,7 @@ export const authGuard = (): boolean | UrlTree => {
     if (authService.getAuthStateSnapshot() === 'Approved') {
         return true;
     } else if (authService.getAuthStateSnapshot() === 'Pending') {
-        return router.createUrlTree(['/registration-penging']);
+        return router.createUrlTree(['registration-pending']);
     }
 
     return router.createUrlTree(['']);

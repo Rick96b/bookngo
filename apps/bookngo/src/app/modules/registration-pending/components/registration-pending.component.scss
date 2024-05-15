@@ -1,0 +1,39 @@
+.pending {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--main-font);
+}
+
+.pending__title {
+    margin-top: 60px;
+
+
+    font-size: 34px;
+    font-weight: 400;
+}
+
+.pending__text {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+
+    margin-top: 145px;
+    color: #0095FF !important;
+    
+    span {
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 32px;
+        color: #000
+    }
+
+
+}
+
+.pending__notification-text {
+    font-size: 14px;
+    line-height: 21px;
+    color: rgba(0, 0, 0, 0.8)
+}
