@@ -10,7 +10,8 @@ export class VacationBaseService {
     async getVacationsById(userId: number): Promise<Vacation[]> {
         return this._prismaService.vacation.findMany({
             where: {
-                employee: userId
+                employee: userId,
+                status: 'approved'
             }
         });
     }

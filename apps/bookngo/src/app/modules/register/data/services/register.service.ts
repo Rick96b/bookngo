@@ -18,8 +18,7 @@ export class RegisterService {
         return this.httpClient.post<{ token: string }>(`${this._baseUrl}/auth/signUp/${path}`, {
             ...registerData,
             status: registerData.employmentStatus === 'ceo' ? 'approved' : 'pending'
-        })
-        .pipe(
+        }).pipe(
             tap((): void => {
                 this._router.navigate(['registration-pending'])
             })
