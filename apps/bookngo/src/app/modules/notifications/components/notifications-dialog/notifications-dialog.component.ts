@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { TuiButtonModule, TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { CommonModule } from '@angular/common';
@@ -9,12 +9,13 @@ import { takeUntil, tap } from 'rxjs';
 import { NotificationInterface } from '../../interfaces/notification.interface';
 import { IContextDialog } from '../../interfaces/context-dialog.interface';
 import { FormatStatusPipe } from '../../pipes/format-status.pipe';
+import { FormatNotificationDatePipe } from '../../pipes/format-notification-date.pipe';
 
 @Component({
     selector: 'dialog-example',
     templateUrl: './notifications-dialog.component.html',
     styleUrls: ['./notifications-dialog.component.html'],
-    imports: [TuiButtonModule, CommonModule, TuiAvatarModule, FormatStatusPipe],
+    imports: [TuiButtonModule, CommonModule, TuiAvatarModule, FormatStatusPipe, FormatNotificationDatePipe],
     standalone: true,
     providers: [
         tuiAvatarOptionsProvider({
@@ -34,7 +35,7 @@ export class NotificationsDialogComponent {
     constructor(@Inject(POLYMORPHEUS_CONTEXT) protected readonly context: TuiDialogContext<void, IContextDialog>,
                 protected notificationsService: NotificationsService,
                 private destroy$: DestroyService,
-                protected _userService: UserService,
+                protected _userService: UserService
     ) {
         this.user = this.context.data.user;
         this.notification = this.context.data.notification;
@@ -43,7 +44,7 @@ export class NotificationsDialogComponent {
 
 
     protected approve(): void {
-        this.updateStatus(this.notificationType, 'approved')
+        this.updateStatus(this.notificationType, 'approved');
     }
 
     protected reject(): void {
@@ -53,32 +54,32 @@ export class NotificationsDialogComponent {
     private updateStatus(type: 'join' | 'vacation' | 'compensation', status: string) {
         switch (type) {
             case 'join': {
-                 this.notificationsService.sendStatusUser({ id: this.notification.userId!, status })
+                this.notificationsService.sendStatusUser({ id: this.notification.userId!, status })
                     .pipe(
                         tap(() => {
                             this.context.completeWith();
-                            this.notificationsService.deleteNotification(this.notificationType, this.notification.userId!)
+                            this.notificationsService.deleteNotification(this.notificationType, this.notification.userId!);
                         }),
                         takeUntil(this.destroy$)
                     ).subscribe();
-                 break;
+                break;
             }
             case 'vacation': {
-                 this.notificationsService.sendStatusVacation({ id: this.notification.missId!, status })
+                this.notificationsService.sendStatusVacation({ id: this.notification.missId!, status })
                     .pipe(
                         tap(() => {
                             this.context.completeWith();
-                            this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!)
+                            this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!);
                         }),
                         takeUntil(this.destroy$)
                     ).subscribe();
                 break;
             }
             case 'compensation': {
-                 this.notificationsService.sendStatusCompensation({id: this.notification.missId!, status}).pipe(
+                this.notificationsService.sendStatusCompensation({ id: this.notification.missId!, status }).pipe(
                     tap(() => {
                         this.context.completeWith();
-                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!)
+                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!);
                     }),
                     takeUntil(this.destroy$)
                 ).subscribe();
@@ -93,29 +94,31 @@ export class NotificationsDialogComponent {
                 return this.notificationsService.updateReviewStatusJoin().pipe(
                     tap(() => {
                         this.context.completeWith();
-                        this.notificationsService.deleteNotification(this.notificationType, this.notification.userId!)
+                        this.notificationsService.deleteNotification(this.notificationType, this.notification.userId!);
                     }),
                     takeUntil(this.destroy$)
-                ).subscribe()
+                ).subscribe();
             }
             case 'vacation': {
                 return this.notificationsService.updateReviewStatusVacation(this.notification.missId!).pipe(
                     tap(() => {
                         this.context.completeWith();
-                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!)
+                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!);
                     }),
                     takeUntil(this.destroy$)
-                ).subscribe()
+                ).subscribe();
             }
             case 'compensation': {
                 return this.notificationsService.updateReviewStatusCompensation(this.notification.missId!).pipe(
                     tap(() => {
                         this.context.completeWith();
-                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!)
+                        this.notificationsService.deleteNotification(this.notificationType, this.notification.missId!);
                     }),
                     takeUntil(this.destroy$)
-                ).subscribe()
+                ).subscribe();
             }
         }
     }
+
+    protected readonly Date = Date;
 }

@@ -11,15 +11,14 @@ export class FormatStatusPipe implements PipeTransform {
     }
     transform(type: string, missId: number = 0): string {
         if (type.includes('отдел')) {
-            return `${type} одобрена`
+            return `${type} одобрено`
         }
 
         if (type.includes('отгул')) {
             const compensationStatus = this._userService.getCompensationById(missId)?.status;
-            return compensationStatus === 'approved' ?  `${type} одобрена`: `${type} отклонена`
+            return compensationStatus === 'approved' ?  `${type} одобрено`: `${type} отклонено`
         }
         const vacationStatus = this._userService.getVacationById(missId)?.status;
-
-        return vacationStatus === 'approved' ? `${type} одобрена` : `${type} отклонена`
+        return vacationStatus === 'approved' ? `${type} одобрено` : `${type} отклонено`
     }
 }
