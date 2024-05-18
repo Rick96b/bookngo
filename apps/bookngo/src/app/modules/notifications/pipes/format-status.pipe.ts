@@ -10,7 +10,7 @@ export class FormatStatusPipe implements PipeTransform {
     constructor(private _userService: UserService) {
     }
     transform(type: string, missId: number = 0): string {
-        if (type.includes('отдел')) {
+        if (type.includes('вступление')) {
             return `${type} одобрено`
         }
 
