@@ -1,25 +1,27 @@
+
+<tui-root>
 <section class="notifications">
     <header class="notifications__header">
         <a tuiIconButton  class="notifications-button" icon="tuiIconArrowLeftLarge" routerLink=".." appearance="bn-icon-button"></a>
-        <p>Уведомления</p>
+        <span>Уведомления</span>
     </header>
     <div class="base-container">
 
-        <ul>
-            <ng-container *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications">
-                <li *ngFor="let notification of notifications; trackBy: trackByFn" >
+        <ul class="notifications-list">
+            <ng-container *ngIf="notificationsService.getVacationsRequestNotifications() | async as notifications" >
+                <li class="notifications-item" *ngFor="let notification of notifications; trackBy: trackByFn" highlight >
                     <app-notifications-item [notification]="notification" notificationLabel="Заявление на отпуск" type="vacation"/>
                 </li>
             </ng-container>
 
             <ng-container *ngIf="notificationsService.getJoinRequestNotifications() | async as notifications">
-                <li *ngFor="let notification of notifications; trackBy: trackByFn">
-                    <app-notifications-item [notification]="notification" notificationLabel="Заявление на вступление в отдел" type="join"/>
+                <li  class="notifications-item" *ngFor="let notification of notifications; trackBy: trackByFn" highlight>
+                    <app-notifications-item [notification]="notification" notificationLabel="Заявление на вступление" type="join"/>
                 </li>
             </ng-container>
 
             <ng-container *ngIf="notificationsService.getCompensationsRequestNotifications() | async as notifications">
-                <li *ngFor="let notification of notifications; trackBy: trackByFn"  >
+                <li class="notifications-item" *ngFor="let notification of notifications; trackBy: trackByFn" highlight >
                     <app-notifications-item [notification]="notification" notificationLabel="Заявление на отгул" type="compensation"/>
                 </li>
             </ng-container>
@@ -27,6 +29,7 @@
 
     </div>
 </section>
+</tui-root>
 
 
 

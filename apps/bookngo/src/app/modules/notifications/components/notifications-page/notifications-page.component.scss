@@ -5,8 +5,27 @@
 .notifications__header {
     display: flex;
     justify-content: center;
-    padding: 20px 0;
+    padding: 20px 20px;
     font-size: 18px;
     line-height: 32px;
     font-weight: 500;
+    border-bottom: 1px solid #EEEEEE;
+
+    .notifications-button {
+        color: var(--tui-primary)
+    }
+
+    span {
+        margin: 0 auto;
+    }
+}
+
+.base-container {
+    margin: 0 auto;
+    padding: 0;
+    background: #5AC8FA33;
+
+    .notifications-item {
+        padding: 18px 20px;
+    }
 }

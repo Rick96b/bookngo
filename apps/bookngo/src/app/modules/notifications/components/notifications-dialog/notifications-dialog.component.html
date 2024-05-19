@@ -14,11 +14,11 @@
                 {{ context.label }}
             }
             <ng-container *ngIf="notificationType === 'vacation'">
-                {{ notification.startDate }} по {{ notification.endDate }}
+                    <p>с {{notification.startDate! | formatNotificationDate}} по {{ notification.endDate! | formatNotificationDate : true }}</p>
             </ng-container>
 
             <ng-container *ngIf="notificationType === 'compensation'">
-                {{ notification.startDate }}
+                <p>{{ notification.startDate! | formatNotificationDate : true}}</p>
             </ng-container>
         </p>
 

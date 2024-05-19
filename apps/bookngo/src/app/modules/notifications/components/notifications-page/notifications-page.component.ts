@@ -6,11 +6,12 @@ import { NotificationsItemComponent } from '../notifications-item/notifications-
 import { TuiButtonModule, TuiRootModule } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 import { CompensationDto } from '@common';
+import { HighlightDirective } from '../../directives/highlight.directive';
 
 @Component({
     selector: 'app-notifications',
     standalone: true,
-  imports: [CommonModule, NotificationsItemComponent, TuiRootModule, RouterLink, TuiButtonModule],
+    imports: [CommonModule, NotificationsItemComponent, TuiRootModule, RouterLink, TuiButtonModule, HighlightDirective],
     templateUrl: './notifications-page.component.html',
     styleUrl: './notifications-page.component.scss',
     providers: []
