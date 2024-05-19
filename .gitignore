@@ -6,6 +6,7 @@ tmp
 
 # dependencies
 node_modules
+apps/bookngo/android
 
 # IDEs and editors
 /.idea
