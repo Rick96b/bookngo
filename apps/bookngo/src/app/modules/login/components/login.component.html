@@ -1,5 +1,8 @@
 <section class="form-section">
-    <h2 class="form-section__title">Вход</h2>
+    <header class="form-section__header">
+        <a routerLink="/" tuiIconButton appearance="bn-icon-button" icon="tuiIconArrowLeftLarge" class="form-section__back-button"></a>
+        <h2 class="form-section__title">Вход</h2>
+    </header>
     <form class="auth-form" [formGroup]="authForm">
         <div class="auth-form__inputs-container">
             <tui-input
