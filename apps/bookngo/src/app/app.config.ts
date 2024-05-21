@@ -4,18 +4,20 @@ import { ApplicationConfig, ErrorHandler, importProvidersFrom } from '@angular/c
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor, AuthService, GlobalErrorHandler } from '@bookngo/base';
+import { HttpBackend, HttpXhrBackend, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor, GlobalErrorHandler } from '@bookngo/base';
+import { NativeHttpBackend } from './base/http-request-settings/native-http-backend.service';
+import { NativeHttpFallback } from './base/http-request-settings/native-http-fallback';
+
 export const appConfig: ApplicationConfig = {
-  providers: [
-      provideAnimations(),
-      provideClientHydration(),
-      provideRouter(appRoutes),
-      importProvidersFrom(TuiRootModule),
-      provideHttpClient(withInterceptors([authInterceptor])),
-      {
-          provide: ErrorHandler,
-          useClass: GlobalErrorHandler
-      },
-  ]
+    providers: [
+        provideAnimations(),
+        provideClientHydration(),
+        provideRouter(appRoutes),
+        importProvidersFrom(TuiRootModule),
+        provideHttpClient(withInterceptors([authInterceptor])),
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
+        NativeHttpBackend,
+        { provide: HttpBackend, useClass: NativeHttpFallback, deps: [NativeHttpBackend, HttpXhrBackend] }
+    ]
 };
