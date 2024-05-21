@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { UserLoginDto } from '@common';
-import { Router } from '@angular/router';
 import { LoginService } from '../data/services/login.service';
 import { DestroyService } from '@bookngo/base';
 import { takeUntil } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
     standalone: true,
@@ -17,7 +17,8 @@ import { takeUntil } from 'rxjs';
         TuiInputModule,
         TuiTextfieldControllerModule,
         TuiInputPasswordModule,
-        TuiButtonModule
+        TuiButtonModule,
+        RouterLink
     ],
     styleUrl: './login.component.scss',
     providers: [LoginService, DestroyService]

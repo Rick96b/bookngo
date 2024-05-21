@@ -16,6 +16,7 @@ import { catchError, of, takeUntil } from 'rxjs';
 import { DestroyService } from '@bookngo/base';
 import { RegistrationValidationService } from '../services/RegistrationValidator.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
     standalone: true,
@@ -30,6 +31,7 @@ import { HttpErrorResponse } from '@angular/common/http';
         TuiButtonModule,
         TuiFieldErrorPipeModule,
         AsyncPipe,
+        RouterLink,
         TuiErrorModule
     ],
     templateUrl: './register.component.html',
