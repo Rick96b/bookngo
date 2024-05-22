@@ -65,11 +65,7 @@ export class CalendarService {
                 const date = dayjs(new Date(year, month, day + 1));
                 return compensations.filter(compensation => {
                     const startDate = dayjs(compensation.date);
-
-                    const user = this._companyService.getActiveUser(compensation.employee);
-
-                    return date.isSame(startDate);
-
+                    return date.isSame(startDate, 'day');
                 });
             }),
             map(compensations => {
@@ -87,7 +83,6 @@ export class CalendarService {
     public getVacationsByDate(year: number, month: number, day: number) {
         return this._vacations$.pipe(
             map((vacations: Vacation[]) => {
-
                 const date = dayjs(new Date(year, month, day + 1));
                 return vacations.filter(vacation => {
                     const startDate = dayjs(vacation.startDate);

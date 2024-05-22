@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { BASE_URL_TOKEN, User, Vacation } from '@bookngo/base';
+import { BASE_URL_TOKEN, User } from '@bookngo/base';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, map, Observable } from 'rxjs';
 import { CompensationDto } from '@common';
@@ -14,7 +14,7 @@ export class CompensationsService {
             .pipe(
                 map((compensation: CompensationDto[][]) => {
                     return compensation.flat().filter((compensation: CompensationDto): boolean => compensation.status === 'approved')
-                }),
+                })
             );
     }
 

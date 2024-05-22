@@ -54,7 +54,7 @@ export class NotificationsItemComponent {
                 data: context,
                 label: this.notificationLabel,
                 dismissible: true,
-                size: 'auto'
+                size: 'fullscreen'
             }
         );
 

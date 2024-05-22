@@ -12,7 +12,7 @@ import { FormatStatusPipe } from '../../pipes/format-status.pipe';
 import { FormatNotificationDatePipe } from '../../pipes/format-notification-date.pipe';
 
 @Component({
-    selector: 'dialog-example',
+    selector: 'notification-dialog',
     templateUrl: './notifications-dialog.component.html',
     styleUrls: ['./notifications-dialog.component.html'],
     imports: [TuiButtonModule, CommonModule, TuiAvatarModule, FormatStatusPipe, FormatNotificationDatePipe],
@@ -119,6 +119,4 @@ export class NotificationsDialogComponent {
             }
         }
     }
-
-    protected readonly Date = Date;
 }

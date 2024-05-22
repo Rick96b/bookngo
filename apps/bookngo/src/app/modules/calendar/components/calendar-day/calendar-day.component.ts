@@ -64,7 +64,8 @@ export class CalendarDayComponent implements OnInit {
         this._calendarService.getCompensationsByDate(this.day.year, this.day.month, this.day.day).pipe(
             tap(val => {
                 this.compensations = val;
-            })
+            }),
+            takeUntil(this.destroy)
         ).subscribe();
     }
 
