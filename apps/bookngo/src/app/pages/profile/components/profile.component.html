@@ -1,4 +1,4 @@
-<div class="profile container-for-tabbar" *ngIf="user() as user">
+<div class="profile" *ngIf="user() as user">
     <header class="profile__header base-container" [ngClass]="{'profile__header-ex': !isActive}" >
         <a tuiIconButton *ngIf="isActive" class="profile__edit-button" icon="tuiIconEdit2Large" routerLink="edit" appearance="bn-icon-button"></a>
         <a tuiIconButton *ngIf="!isActive" class="profile__edit-button" icon="tuiIconArrowLeftLarge" routerLink="../.." appearance="bn-icon-button"></a>
