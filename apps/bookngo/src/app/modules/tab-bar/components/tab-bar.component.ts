@@ -24,7 +24,7 @@ import { UserService } from '@bookngo/base';
     styleUrl: './tab-bar.component.scss'
 })
 export class TabBarComponent {
-    protected open = false
+    protected open = false;
     user = this._userService.getMeSnapshot()
     protected tabs: ITabBarElement[] = [
         {
@@ -76,7 +76,7 @@ export class TabBarComponent {
         }
     }
 
-    onActiveZone(active: boolean): void {
-        this.open = active && this.open;
+    protected changeState(state: boolean) {
+        this.open = state;
     }
 }

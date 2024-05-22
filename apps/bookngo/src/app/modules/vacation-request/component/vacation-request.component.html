@@ -1,7 +1,7 @@
 <section class="vacation-request">
     <h2>Запланировать {{vacationForm.controls['missType'].value}}</h2>
     <form [formGroup]="vacationForm" class="vacation-request__form">
-        <div class="auth-form__select-container">
+        <div class="vacation-form__select-container">
             <tui-select
                 tuiTextfieldSize="l"
                 appearance="bn-input-select"
@@ -44,6 +44,5 @@
                 Запланировать отгул
             </button>
         }
-
     </form>
 </section>

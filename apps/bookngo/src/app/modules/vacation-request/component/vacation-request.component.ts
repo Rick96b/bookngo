@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiDataListWrapperModule, TuiInputDateModule, TuiSelectModule } from '@taiga-ui/kit';
+import { TuiDataListWrapperModule, TuiInputDateModule, TuiSelectModule, TuiSelectOptionModule } from '@taiga-ui/kit';
 import { VacationRequestApiService } from '../data/services/vacations-request-api.service';
-import { DestroyService, User, UserService, Vacation } from '@bookngo/base';
-import { catchError, of, takeUntil, tap } from 'rxjs';
+import { DestroyService, User, UserService } from '@bookngo/base';
+import { takeUntil, tap } from 'rxjs';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -17,7 +17,8 @@ import { NgIf } from '@angular/common';
         TuiTextfieldControllerModule,
         NgIf,
         TuiDataListWrapperModule,
-        TuiSelectModule
+        TuiSelectModule,
+        TuiSelectOptionModule
     ],
     selector: 'app-vacation-request',
     templateUrl: './vacation-request.component.html',
@@ -28,11 +29,12 @@ export class VacationRequestComponent implements OnInit {
     protected vacationForm: FormGroup;
     protected nowDay: TuiDay;
     protected maxDay: TuiDay;
+    @Output() private _changeState: EventEmitter<boolean> = new EventEmitter<boolean>();
+
     protected items: string[] = [
         'Отпуск',
         'Отгул'
     ];
-
 
     constructor(
         private _fb: FormBuilder,
@@ -80,7 +82,7 @@ export class VacationRequestComponent implements OnInit {
                     endDate: new Date(end.year, end.month, end.day + 1).toISOString()
                 }).pipe(
                     takeUntil(this.destroy$)
-                ).subscribe();
+                ).subscribe(() => this._changeState.emit(false));
             }
 
         } else {
@@ -91,9 +93,8 @@ export class VacationRequestComponent implements OnInit {
                     date: new Date(date.year, date.month, date.day + 1).toISOString()
                 }).pipe(
                     takeUntil(this.destroy$)
-                ).subscribe();
+                ).subscribe(() => this._changeState.emit(false));
             }
-
         }
     }
 }

@@ -10,7 +10,6 @@
                     tuiDropdownAlign="center"
                     tuiDropdownDirection="top"
                     (click)="onClick(tab)"
-                    (tuiActiveZoneChange)="onActiveZone($event)"
                     (tuiObscured)="onObscured($event)"
                 >
                     hehe
@@ -25,7 +24,7 @@
 </div>
 
 <ng-template #dropdownContent>
-    <app-vacation-request />
+    <app-vacation-request (_changeState)="changeState($event)"/>
 </ng-template>
 
 
