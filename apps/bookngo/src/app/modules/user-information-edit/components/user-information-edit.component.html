@@ -1,0 +1,59 @@
+<section class="form-section" *ngIf="_user">
+    <header class="form-section__header">
+        <a tuiIconButton class="profile__edit-button" icon="tuiIconArrowLeftLarge" routerLink=".." appearance="bn-icon-button"></a>
+        <h2 class="form-section__title">Редактирование информации пользователя</h2>
+        <a tuiIconButton class="profile__edit-button" icon="tuiIconLogOutLarge" (click)="authService.logout()" appearance="bn-icon-button"></a>
+    </header>
+    
+    <form class="user-edit-form base-container" [formGroup]="_userEditForm">
+        <tui-input formControlName="fullName">
+            ФИО
+        </tui-input>
+
+        <tui-input formControlName="companyName">
+            Компания
+        </tui-input>
+
+        <tui-input formControlName="companyDepartment">
+            Департамент
+        </tui-input>
+
+        <tui-input formControlName="employmentStatus">
+            Должность
+        </tui-input>
+
+        <tui-input formControlName="email">
+            Электронная почта
+        </tui-input>
+
+        <tui-input
+            formControlName="telegramUsername"
+            tuiHintContent="Имя пользователя телеграм"
+            appearance="bn-input"
+        >
+            Телеграм
+            <input
+                tuiTextfield
+            />
+        </tui-input>
+
+        <tui-input-phone appearance="bn-input" formControlName="phoneNumber">
+            Номер телефона
+        </tui-input-phone>
+
+        <tui-input
+            formControlName="salary"
+            tuiHintContent="Средняя ЗП за месяц"
+            appearance="bn-input"
+        >
+            Средняя заработная плата
+            <input
+                tuiTextfield
+            />
+        </tui-input>
+
+        <button tuiButton (click)="submit()" [disabled]="_userEditForm.untouched || !_userEditForm.valid">
+            Сохранить
+        </button>
+    </form>
+</section>

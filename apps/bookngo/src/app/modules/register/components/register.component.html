@@ -1,90 +1,142 @@
 <section class="form-section">
-    <h2 class="form-section__title">Регистрация</h2>
-    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="submit">
+    <header class="form-section__header">
+        <a routerLink="/" tuiIconButton appearance="bn-icon-button" icon="tuiIconArrowLeftLarge" class="form-section__back-button"></a>
+        <h2 class="form-section__title">Регистрация</h2>
+    </header>
+    <form class="auth-form" [formGroup]="registerForm">
         <div class="auth-form__inputs-container">
-            <tui-select
-                tuiTextfieldSize="l"
-                class="auth-form__role-input"
-                formControlName="employmentStatus"
-                [tuiTextfieldLabelOutside]="true"
-	        >
-                <input
-                    tuiTextfield
-                />
-                <tui-data-list-wrapper
-                    *tuiDataList
-                    [items]="items"
-                ></tui-data-list-wrapper>
-            </tui-select>
-            <tui-input
-                formControlName="companyName"
-                [tuiTextfieldLabelOutside]="true"
-            >
-                Компания
-            </tui-input >
-            @if(registerForm.controls["employmentStatus"].value === 'Сотрудник'){
-                <tui-input
-                    formControlName="companyDepartment"
+            <div class="auth-form__input-container">
+                <tui-select
+                    tuiTextfieldSize="l"
+                    appearance="bn-input-select"
+                    class="auth-form__role-input"
+                    formControlName="employmentStatus"
                     [tuiTextfieldLabelOutside]="true"
                 >
-                    Отдел
+                    <input
+                        tuiTextfield
+                    />
+                    <tui-data-list-wrapper
+                        *tuiDataList
+                        [items]="items"
+                    ></tui-data-list-wrapper>
+                </tui-select>
+            </div>
+            <div class="auth-form__input-container">
+                <tui-input
+                    appearance="bn-input"
+                    formControlName="companyName"
+                    [tuiTextfieldLabelOutside]="true"
+                >
+                    Компания
+                </tui-input>
+                <tui-error
+                    formControlName="companyName"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
+            @if (registerForm.controls["employmentStatus"].value === 'Сотрудник') {
+                <div class="auth-form__input-container">
+                    <tui-input
+                        appearance="bn-input"
+                        formControlName="companyDepartment"
+                        [tuiTextfieldLabelOutside]="true"
+                    >
+                        Отдел
+                        <input
+                            tuiTextfield
+                            type="text"
+                        />
+                    </tui-input>
+                    <tui-error
+                        formControlName="companyDepartment"
+                        [error]="[] | tuiFieldError | async"
+                    ></tui-error>
+                </div>
+            }
+        </div>
+
+        <div class="auth-form__inputs-container bottom-container">
+            <div class="auth-form__input-container">
+                <tui-input
+                    appearance="bn-input"
+                    formControlName="fullName"
+                    [tuiTextfieldLabelOutside]="true"
+                >
+                    ФИО
                     <input
                         tuiTextfield
                         type="text"
                     />
                 </tui-input>
-            }
+                <tui-error
+                    formControlName="fullName"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
+            <div class="auth-form__input-container">
+                <tui-input
+                    appearance="bn-input"
+                    formControlName="email"
+                    [tuiTextfieldLabelOutside]="true"
+                >
+                    Email
+                    <input
+                        tuiTextfield
+                        type="email"
+                    />
+                </tui-input>
+                <tui-error
+                    formControlName="email"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
+            <div class="auth-form__input-container">
+                <tui-input-password
+                    appearance="bn-input"
+                    formControlName="password"
+                    [tuiTextfieldLabelOutside]="true"
+                >
+                    Пароль
+                    <input
+                        tuiTextfield
+                        type="password"
+                    />
+                </tui-input-password>
+                <tui-error
+                    formControlName="password"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
+            <div class="auth-form__input-container">
+                <tui-input-password
+                    appearance="bn-input"
+                    formControlName="confirmPassword"
+                    [tuiTextfieldLabelOutside]="true"
+                >
+                    Повторите пароль
+                    <input
+                        tuiTextfield
+                        type="password"
+                    />
+                </tui-input-password>
+                <tui-error
+                    formControlName="confirmPassword"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
         </div>
+        @if(error.message) {
+            <p class="error">{{error.message}}</p>
+        }
 
-        <div class="auth-form__inputs-container bottom-container">
-            <tui-input
-                formControlName="fullName"
-                [tuiTextfieldLabelOutside]="true"
-            >
-                ФИО
-                <input
-                    tuiTextfield
-                    type="text"
-                />
-            </tui-input>
-            <tui-input
-                formControlName="email"
-                [tuiTextfieldLabelOutside]="true"
-            >
-                Email
-                <input
-                    tuiTextfield
-                    type="email"
-                />
-            </tui-input>
-            <tui-input-password
-                formControlName="password"
-                [tuiTextfieldLabelOutside]="true"
-            >
-                Пароль
-                <input
-                    tuiTextfield
-                    type="password"
-                />
-            </tui-input-password>
-            <tui-input-password
-                formControlName="confirmPassword"
-                [tuiTextfieldLabelOutside]="true"
-            >
-                Повторите пароль
-                <input
-                    tuiTextfield
-                    type="password"
-                />
-            </tui-input-password>
-        </div>
-
-        <button
-            tuiButton
-            (click)="submit()"
+        <button 
+            tuiButton 
+            appearance='bn-button' 
+            (click)="submit()" 
             class="auth-form__submit-button"
         >
             Отправить
         </button>
-	</form>
+    </form>
 </section>

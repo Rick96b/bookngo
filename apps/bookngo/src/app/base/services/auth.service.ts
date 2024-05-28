@@ -1,47 +1,57 @@
+import { Inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, catchError, of, tap, takeUntil } from 'rxjs';
+import { BASE_URL_TOKEN, DestroyService, User } from '@bookngo/base';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { UserLoginDto } from '@common';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-export class AuthService implements OnInit {
-    private _authState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+export class AuthService {
+    private _authState = new BehaviorSubject<'Undefined' | 'Pending' | 'Approved'>('Undefined');
 
-    ngOnInit(): void {
-        if(localStorage.getItem('token')) {
-            this.setAuthState(true)
-        }
+    constructor(@Inject(BASE_URL_TOKEN) private _baseUrl: string, private _httpClient: HttpClient) {
     }
 
-    public setAuthState(state: boolean): void {
-        this._authState.next(state);
+    public updateAuthState(): Observable<User | null> {
+        return this.getUser().pipe(
+            tap(user => {
+                if(user.status === 'approved') {
+                    this._authState.next('Approved')
+                }
+                if(user.status === 'pending') {
+                    this._authState.next('Pending')
+                }
+            }),
+            catchError(() => {
+                this._authState.next('Undefined')
+                return of(null)
+            }),
+        )
     }
 
-    public getAuthState(): Observable<boolean> {
+    public getAuthStateSnapshot(): 'Undefined' | 'Pending' | 'Approved' {
+        return this._authState.getValue();
+    }
+
+    public getAuthState(): Observable<'Undefined' | 'Pending' | 'Approved'> {
         return this._authState.asObservable();
     }
 
-    constructor(private http: HttpClient) {
-        if (localStorage.getItem('token')) {
-            this.setAuthState(true);
-        }
+
+    public setAuthState(state: 'Undefined' | 'Pending' | 'Approved'): void {
+        this._authState.next(state);
     }
 
-    public login(user: UserLoginDto) {
-        return this.http.post<{ token: string }>('http://localhost:3000/api/auth/signIn', user)
-            .subscribe({
-                next: (res: {token: string}): void => {
-                    localStorage.setItem('token', res.token);
-                    this.setAuthState(true);
-                },
-                error: (err) => console.error(err)
-            });
+    public getAuthToken(): string {
+        return localStorage.getItem('token')!;
     }
 
-    public logout() {
+    public logout(): void {
         localStorage.removeItem('token');
-        this.setAuthState(false);
+        this.setAuthState('Undefined');
+    }
+
+    private getUser(): Observable<User> {
+        return this._httpClient.get<User>(`${this._baseUrl}/users/getOne`);
     }
 }

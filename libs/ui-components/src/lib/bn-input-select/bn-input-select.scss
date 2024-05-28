@@ -1,0 +1,9 @@
+@import '../theme.scss';
+@import '../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local.scss';
+
+[appearance='bn-input-select'] {
+    [tuiWrapper][data-appearance='textfield'] {
+        box-shadow: none;
+        background-color: #EBEBEB;
+    }
+}

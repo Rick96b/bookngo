@@ -1,9 +1,13 @@
 <section class="form-section">
-    <h2 class="form-section__title">Вход</h2>
-    <form class="auth-form" [formGroup]="authForm" (ngSubmit)="submit">
+    <header class="form-section__header">
+        <a routerLink="/" tuiIconButton appearance="bn-icon-button" icon="tuiIconArrowLeftLarge" class="form-section__back-button"></a>
+        <h2 class="form-section__title">Вход</h2>
+    </header>
+    <form class="auth-form" [formGroup]="authForm">
         <div class="auth-form__inputs-container">
-            <tui-input 
+            <tui-input
                 formControlName="email"
+                appearance="bn-input"
                 [tuiTextfieldLabelOutside]="true"
             >
                 Email
@@ -12,19 +16,25 @@
                     type="email"
                 />
             </tui-input>
-            <tui-input-password 
+            <tui-input-password
                 formControlName="password"
+                appearance="bn-input"
                 [tuiTextfieldLabelOutside]="true"
             >
                 Пароль
                 <input
                     tuiTextfield
+                    appearance="bn-input"
                     type="password"
                 />
             </tui-input-password>
         </div>
-        <button 
+        @if(error.message) {
+            <p class="error">{{error.message}}</p>
+        }
+        <button
             tuiButton
+            appearance="bn-button"
             (click)="submit()"
             class="auth-form__submit-button"
         >

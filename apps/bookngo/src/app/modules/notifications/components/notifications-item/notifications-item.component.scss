@@ -1,0 +1,28 @@
+:host {
+    margin: auto;
+}
+
+.notification--item {
+    font-family: var(--main-font);
+    line-height: 32px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+
+    .contact--info-wrapper {
+
+        margin-right: auto;
+
+        span {
+            font-size: 14px;
+        }
+    }
+}
+
+tui-dialog[data-appearance='lorem-ipsum'] {
+    margin: 1.25rem auto;
+    border: none;
+    border-radius: 0;
+}

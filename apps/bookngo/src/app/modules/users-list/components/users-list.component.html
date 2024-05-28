@@ -1,0 +1,36 @@
+<section class="users">
+    <header class="users__department departments">
+        <p>Выбранные отделы: </p>
+        <form [formGroup]="filterForm">
+            <tui-select
+                class="departments__input"
+                appearance="bn-input-select"
+                formControlName="department"
+                [tuiTextfieldLabelOutside]="true"
+            >
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    [items]="_departmentService.getAllDepartments() | async"
+                />
+            </tui-select>
+        </form>
+
+    </header>
+    <ul class="users__list users-list" *ngIf="_departmentService.getActiveUsers() | async as users">
+        @for(user of users; track user.id) {
+            <li class="users-list__user" (click)="navigateToProfile(user.id)">
+                <tui-avatar
+                    [text]="user.fullName"
+                    class="users-list__user"
+                    [ngStyle]="{'--tui-avatar-background': user.color}"
+                    [rounded]="true"
+                    [size]="'l'"
+                />
+                <p class="users-list__user-info">
+                    <span [style.background-color]="generateColorForUser(user.id)" class="users-list__user-color"></span>
+                    <span>{{user.fullName.split(' ')[1]}}</span>
+                </p>
+            </li>
+        }
+    </ul>
+</section>

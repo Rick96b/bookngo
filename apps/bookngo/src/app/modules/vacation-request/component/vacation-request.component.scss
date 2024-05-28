@@ -1,0 +1,18 @@
+.vacation-request {
+    padding: 10px 15px;
+    font-family: var(--main-font);
+    text-align: center;
+
+    h2 {
+        margin-bottom: 10px;
+
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
+
+.vacation-request__form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

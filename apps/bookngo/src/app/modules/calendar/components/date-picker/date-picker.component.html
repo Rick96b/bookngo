@@ -1,12 +1,12 @@
 <div class="date-picker">
-    <button tuiIconButton icon="tuiIconChevronLeft" (click)="onSwitcherClick('dec')"></button>  
+    <button tuiIconButton outlined='true' appearance='bn-icon-button' icon="tuiIconChevronLeft" (click)="onSwitcherClick('dec')"></button>  
     <tui-hosted-dropdown [content]="dropdown" tuiDropdownAlign="center" [(open)]="open">
         <button class="date-picker__button">
             <p class="date-picker__month">{{monthName}}</p>
             <p class="date-picker__year">{{month.year}}</p>
         </button>
     </tui-hosted-dropdown>
-    <button tuiIconButton icon="tuiIconChevronRight" (click)="onSwitcherClick('inc')"></button>  
+    <button tuiIconButton outlined='true' appearance='bn-icon-button' icon="tuiIconChevronRight" (click)="onSwitcherClick('inc')"></button>  
 
     <ng-template #dropdown let-close="close">
         <tui-calendar-month [value]="month" (monthClick)="onMonthClick($event)" />

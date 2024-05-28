@@ -1,3 +1,40 @@
 <div class="calendar-day">
-    {{day.day}}
+    <button
+        class="calendar-day__button"
+        [class.active]="vacations.length || compensations.length"
+        [tuiDropdown]="dropdownContent"
+        [tuiDropdownManual]="open"
+        (click)="onClick()"
+        (tuiActiveZoneChange)="onActiveZone($event)"
+        (tuiObscured)="onObscured($event)"
+    >
+        {{day.day}}
+    </button>
+    <ul class="user-undercolors">
+        @for(vacation of vacations; track vacation.user) {
+            <li class="user-undercolor" [style.backgroundColor]="generateColorForUser(vacation.user.id)"></li>
+        }
+        @for(compensation of compensations; track compensation.user) {
+            <li class="user-undercolor" [style.backgroundColor]="generateColorForUser(compensation.user.id)"></li>
+        }
+    </ul>
 </div>
+
+<ng-template #dropdownContent>
+    <ul class="users-dropdown">
+        @for(vacation of vacations; track vacation.user) {
+            <li (click)="navigateToProfile(vacation.user.id)">
+                <span [style.backgroundColor]="generateColorForUser(vacation.user.id)" class="user-color"></span>
+                <span class="user-name">{{vacation.user.fullName}}</span>
+                <span class="user-vacation">{{vacation.vacationStatus}}</span>
+            </li>
+        }
+        @for(compensation of compensations; track compensation.user) {
+            <li (click)="navigateToProfile(compensation.user.id)">
+                <span [style.backgroundColor]="generateColorForUser(compensation.user.id)" class="user-color"></span>
+                <span class="user-name">{{compensation.user.fullName}}</span>
+                <span class="user-vacation">{{compensation.vacationStatus}}</span>
+            </li>
+        }
+    </ul>
+</ng-template>

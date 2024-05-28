@@ -1,0 +1,51 @@
+
+    <section>
+
+        <ng-container *ngIf="notification">
+            <!--        уведомления об отпуске        -->
+            <ng-container *ngIf="notificationType === 'vacation'">
+
+                <div class="notification--item" *ngIf="_companyService.getActiveUser(notification.employee!) as user" (click)="showDialog(user)">
+
+                    <div class="contact--info-wrapper">
+                        <p class="name">{{ user.fullName }}</p>
+                        <span>{{ notificationLabel }} </span>
+                    </div>
+
+                    <span>{{ notification.createdAt | formatTime }}</span>
+                </div>
+
+            </ng-container>
+
+            <!--        уведомления об вступлении в отдел        -->
+            <ng-container *ngIf="notificationType === 'join'">
+                <div class="notification--item"
+                     *ngIf="_notificationsService.getPendingUser(notification.userId!) as user"
+                     (click)="showDialog(user)" highlight>
+                    <div class="contact--info-wrapper">
+                        <p>{{ user.fullName }}</p>
+                        <span>{{ notificationLabel }} </span>
+                    </div>
+                    <span>{{ user.createdAt | formatTime }}</span>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="notificationType === 'compensation'">
+                <div class="notification--item" *ngIf="_companyService.getActiveUser(notification.employee!) as user"
+                     (click)="showDialog(user)" highlight>
+                    <div class="contact--info-wrapper">
+                        <p>{{ user.fullName }}</p>
+                        <span>{{ notificationLabel }} </span>
+                    </div>
+                    <span>{{ notification.createdAt | formatTime }}</span>
+                </div>
+            </ng-container>
+
+        </ng-container>
+    </section>
+
+
+
+
+
+

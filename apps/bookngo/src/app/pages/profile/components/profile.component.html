@@ -1,1 +1,51 @@
-<p>profile works!</p>
+<div class="profile" *ngIf="user() as user">
+    <header class="profile__header base-container" [ngClass]="{'profile__header-ex': !isActive}" >
+        <a tuiIconButton *ngIf="isActive" class="profile__edit-button" icon="tuiIconEdit2Large" routerLink="edit" appearance="bn-icon-button"></a>
+        <a tuiIconButton *ngIf="!isActive" class="profile__edit-button" icon="tuiIconArrowLeftLarge" routerLink="../.." appearance="bn-icon-button"></a>
+        <span>Профиль</span>
+        <a tuiIconButton *ngIf="isActive" class="profile__edit-button" icon="tuiIconBellLarge" routerLink="notifications" appearance="bn-icon-button"></a>
+    </header>
+
+    <main class="profile__main base-container">
+
+        <div class="profile__details">
+            <div class="profile__avatar-wrapper">
+                <tui-avatar
+                    [text]="user.fullName"
+                    [ngStyle]="{'--tui-avatar-background': user.color}"
+                    [rounded]="true"
+                    [size]="'xl'"></tui-avatar>
+            </div>
+
+            <div class="profile__info">
+                <h2>{{ user.fullName }}</h2>
+                <p class="company__name">{{ user.companyName }}</p>
+                <p *ngIf="user.companyDepartment" class="departament__name">{{ user.companyDepartment }}</p>
+                <p class="job__position">{{ user.employmentStatus | positionTransform }}</p>
+            </div>
+        </div>
+
+        <div class="contact_info">
+            <h3 class="contact_info__title">Контактная информация</h3>
+            <p *ngIf="user.phoneNumber">Телефон: <a
+                href="tel:{{user.phoneNumber}}"></a>{{ user.phoneNumber | tuiFormatPhone }}</p>
+            <p *ngIf="user.telegramUsername">Телеграм: <a
+                href="https://t.me/{{user.telegramUsername}}">&commat;{{ user.telegramUsername }}</a></p>
+            <p *ngIf="!user.phoneNumber && !user.telegramUsername">Пользователь не предоставил контактную
+                информацию</p>
+        </div>
+
+        <div class="vacations">
+            <h3>Отпуски и отгулы</h3>
+            <!-- Логика позже будет -->
+            <p>{{ user.accumulatedVacationDays }} дней накопено</p>
+            <p>{{ user.vacationBalance }}₽ начислено</p>
+            <p>{{ user.compensationDays }} отгулов в этом году</p>
+        </div>
+
+        <app-vacation-list [userId]="userId"></app-vacation-list>
+    </main>
+</div>
+
+
+

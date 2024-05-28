@@ -1,6 +1,7 @@
-export interface VacationDto {
-  id: number;
-  startDate: Date;
-  endDate: Date;
-  duration: number;
+export interface VacationInDto {
+    status?: 'pending' | 'rejected' | 'approved';
+    createdAt?: Date
+    employee: number;
+    startDate: string;
+    endDate: string;
 }

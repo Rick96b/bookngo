@@ -3,16 +3,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
 
-    height: 100vh;
+.form-section__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 60px;
 }
 
 .form-section__title {
-    margin-top: 60px;
-
     font-family: var(--main-font);
     font-size: 34px;
     font-weight: 400;
+}
+
+.form-section__back-button {
+    margin-right: 20px;
+    color: var(--tui-primary)
 }
 
 .auth-form {
@@ -31,9 +40,15 @@
 .auth-form__inputs-container {
     display: flex;
     flex-direction: column;
-    gap: 17px
+    gap: 15px;
 }
 
 .auth-form__submit-button {
     margin-top: 30px;
+}
+
+.error {
+    margin-top: 5px;
+    padding-left: 5px;
+    color: rgb(241, 8, 8);
 }

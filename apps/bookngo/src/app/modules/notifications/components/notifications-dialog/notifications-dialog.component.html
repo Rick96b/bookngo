@@ -1,0 +1,40 @@
+<section>
+
+    <div class="content">
+
+        <div class="profile__avatar-wrapper">
+            <tui-avatar [text]="user.fullName"></tui-avatar>
+        </div>
+        <p>{{ user.fullName }}</p>
+
+        <p>
+            @if (_userService.getMeSnapshot().employmentStatus === 'employee') {
+                {{ context.label | formatStatus: notification.missId}}
+            } @else {
+                {{ context.label }}
+            }
+            <ng-container *ngIf="notificationType === 'vacation'">
+                    <p>с {{notification.startDate! | formatNotificationDate}} по {{ notification.endDate! | formatNotificationDate : true }}</p>
+            </ng-container>
+
+            <ng-container *ngIf="notificationType === 'compensation'">
+                <p>{{ notification.startDate! | formatNotificationDate : true}}</p>
+            </ng-container>
+        </p>
+
+
+    </div>
+
+    @if (notification.userId === _userService.getMeSnapshot().id || notification.employee === _userService.getMeSnapshot().id) {
+        <button size="m" tuiButton type="button" (click)="confirm()">Прочитано</button>
+    } @else {
+        <button size="m" tuiButton type="button" (click)="reject()">
+            Отказать
+        </button>
+        <button size="m" tuiButton type="button" (click)="approve()">
+            Одобрить
+        </button>
+    }
+</section>
+
+

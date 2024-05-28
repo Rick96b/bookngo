@@ -2,13 +2,20 @@ import { Routes } from '@angular/router';
 import { RegisterComponent } from './modules/register';
 import { WelcomePageComponent } from './pages/welcome';
 import { LoginComponent } from './modules/login';
-import { HomePageComponent } from './pages/home/home.component';
-import { authGuard } from './base/guards/authGuard';
+import { ErrorComponent } from './pages/error';
+import { authGuard } from '@bookngo/base';
+import { RegistrationPendingComponent } from './modules/registration-pending/components/registration-pending.component';
 
-// определение маршрутов
 export const appRoutes: Routes = [
-    { path: 'home', component: HomePageComponent, canActivate: [authGuard]},
-    { path: 'register', component: RegisterComponent},
-    { path: 'auth', component: LoginComponent},
     { path: '', component: WelcomePageComponent },
+    { path: 'auth', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    {
+        path: 'cabinet',
+        loadChildren: () => import('./modules/cabinet-module/cabinet-routing.module').then((a: any) => a.CabinetRoutingModule),
+        canActivate: [authGuard]
+    },
+    { path: 'registration-pending', component: RegistrationPendingComponent },
+    { path: 'error', component: ErrorComponent },
+    { path: '**', redirectTo: 'error' }
 ];

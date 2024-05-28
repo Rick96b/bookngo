@@ -1,15 +1,13 @@
-import { UserBaseInfoDto } from "./user-base-info.interface";
+import { UserBaseInfoDto } from './user-base-info.interface';
 
 export interface UserDto extends UserBaseInfoDto {
-  id: number;
+    id: number;
 
-  telegramUsername: string;
-  phoneNumber: string;
-  vacationsId: number[];
+    telegramUsername?: string;
+    phoneNumber?: string;
 
-  accumulatedVacationDays: number;
-  compensationDays: number;
-  vacationBalance: number;
-
-  password: string;
+    salary: number;
+    accumulatedVacationDays: number;
+    compensationDays: number;
+    vacationBalance: number;
 }

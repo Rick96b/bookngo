@@ -1,36 +1,40 @@
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
-import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER } from '@taiga-ui/core';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AuthService } from "./base/services/auth.service";
-import { TabBarComponent } from "./modules/tab-bar";
-import { CalendarComponent } from "./modules/calendar/components/calendar/calendar.component";
-import { Subject, takeUntil, tap } from 'rxjs';
+import { TUI_SANITIZER, TuiLoaderModule, TuiRootModule } from '@taiga-ui/core';
+import { Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService, DestroyService } from '@bookngo/base';
+import { switchMap, takeUntil, tap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  standalone: true,
-  imports: [RouterModule, TuiRootModule, TuiDialogModule, TuiAlertModule, TabBarComponent, CalendarComponent],
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-    providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }]
+    standalone: true,
+    imports: [RouterModule, TuiRootModule, CommonModule, TuiLoaderModule],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }, DestroyService]
 })
-export class AppComponent implements OnInit, OnDestroy{
-    constructor(private authService: AuthService) {
-    }
-
+export class AppComponent   {
+    loading = true;
     title = 'bookngo';
-    private destroy$: Subject<void> = new Subject<void>();
-    protected isLoggedIn: boolean;
 
-    ngOnInit(): void {
-        this.authService.getAuthState().pipe(
-            tap((state: boolean) => this.isLoggedIn = state),
-            takeUntil(this.destroy$)
-        ).subscribe()
+    constructor(private authService: AuthService, private router: Router) {
+
+        this.authService.updateAuthState()
+            .pipe(switchMap(() => this.authService.getAuthState()
+            .pipe(
+                tap((authState: 'Approved' | 'Pending' | 'Undefined'): void => {
+                    let path = ''
+                    if(authState === 'Approved') {
+                        path = 'cabinet/home'
+                    } else if(authState === 'Pending') {
+                        path = 'registration-pending'
+                    }
+                    this.router.navigate([path]).then(() => this.loading = false)
+                })
+            ))).subscribe()
+
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-    }
+
 }

@@ -1,0 +1,26 @@
+<div class="vacations-history">
+    <h3>История отпусков</h3>
+
+    <ng-container *ngIf="vacations.length; else vacationsNotFound">
+        <ul class="vacations-list">
+            <ng-container *ngFor="let vacation of vacations.reverse() | sortDate; trackBy: trackByFn">
+                <li class="vacation" *formatVacationDate="vacation; let year = year; let duration = vacationDuration; let startDate = startDate; let endDate = endDate">
+                    <span class="vacation-duration">{{ duration | formatDayDate }}</span>
+                    <div>
+                        <span class="vacation-duration">
+                            {{startDate | formatMonthDate}} - {{endDate | formatMonthDate}}
+                        </span>
+                        <span>{{year}}</span>
+                    </div>
+
+                </li>
+            </ng-container>
+        </ul>
+    </ng-container>
+
+
+    <ng-template #vacationsNotFound>
+        <p>Нет записей в истории отпусков</p>
+    </ng-template>
+
+</div>

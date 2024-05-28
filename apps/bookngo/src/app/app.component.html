@@ -1,6 +1,9 @@
-<tui-root>
-    <router-outlet></router-outlet>
-    @if(isLoggedIn) {
-        <app-tab-bar></app-tab-bar>
-    }
+<tui-root>        
+
+        <tui-loader *ngIf="loading" size="xxl" class="loader">
+
+        </tui-loader>
+
+
+    <router-outlet *ngIf="!loading"></router-outlet>
 </tui-root>

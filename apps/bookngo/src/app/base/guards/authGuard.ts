@@ -1,7 +1,18 @@
-import {inject} from "@angular/core";
-import {AuthService} from "../services/auth.service";
+import { inject } from '@angular/core';
+import { Router, UrlTree } from '@angular/router';
+import { AuthService } from '@bookngo/base';
 
-export const authGuard = () => {
-    const authService: AuthService = inject(AuthService);    // получаем сервис
-    return authService.getAuthState();
+export const authGuard = (): boolean | UrlTree => {
+    const authService: AuthService = inject(AuthService);
+
+    const router = inject(Router)
+
+    console.log(authService.getAuthStateSnapshot());
+    if (authService.getAuthStateSnapshot() === 'Approved') {
+        return true;
+    } else if (authService.getAuthStateSnapshot() === 'Pending') {
+        return router.createUrlTree(['registration-pending']);
+    }
+
+    return router.createUrlTree(['']);
 };

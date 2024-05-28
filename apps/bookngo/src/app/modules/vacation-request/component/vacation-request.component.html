@@ -1,0 +1,48 @@
+<section class="vacation-request">
+    <h2>Запланировать {{vacationForm.controls['missType'].value}}</h2>
+    <form [formGroup]="vacationForm" class="vacation-request__form">
+        <div class="vacation-form__select-container">
+            <tui-select
+                tuiTextfieldSize="l"
+                appearance="bn-input-select"
+                class="miss-form__type-input"
+                formControlName="missType"
+                [tuiTextfieldLabelOutside]="true"
+            >
+                <input
+                    tuiTextfield
+                />
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    [items]="items"
+                ></tui-data-list-wrapper>
+            </tui-select>
+        </div>
+
+        @if (vacationForm.controls['missType'].value === 'Отпуск') {
+            <tui-input-date
+                [tuiTextfieldLabelOutside]="true"
+                formControlName="start"
+                [min]="nowDay"
+            />
+            <tui-input-date
+                [tuiTextfieldLabelOutside]="true"
+                formControlName="end"
+                [min]="nowDay"
+                [max]="maxDay"
+            />
+            <button tuiButton (click)="onSubmit()">
+                Запланировать отпуск
+            </button>
+        } @else {
+            <tui-input-date
+                [tuiTextfieldLabelOutside]="true"
+                formControlName="date"
+                [min]="nowDay"
+            />
+            <button tuiButton (click)="onSubmit()">
+                Запланировать отгул
+            </button>
+        }
+    </form>
+</section>

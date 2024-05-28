@@ -1,11 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import {TuiDataListWrapperModule, TuiInputModule, TuiInputPasswordModule, TuiSelectModule} from '@taiga-ui/kit';
-import {TuiButtonModule, TuiDataListModule, TuiTextfieldControllerModule} from '@taiga-ui/core';
-import { CustomValidationService } from '../services/ValidationService.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    TUI_VALIDATION_ERRORS,
+    TuiDataListWrapperModule,
+    TuiFieldErrorPipeModule,
+    TuiInputModule,
+    TuiInputPasswordModule,
+    TuiSelectModule
+} from '@taiga-ui/kit';
+import { TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { RegisterService } from '../data/services/register.service';
-import { BnInputComponent } from '@bookngo/ui-components'
-import { Router } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+import { EmployeeStatuses } from '../models/UserModel';
+import { catchError, of, takeUntil } from 'rxjs';
+import { DestroyService } from '@bookngo/base';
+import { RegistrationValidationService } from '../services/RegistrationValidator.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
     standalone: true,
@@ -13,63 +24,79 @@ import { Router } from '@angular/router';
     imports: [
         ReactiveFormsModule,
         TuiSelectModule,
-        TuiDataListWrapperModule,
-        TuiDataListModule,
-        FormsModule,
         TuiTextfieldControllerModule,
+        TuiDataListWrapperModule,
         TuiInputModule,
         TuiInputPasswordModule,
         TuiButtonModule,
-        BnInputComponent,
+        TuiFieldErrorPipeModule,
+        AsyncPipe,
+        RouterLink,
+        TuiErrorModule
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
     providers: [
-      RegisterService
+        RegisterService,
+        RegistrationValidationService,
+        {
+            provide: TUI_VALIDATION_ERRORS,
+            useValue: {
+                required: 'Enter this!',
+                email: 'Enter a valid email',
+                invalidPassword: 'The password must be at least 8 characters long and contain at least one uppercase and lowercase letter, a special character and a number.',
+                passwordMismatch: 'Password missmatch'
+            },
+        },
     ]
 })
-export class RegisterComponent implements OnInit{
-    items = [
+export class RegisterComponent implements OnInit {
+
+    protected items: string[] = [
         'Сотрудник',
         'CEO'
     ];
-    registerForm: FormGroup;
+    public error: { message: string } = { message: '' };
+
+    protected registerForm: FormGroup;
 
     constructor(
         private fb: FormBuilder,
-        private customValidator: CustomValidationService,
+        private customValidator: RegistrationValidationService,
         private registerService: RegisterService,
-        private router: Router
-    ){}
+        private destroy$: DestroyService
+    ) {
+    }
 
     ngOnInit(): void {
         this.registerForm = this.fb.group({
-            employmentStatus: [this.items[0], Validators.required],
-            companyName: ["", Validators.required],
-            companyDepartment: "",
-            fullName: ["", Validators.required],
-            email: ["", [Validators.required, Validators.email]],
-            password: ["", Validators.compose([Validators.required, this.customValidator.patternValidator()])],
-            confirmPassword: ""
-        },
-        {
-          validator: this.customValidator.MatchPassword('password', 'confirmPassword'),
-        }
+                employmentStatus: [this.items[0], Validators.required],
+                companyName: ['', Validators.required],
+                companyDepartment: '',
+                fullName: ['', Validators.required],
+                email: ['', [Validators.required, Validators.email]],
+                password: ['', Validators.compose([Validators.required, this.customValidator.patternValidator()])],
+                confirmPassword: ''
+            }, {
+                validator: this.customValidator.MatchPassword('password', 'confirmPassword')
+            }
         );
     }
 
-    submit() {
-        const user = this.registerForm.value
+    public submit(): void {
+        const user = this.registerForm.value;
+        delete user.confirmPassword;
+
         this.registerService.registerUser({
-            employmentStatus: user.employmentStatus,
-            companyName: user.companyName,
-            companyDepartment: user.companyDepartment,
-            fullName: user.fullName,
-            email: user.email,
-            password: user.password
-        })
-        this.router.navigate(['/home'])
+            ...user,
+            employmentStatus: EmployeeStatuses[user.employmentStatus as 'Сотрудник' | 'CEO']
+        }).pipe(
+            catchError((err: HttpErrorResponse) => {
+                this.error = err.error;
+                return of(err);
+            }),
+            takeUntil(this.destroy$)
+        ).subscribe();
+
     }
-
-
 }
