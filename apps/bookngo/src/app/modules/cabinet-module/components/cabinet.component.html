@@ -1,6 +1,10 @@
 <div class="container-for-tabbar">
     <div>
-        <router-outlet></router-outlet>
+        <main>
+            <div [@routeAnimations]="outlet && outlet.activatedRouteData">
+                <router-outlet #outlet="outlet"></router-outlet>
+            </div>
+        </main>
     </div>
     <app-tab-bar></app-tab-bar>
 </div>

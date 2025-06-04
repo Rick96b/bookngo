@@ -1,0 +1,24 @@
+.container-for-tabbar {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+
+    > div:first-child {
+        flex: 1;
+        position: relative;
+        overflow: hidden; // Для плавных анимаций
+    }
+}
+
+main {
+    position: relative;
+    min-height: 100%;
+    
+    > div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        will-change: transform, opacity; // Оптимизация производительности анимаций
+    }
+} 
