@@ -1,10 +1,11 @@
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { TUI_SANITIZER, TuiLoaderModule, TuiRootModule } from '@taiga-ui/core';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, DestroyService } from '@bookngo/base';
 import { switchMap, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ThemeService } from './services/theme.service';
 
 @Component({
     standalone: true,
@@ -14,11 +15,11 @@ import { CommonModule } from '@angular/common';
     styleUrl: './app.component.scss',
     providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }, DestroyService]
 })
-export class AppComponent   {
+export class AppComponent implements OnInit {
     loading = true;
     title = 'bookngo';
 
-    constructor(private authService: AuthService, private router: Router) {
+    constructor(private authService: AuthService, private router: Router, private themeService: ThemeService) {
 
         this.authService.updateAuthState()
             .pipe(switchMap(() => this.authService.getAuthState()
@@ -36,5 +37,9 @@ export class AppComponent   {
 
     }
 
-
+    ngOnInit() {
+        // Инициализация темы при старте приложения
+        // ThemeService автоматически загрузит сохраненную тему или определит системную
+        this.themeService.initTheme();
+    }
 }

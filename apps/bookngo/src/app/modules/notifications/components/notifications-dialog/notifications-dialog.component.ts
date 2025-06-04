@@ -12,9 +12,8 @@ import { FormatStatusPipe } from '../../pipes/format-status.pipe';
 import { FormatNotificationDatePipe } from '../../pipes/format-notification-date.pipe';
 
 @Component({
-    selector: 'notification-dialog',
     templateUrl: './notifications-dialog.component.html',
-    styleUrls: ['./notifications-dialog.component.html'],
+    styleUrls: ['./notifications-dialog.component.scss'],
     imports: [TuiButtonModule, CommonModule, TuiAvatarModule, FormatStatusPipe, FormatNotificationDatePipe],
     standalone: true,
     providers: [

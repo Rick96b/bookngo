@@ -3,7 +3,16 @@
         <a tuiIconButton *ngIf="isActive" class="profile__edit-button" icon="tuiIconEdit2Large" routerLink="edit" appearance="bn-icon-button"></a>
         <a tuiIconButton *ngIf="!isActive" class="profile__edit-button" icon="tuiIconArrowLeftLarge" routerLink="../.." appearance="bn-icon-button"></a>
         <span>Профиль</span>
-        <a tuiIconButton *ngIf="isActive" class="profile__edit-button" icon="tuiIconBellLarge" routerLink="notifications" appearance="bn-icon-button"></a>
+        <div class="profile__header-actions">
+            <button 
+                tuiIconButton 
+                class="profile__theme-button" 
+                [icon]="(themeService.theme$ | async) === 'dark' ? 'tuiIconSunLarge' : 'tuiIconMoonLarge'"
+                appearance="bn-icon-button"
+                (click)="toggleTheme()"
+            ></button>
+            <a tuiIconButton *ngIf="isActive" class="profile__edit-button" icon="tuiIconBellLarge" routerLink="notifications" appearance="bn-icon-button"></a>
+        </div>
     </header>
 
     <main class="profile__main base-container">

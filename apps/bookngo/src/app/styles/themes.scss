@@ -1,0 +1,31 @@
+:root {
+    // Light theme (default)
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --text-primary: #2C3E50;
+    --text-secondary: #666666;
+    --border-color: #EEEEEE;
+    --notification-bg: #5AC8FA33;
+    --hover-bg: #f0f0f0;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --border-color: #404040;
+    --notification-bg: rgba(90, 200, 250, 0.1);
+    --hover-bg: #363636;
+
+    // Taiga UI переменные для темной темы
+    --tui-base-01: #1a1a1a;
+    --tui-base-02: #2d2d2d;
+    --tui-base-03: #404040;
+    --tui-base-04: #4d4d4d;
+    --tui-base-05: #666666;
+    --tui-base-09: #ffffff;
+    --tui-text-01: #ffffff;
+    --tui-text-02: #b3b3b3;
+    --tui-clear: transparent;
+} 

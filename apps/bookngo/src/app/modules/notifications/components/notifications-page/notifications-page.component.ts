@@ -7,6 +7,7 @@ import { TuiButtonModule, TuiRootModule } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 import { CompensationDto } from '@common';
 import { HighlightDirective } from '../../directives/highlight.directive';
+import { combineLatest, map, Observable } from 'rxjs';
 
 @Component({
     selector: 'app-notifications',
@@ -17,7 +18,18 @@ import { HighlightDirective } from '../../directives/highlight.directive';
     providers: []
 })
 export class NotificationsPageComponent {
+    protected hasNotifications$: Observable<boolean>;
+
     constructor(protected notificationsService: NotificationsService, protected _userService: UserService) {
+        this.hasNotifications$ = combineLatest([
+            this.notificationsService.getVacationsRequestNotifications(),
+            this.notificationsService.getJoinRequestNotifications(),
+            this.notificationsService.getCompensationsRequestNotifications()
+        ]).pipe(
+            map(([vacations, joins, compensations]) => 
+                (vacations?.length || 0) + (joins?.length || 0) + (compensations?.length || 0) > 0
+            )
+        );
     }
 
     protected trackByFn(index: number, item: User | Vacation | CompensationDto) {

@@ -1,5 +1,7 @@
 .notifications {
-    font: var(--main-font)
+    font: var(--main-font);
+    background-color: var(--bg-primary);
+    min-height: 100vh;
 }
 
 .notifications__header {
@@ -9,7 +11,9 @@
     font-size: 18px;
     line-height: 32px;
     font-weight: 500;
-    border-bottom: 1px solid #EEEEEE;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 
     .notifications-button {
         color: var(--tui-primary)
@@ -23,9 +27,32 @@
 .base-container {
     margin: 0 auto;
     padding: 0;
-    background: #5AC8FA33;
+    background: var(--notification-bg);
 
     .notifications-item {
         padding: 18px 20px;
+        border-bottom: 1px solid var(--border-color);
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+
+        &:hover {
+            background-color: var(--hover-bg);
+        }
+    }
+}
+
+.notifications__empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--bg-primary);
+
+    p {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        font-weight: 500;
     }
 }

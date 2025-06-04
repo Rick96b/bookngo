@@ -1,14 +1,115 @@
-@import '@taiga-ui/core/styles/taiga-ui-local.less';
+@use '@taiga-ui/core/styles/taiga-ui-local';
 
 :host {
     display: block;
-}
+    font-family: var(--main-font);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 
-.heading {
-    font: var(--tui-font-heading-3);
-    margin: 0 0 1.5rem;
-}
+    ::ng-deep {
+        tui-dialog {
+            --tui-radius-l: 1rem;
+            box-shadow: var(--tui-shadow-modal);
+        }
 
-.content {
-    margin: 0 0 0.75rem;
+        .notification-dialog {
+            padding: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--tui-base-01);
+            border-radius: var(--tui-radius-l);
+
+            &__header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid var(--tui-base-03);
+
+                .profile-info {
+                    flex: 1;
+
+                    h2 {
+                        font-size: 1.25rem;
+                        font-weight: 500;
+                        margin: 0 0 0.25rem;
+                        color: var(--tui-text-01);
+                    }
+
+                    p {
+                        font-size: 0.875rem;
+                        color: var(--tui-text-02);
+                        margin: 0;
+                    }
+                }
+            }
+
+            &__content {
+                margin-bottom: 2rem;
+
+                .request-details {
+                    background: var(--tui-base-02);
+                    border-radius: 0.5rem;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+
+                    h3 {
+                        font-size: 1rem;
+                        font-weight: 500;
+                        margin: 0 0 0.5rem;
+                        color: var(--tui-text-01);
+                    }
+
+                    p {
+                        font-size: 0.875rem;
+                        color: var(--tui-text-02);
+                        margin: 0;
+                        line-height: 1.5;
+                    }
+
+                    .date-range {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        margin-top: 0.5rem;
+                        color: var(--tui-primary);
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            &__actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 1rem;
+
+                button {
+                    min-width: 120px;
+
+                    &[tuiButton] {
+                        border-radius: 0.5rem;
+                    }
+                }
+
+                .reject-button {
+                    width: 50%;
+                    --tui-primary: var(--tui-error-fill);
+                    --tui-primary-hover: var(--tui-error-dark);
+                }
+
+                .approve-button {
+                    width: 50%;
+                    --tui-primary: var(--tui-success-fill);
+                    --tui-primary-hover: var(--tui-success-dark);
+                }
+
+                .confirm-button {
+                    width: 50%;
+                    --tui-primary: var(--tui-primary);
+                }
+            }
+        }
+    }
 }

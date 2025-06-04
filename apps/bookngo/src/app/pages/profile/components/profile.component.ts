@@ -10,6 +10,7 @@ import { TuiButtonModule, TuiFormatPhonePipeModule } from '@taiga-ui/core';
 import { VacationListComponent } from '../../../modules/vacation-list/components/vacation-list.component';
 import { takeUntil, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ThemeService } from '../../../services/theme.service';
 
 @Component({
     selector: 'app-profile',
@@ -30,7 +31,8 @@ export class ProfileComponent {
         protected _userService: UserService,
         private _activatedRoute: ActivatedRoute,
         private destroy$: DestroyService,
-        private _companyService: CompanyService
+        private _companyService: CompanyService,
+        protected themeService: ThemeService
     ) {
         this._activatedRoute.params.pipe(
             tap((params: Params): void => {
@@ -48,5 +50,9 @@ export class ProfileComponent {
             this.user = computed(() => this._companyService.getActiveUser(this.userId)!)
             this.isActive = false;
         }
+    }
+
+    toggleTheme() {
+        this.themeService.toggleTheme();
     }
 }

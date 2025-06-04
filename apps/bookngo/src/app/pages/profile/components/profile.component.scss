@@ -1,25 +1,36 @@
 .profile {
     font-family: var(--main-font);
     line-height: 24px;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
 
     .profile__header {
         display: flex;
         justify-content: space-between;
         position: sticky;
         top: 0;
-        background-color: #fff;
+        background-color: var(--bg-primary);
         z-index: 1000;
-        padding-top: 23px;
-        padding-bottom: 23px;
-
+        padding: 23px 20px;
         font-size: 18px;
         font-weight: 500;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-primary);
+    }
 
-        border-bottom: 1px solid #EEEEEE;
+    .profile__header-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
     }
 
     .profile__edit-button {
         color: var(--tui-primary);
+    }
+
+    .profile__theme-button {
+        color: var(--text-primary);
     }
 
     .profile__header-ex {
@@ -32,6 +43,7 @@
 }
 
 .profile__main {
+    background-color: var(--bg-primary);
 
     .profile__details {
         display: flex;
@@ -39,6 +51,7 @@
         flex-direction: row;
         margin-top: 20px;
         margin-bottom: 20px;
+        padding: 0 20px;
 
         .profile__avatar-wrapper {
             flex: 0 0 auto;
@@ -52,27 +65,31 @@
 
             h2 {
                 font-size: 24px;
+                color: var(--text-primary);
             }
 
             p.company__name {
                 font-size: 16px;
+                color: var(--text-secondary);
             }
 
             p.job__position {
                 font-size: 12px;
-                color: #00000099;
+                color: var(--text-secondary);
             }
         }
     }
 
     .contact_info {
         margin-bottom: 24px;
-
+        padding: 0 20px;
         font-size: 12px;
         font-weight: 500;
+        color: var(--text-primary);
 
         .contact_info__title {
             font-size: 16px;
+            color: var(--text-primary);
         }
 
         p {
@@ -80,7 +97,7 @@
         }
 
         a:visited {
-            color: var(--tui-primary)
+            color: var(--tui-primary);
         }
     }
 
@@ -88,14 +105,18 @@
         font-size: 12px;
         font-weight: 500;
         margin-bottom: 24px;
+        padding: 0 20px;
+        color: var(--text-primary);
 
         h3 {
             font-size: 16px;
             margin-bottom: 8px;
+            color: var(--text-primary);
         }
 
         p {
             margin-top: 4px;
+            color: var(--text-secondary);
         }
     }
 }

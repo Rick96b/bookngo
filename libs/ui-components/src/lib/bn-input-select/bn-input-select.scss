@@ -7,3 +7,27 @@
         background-color: #EBEBEB;
     }
 }
+
+[data-theme="dark"] [appearance='bn-input-select'] {
+    [tuiWrapper][data-appearance='textfield'] {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+
+    [tuiTextfield] {
+        color: var(--text-primary);
+    }
+}
+
+[data-theme="dark"] {
+    tui-data-list {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+
+        .t-item {
+            &:hover {
+                background-color: var(--hover-bg);
+            }
+        }
+    }
+}

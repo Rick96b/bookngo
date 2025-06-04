@@ -8,7 +8,8 @@
     justify-content: space-around;
     align-items: center;
 
-    background-color: #fff;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
 }
 
 .tab-bar__item {
@@ -24,5 +25,13 @@
 }
 
 .tab-bar__item.active img {
+    filter: invert(65%) sepia(49%) saturate(773%) hue-rotate(172deg) brightness(104%) contrast(96%);
+}
+
+[data-theme="dark"] .tab-bar__item img {
+    filter: invert(1);
+}
+
+[data-theme="dark"] .tab-bar__item.active img {
     filter: invert(65%) sepia(49%) saturate(773%) hue-rotate(172deg) brightness(104%) contrast(96%);
 }
