@@ -3,20 +3,28 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    &__header-right {
+        width: 24px;
+    }
 }
 
 .form-section__header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin-top: 60px;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    padding: 23px 20px;
+    font-size: 24px;
+    width: 100%;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
 }
 
 .form-section__title {
-    font-family: var(--main-font);
-    font-size: 34px;
-    font-weight: 400;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
 }
 
 .form-section__back-button {
@@ -30,7 +38,7 @@
     flex-direction: column;
 
     width: 100%;
-    max-width: 350px;
+    padding: 0 40px;
 }
 
 .auth-form__role-input {

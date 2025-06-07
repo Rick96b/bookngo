@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
     TUI_VALIDATION_ERRORS,
@@ -8,11 +8,16 @@ import {
     TuiInputPasswordModule,
     TuiSelectModule
 } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+    TuiButtonModule,
+    TuiErrorModule,
+    TuiSvgModule,
+    TuiTextfieldControllerModule
+} from '@taiga-ui/core';
 import { RegisterService } from '../data/services/register.service';
 import { AsyncPipe } from '@angular/common';
 import { EmployeeStatuses } from '../models/UserModel';
-import { catchError, of, takeUntil } from 'rxjs';
+import { catchError, finalize, of, takeUntil } from 'rxjs';
 import { DestroyService } from '@bookngo/base';
 import { RegistrationValidationService } from '../services/RegistrationValidator.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -32,7 +37,8 @@ import { RouterLink } from '@angular/router';
         TuiFieldErrorPipeModule,
         AsyncPipe,
         RouterLink,
-        TuiErrorModule
+        TuiErrorModule,
+        TuiSvgModule
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
@@ -42,15 +48,17 @@ import { RouterLink } from '@angular/router';
         {
             provide: TUI_VALIDATION_ERRORS,
             useValue: {
-                required: 'Enter this!',
-                email: 'Enter a valid email',
-                invalidPassword: 'The password must be at least 8 characters long and contain at least one uppercase and lowercase letter, a special character and a number.',
-                passwordMismatch: 'Password missmatch'
+                required: 'Поле обязательно для заполнения!',
+                email: 'Введите корректный адрес электронной почты',
+                invalidPassword: 'Пароль должен состоять не менее чем из 8 символов и содержать как минимум одну заглавную и строчную букву, специальный символ и цифру',
+                passwordMismatch: 'Пароли не совпадают'
             },
         },
     ]
 })
 export class RegisterComponent implements OnInit {
+
+    protected readonly loader: WritableSignal<boolean> = signal(false);
 
     protected items: string[] = [
         'Сотрудник',
@@ -86,13 +94,16 @@ export class RegisterComponent implements OnInit {
     public submit(): void {
         const user = this.registerForm.value;
         delete user.confirmPassword;
+        this.loader.set(true);
 
         this.registerService.registerUser({
             ...user,
             employmentStatus: EmployeeStatuses[user.employmentStatus as 'Сотрудник' | 'CEO']
         }).pipe(
+            finalize(() => this.loader.set(false)),
             catchError((err: HttpErrorResponse) => {
                 this.error = err.error;
+
                 return of(err);
             }),
             takeUntil(this.destroy$)

@@ -1,6 +1,7 @@
 <div class="calendar-day">
     <button
         class="calendar-day__button"
+        [ngClass]="{ 'is-passed': !isPassedDay() }"
         [class.active]="vacations.length || compensations.length"
         [tuiDropdown]="dropdownContent"
         [tuiDropdownManual]="open"

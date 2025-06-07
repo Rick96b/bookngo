@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal, WritableSignal } from '@angular/core';
 import { Day } from '../../model/day.interface';
 import { CalendarService } from '../../sevices/calendar.service';
 import { takeUntil, tap } from 'rxjs';
@@ -7,6 +7,7 @@ import { TuiButtonModule, TuiDropdownModule } from '@taiga-ui/core';
 import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
 import { generateColorForUser } from '../../../common/utils/generateColorForUser';
 import { Router } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
     standalone: true,
@@ -14,7 +15,8 @@ import { Router } from '@angular/router';
         TuiDropdownModule,
         TuiButtonModule,
         TuiActiveZoneModule,
-        TuiObscuredModule
+        TuiObscuredModule,
+        NgClass
     ],
     selector: 'app-calendar-day',
     templateUrl: './calendar-day.component.html',
@@ -22,9 +24,13 @@ import { Router } from '@angular/router';
     providers: [DestroyService]
 })
 export class CalendarDayComponent implements OnInit {
-    @Input() day: Day;
-    open = false;
+    @Input()
+    day: Day;
+
+    public open = false;
     generateColorForUser = generateColorForUser;
+
+    protected readonly isPassedDay: WritableSignal<boolean> = signal(false);
 
     onClick(): void {
         if (this.vacations.length || this.compensations.length) {
@@ -51,6 +57,7 @@ export class CalendarDayComponent implements OnInit {
     ngOnInit(): void {
         this.getVacations();
         this.getCompensations();
+        this.validateDay();
     }
 
     private getVacations() {
@@ -71,5 +78,15 @@ export class CalendarDayComponent implements OnInit {
 
     protected navigateToProfile(userId: number) {
         this._routerRouter.navigate(['cabinet', 'profile', userId]);
+    }
+
+    private validateDay(): void {
+        const dayDate: Date = new Date(this.day.year, this.day.month, this.day.day);
+        const today: Date = new Date();
+
+        today.setHours(0, 0, 0, 0);
+        dayDate.setHours(0, 0, 0, 0);
+
+        this.isPassedDay.set(dayDate >= today);
     }
 }

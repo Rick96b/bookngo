@@ -8,8 +8,6 @@ export class ThemeService {
     private theme = new BehaviorSubject<'light' | 'dark'>('light');
     theme$ = this.theme.asObservable();
 
-    constructor() {}
-
     initTheme() {
         // Проверяем сохраненную тему или системные настройки
         const savedTheme = localStorage.getItem('theme');
@@ -37,4 +35,4 @@ export class ThemeService {
         const currentTheme = this.theme.getValue();
         this.setTheme(currentTheme === 'light' ? 'dark' : 'light');
     }
-} 
+}

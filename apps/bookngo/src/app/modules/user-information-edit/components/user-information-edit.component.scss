@@ -1,3 +1,5 @@
+@forward '../../../modules/common/styles/auth-form';
+
 .form-section {
     display: flex;
     flex-direction: column;
@@ -5,20 +7,6 @@
 
     font-family: var(--main-font);
     font-weight: 500;
-
-    .form-section__header {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-
-        width: 100%;
-    }
-
-    h2 {
-        font-size: 18px;
-        margin-top: 20px;
-        margin-bottom: 15px;
-    }
 
     .profile__edit-button {
         color: var(--tui-primary)
@@ -29,6 +17,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 24px;
 
     width: 100%;
 }
