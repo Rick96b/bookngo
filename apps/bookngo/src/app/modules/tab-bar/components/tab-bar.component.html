@@ -2,18 +2,14 @@
     <ng-container *ngFor="let tab of tabs">
         <div class="tab-bar__item" [ngClass]="{'active': tab.isActive}">
             @if(tab.title === 'Planner') {
-                <button
-                    tuiButton
-                    type="button"
-                    [tuiDropdown]="dropdownContent"
-                    [tuiDropdownManual]="open"
-                    tuiDropdownAlign="center"
-                    tuiDropdownDirection="top"
-                    (click)="onClick(tab)"
-                    (tuiObscured)="onObscured($event)"
-                >
-                    <a tuiIconButton appearance="bn-icon-button" icon="tuiIconPlusLarge" class="form-section__back-button"></a>
-                </button>
+                    <img [src]="tab.icon" alt="assets/tabbar-icons/planner.svg"
+                         [tuiDropdown]="dropdownContent"
+                         [tuiDropdownManual]="open"
+                         tuiDropdownAlign="center"
+                         tuiDropdownDirection="top"
+                         (click)="onClick(tab)"
+                         (tuiObscured)="onObscured($event)"
+                    >
             } @else {
                 <a [routerLink]="tab.path" (click)="onClick(tab)">
                     <img [src]="tab.icon" [alt]="tab.title">
